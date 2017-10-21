@@ -18,9 +18,9 @@ qatestlink
 +-----------------------+-----------------------------------------------------------------------+------------------------------------------------------------------------------------------------+
 | Branch                | Linux Deploy                                                          | Windows Deploy                                                                                 |
 +=======================+=======================================================================+================================================================================================+
-|  master               | .. image:: https://travis-ci.org/netzulo/qatestlink.svg?branch=master |                                                                                                |
+|  master               | .. image:: https://travis-ci.org/netzulo/qatestlink.svg?branch=master | .. image:: https://ci.appveyor.com/api/projects/status/7low4kw7qa6a5vem/branch/master?svg=true |
 +-----------------------+-----------------------+-----------------------------------------------+------------------------------------------------------------------------------------------------+
-|  devel                | .. image:: https://travis-ci.org/netzulo/qatestlink.svg?branch=devel  |                                                                                                |
+|  devel                | .. image:: https://travis-ci.org/netzulo/qatestlink.svg?branch=devel  | .. image:: https://ci.appveyor.com/api/projects/status/7low4kw7qa6a5vem/branch/devel?svg=true |
 +-----------------------+-----------------------------------------------------------------------+------------------------------------------------------------------------------------------------+
 
 
