@@ -61,7 +61,6 @@ setup(
     tests_require=[
         'nose',
         'pytest',
-        'pylint'
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
