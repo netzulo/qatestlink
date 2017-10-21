@@ -30,8 +30,8 @@ Python tested versions
 +  **3.6**
 +  **3.5**
 +  **3.4**
-+  **3.3**
-+ **3.2** (*not supported*)
++  **3.3** (*not supported*)
++  **3.2** (*not supported*)
 +  **2.7**
 
 
