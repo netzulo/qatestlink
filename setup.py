@@ -35,7 +35,7 @@ def read(file_name=None, is_encoding=True, ignore_raises=False):
 
 setup(
     name='qatestlink',
-    version='0.0.0',
+    version='0.0.1',
     license=read("LICENSE", is_encoding=False, ignore_raises=True),
     packages=find_packages(exclude=['tests']),
     description='Main automation lib',
@@ -43,7 +43,7 @@ setup(
     author='Netzulo Open Source',
     author_email='netzuleando@gmail.com',
     url='https://github.com/netzulo/qatestlink',
-    download_url='https://github.com/netzulo/qatestlink/tarball/v0.0.0',
+    download_url='https://github.com/netzulo/qatestlink/tarball/v0.0.1',
     keywords=[
         'testing',
         'logging',
@@ -67,7 +67,6 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
