@@ -29,11 +29,30 @@ class TestModule(TestCase):
         self.assertIsInstance(xml_parser, XmlParserBase)
         self.assertIsInstance(xml_parser.xml, Element)
 
+    def test_002_xmlbase_prettify(self):
+        """TODO: doc method"""
+        xml_parser = XmlParserBase()
+        xml_print = xml_parser.prettify()
+        self.assertIsNotNone(xml_print)
 
-    def test_001_connection_with_devkey(self):
-        """"TODO: doc method"""
+    def test_003_connection_with_devkey(self):
+        """TODO: doc method"""
         testlink = TlConnectionBase(
             url='http://qalab.tk:86/lib/api/xmlrpc/v1/xmlrpc.php',
             dev_key='ae2f4839476bea169f7461d74b0ed0ac'
         )
-        print(testlink.check_dev_key())
+        res = testlink.post_check_dev_key()
+        self.assertIsInstance(testlink, TlConnectionBase)
+        self.assertIsNotNone(res)
+        self.assertTrue(res.logged)
+
+    def test_004_connection_failed(self):
+        """TODO: doc method"""
+        testlink = TlConnectionBase(
+            url='http://qalab.tk:86/lib/api/xmlrpc/v1/xmlrpc.php',
+            dev_key='failed'
+        )
+        res = testlink.post_check_dev_key()
+        self.assertIsInstance(testlink, TlConnectionBase)
+        self.assertIsNotNone(res)
+        self.assertFalse(res.logged)
