@@ -12,7 +12,7 @@ class TlConnectionBase(object):
     url = None
     dev_key = None
 
-    headers = {'Content-Type': 'application/xml'}
+    headers = None
     #xml_path = 'configs/base_request.xml'
 
     def __init__(self, url=None, dev_key=None):
@@ -23,6 +23,7 @@ class TlConnectionBase(object):
         if dev_key is None:
             raise Exception('Can\'t connect with None dek_key')
         self.dev_key = dev_key
+        self.headers = {'Content-Type': 'application/xml'}
         # class logic
         #self.check_dev_key()
 
