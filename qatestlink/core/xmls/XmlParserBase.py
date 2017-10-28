@@ -6,6 +6,9 @@
 from xml.etree.ElementTree import ElementTree
 from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import fromstring as xml_from_str
+from xml.etree.ElementTree import tostring as xml_to_str
+from xml.dom import minidom
+
 
 class XmlParserBase(object):
     """TODO: doc class"""
@@ -60,3 +63,33 @@ class XmlParserBase(object):
         if xml_str is None:
             raise Exception('can\'t load None xml_str')
         return xml_from_str(xml_str)
+
+    def prettify(self, xml_element=None, indent=True):
+        """Return a pretty-printed XML string for the Element"""
+        if xml_element is None:
+            xml_element = self.xml
+        rough_string = xml_to_str(xml_element, 'utf-8')
+        pretty = minidom.parseString(rough_string)
+        if indent:
+            return pretty.toprettyxml(indent="  ")
+        return pretty.toprettyxml(indent="")
+
+    def create_node(self, tag, parent=None, add_root=False, text=None):
+        """TODO: doc method"""
+        msg_tmpl = "Added element='{}' to parent='{}'"
+        node = Element(tag)
+        if text is not None:
+            node.text = text
+        if add_root:
+            self.xml.append(node)
+            print(msg_tmpl.format(tag, self.xml.tag))
+        if parent is not None:
+            parent.append(node)
+            print(msg_tmpl.format(tag, parent.tag))
+        return node
+
+    def find_node(self, tag):
+        """TODO: doc method"""
+        for node in self.xml.iter(tag=tag):
+            print("Found element tag='{}'".format(tag))
+            return node
