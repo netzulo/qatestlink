@@ -288,6 +288,7 @@ class TlRequest(Enum):
     TLINK_ABOUT = 'tl.about'
 
     """
+    TODO: official developer said this don't work
     This method is meant primarily for testing
     and debugging during development
     Args:
