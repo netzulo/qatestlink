@@ -74,4 +74,11 @@ SETUP.py install
 Tests
 -----
 
+To run the tests, you need the following environment variables:
+
+- TESTLINK_URL: The main URL to access the TestLink installation, by default 'http://localhost'.
+- TESTLINK_DEV_KEY: The dev key to use in the calls, mandatory.
+
+After setting them, you can just execute:
+
 ``python setup.py test``
