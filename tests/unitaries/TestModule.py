@@ -8,6 +8,7 @@ from unittest import TestCase
 from xml.etree.ElementTree import Element
 from qatestlink.core.TlConnectionBase import TlConnectionBase
 from qatestlink.core.xmls.XmlParserBase import XmlParserBase
+from qatestlink.core.objects.TlTestProject import TlTestProject
 
 
 class TestModule(TestCase):
@@ -39,10 +40,9 @@ class TestModule(TestCase):
         """TODO: doc method"""
         testlink = TlConnectionBase(
             url='http://qalab.tk:86/lib/api/xmlrpc/v1/xmlrpc.php',
-            dev_key='ae2f4839476bea169f7461d74b0ed0ac'
-        )
-        res = testlink.post_check_dev_key()
+            dev_key='ae2f4839476bea169f7461d74b0ed0ac')
         self.assertIsInstance(testlink, TlConnectionBase)
+        res = testlink.check_dev_key()
         self.assertIsNotNone(res)
         self.assertTrue(res.logged)
 
@@ -50,9 +50,20 @@ class TestModule(TestCase):
         """TODO: doc method"""
         testlink = TlConnectionBase(
             url='http://qalab.tk:86/lib/api/xmlrpc/v1/xmlrpc.php',
-            dev_key='failed'
-        )
-        res = testlink.post_check_dev_key()
+            dev_key='failed')
         self.assertIsInstance(testlink, TlConnectionBase)
+        self.assertRaises(Exception, testlink.check_dev_key)
+
+    def test_005_tprojects(self):
+        """TODO: doc method"""
+        testlink = TlConnectionBase(
+            url='http://qalab.tk:86/lib/api/xmlrpc/v1/xmlrpc.php',
+            dev_key='ae2f4839476bea169f7461d74b0ed0ac')
+        res = testlink.test_projects()
         self.assertIsNotNone(res)
-        self.assertFalse(res.logged)
+        self.assertIsInstance(res.test_projects[0], TlTestProject)
+        self.assertIsInstance(res.test_projects[1], TlTestProject)
+        print("id={}".format(res.test_projects[0].id))
+        print("name={}".format(res.test_projects[0].name))
+        print("notes={}".format(res.test_projects[0].notes))
+        print("is_active={}".format(res.test_projects[0].is_active))

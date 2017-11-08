@@ -88,8 +88,36 @@ class XmlParserBase(object):
             print(msg_tmpl.format(tag, parent.tag))
         return node
 
-    def find_node(self, tag):
+    def find_node(self, tag, parent=None, recursive=True):
         """TODO: doc method"""
-        for node in self.xml.iter(tag=tag):
-            print("Found element tag='{}'".format(tag))
-            return node
+        msg_parent = "Found element tag='{}' for parent tag='{}'"
+        msg_self_xml = "Found element tag='{}'"
+        if not recursive and parent is None:
+            raise Exception('Bad use for method XmlParserBase.find_node')
+        if parent is not None:
+            for node in parent.iter(tag=tag):
+                print(msg_parent.format(tag, parent.tag))
+                return node
+        if recursive:
+            for node in self.xml.iter(tag=tag):
+                print(msg_self_xml.format(tag))
+                return node
+
+    def find_nodes(self, tag, parent=None, recursive=True):
+        """TODO: doc method"""
+        msg_parent = "Found element tag='{}' for parent tag='{}'"
+        msg_self_xml = "Found element tag='{}'"
+        if not recursive and parent is None:
+            raise Exception('Bad use for method XmlParserBase.find_node')
+        if parent is not None:
+            nodes = list()
+            for node in parent.iter(tag=tag):
+                nodes.append(node)
+                print(msg_parent.format(tag, parent.tag))
+            return nodes
+        if recursive:
+            nodes = list()
+            for node in self.xml.iter(tag=tag):
+                nodes.append(node)
+                print(msg_self_xml.format(tag))
+            return nodes
