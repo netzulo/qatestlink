@@ -69,7 +69,3 @@ class TestModule(TestCase):
         self.assertIsNotNone(res)
         self.assertIsInstance(res.test_projects[0], TlTestProject)
         self.assertIsInstance(res.test_projects[1], TlTestProject)
-        print("id={}".format(res.test_projects[0].id))
-        print("name={}".format(res.test_projects[0].name))
-        print("notes={}".format(res.test_projects[0].notes))
-        print("is_active={}".format(res.test_projects[0].is_active))
