@@ -6,7 +6,6 @@ from os import path
 from setuptools import setup, find_packages
 from qatestlink.core.utils.Utils import read_file
 from qatestlink.core.utils.Utils import path_format
-from platform import python_version_tuple
 
 
 CURR_PATH = "{}{}".format(path.abspath(path.dirname(__file__)), '/')
@@ -34,11 +33,6 @@ def read(file_name=None, is_encoding=True, ignore_raises=False):
                          ignore_raises=ignore_raises))
 
 
-required = ['requests']
-if python_version_tuple() < ('3',):
-    required.append('enum34')
-
-
 setup(
     name='qatestlink',
     version='0.0.1',
@@ -60,7 +54,10 @@ setup(
         'XMLRPC',
         'requests'
     ],
-    install_requires=required,
+    install_requires=[
+        'requests',
+        'enum34;python_version < "3.4"',
+    ],
     setup_requires=['pytest-runner'],
     tests_require=[
         'nose',
