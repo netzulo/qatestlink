@@ -4,16 +4,19 @@ branches:
     - master
     - devel
 environment:
+  TESTLINK_URL: http://qalab.tk:86
+  TESTLINK_DEV_KEY: ae2f4839476bea169f7461d74b0ed0ac
   matrix:
     - PYTHON: "C:\\Python27"
     - PYTHON: "C:\\Python27-x64"
     - PYTHON: "C:\\Python34"
     - PYTHON: "C:\\Python34-x64"
-    - PYTHON: "C:\\Python35"        
+    - PYTHON: "C:\\Python35"
     - PYTHON: "C:\\Python35-x64"
 
 install:
 - "%PYTHON%\\python.exe -m pip install wheel"
+- "%PYTHON%\\python.exe -m pip install -U setuptools"
 - "%PYTHON%\\python.exe setup.py install"
 
 test_script:

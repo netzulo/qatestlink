@@ -92,7 +92,7 @@ class XmlResponse(XmlParserBase):
         nodes_struct = self.find_nodes('struct', parent=node_data)
         for node_struct in nodes_struct:
             node_struct_members = self.find_nodes(tag='member', parent=node_struct)
-            node_structs_list.append((node_struct_members,))
+            node_structs_list.append(node_struct_members)
         return node_structs_list
 
 
@@ -109,14 +109,15 @@ class XmlResponse(XmlParserBase):
         """
         err_code = None
         err_message = None
-        for node_member in self.find_structs_members():
-            node_name, node_value = self.find_member_info(node_member)
-            if node_name.text == 'code':
-                err_code = int(
-                    self.find_node(tag='int', parent=node_value).text)
-            if node_name.text == 'message':
-                err_message = self.find_node(
-                    tag='string', parent=node_value).text
+        for node_structs_members in self.find_structs_members():
+            for node_member in node_structs_members:
+                node_name, node_value = self.find_member_info(node_member)
+                if node_name.text == 'code':
+                    err_code = int(
+                        self.find_node(tag='int', parent=node_value).text)
+                if node_name.text == 'message':
+                    err_message = self.find_node(
+                        tag='string', parent=node_value).text
         if err_code == 2000:
             raise Exception(err_message)
 

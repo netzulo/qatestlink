@@ -9,20 +9,23 @@ from xml.etree.ElementTree import Element
 from qatestlink.core.TlConnectionBase import TlConnectionBase
 from qatestlink.core.xmls.XmlParserBase import XmlParserBase
 from qatestlink.core.objects.TlTestProject import TlTestProject
+from tests.config import Config
 
 
 class TestModule(TestCase):
     """TODO: doc class"""
 
+    @classmethod
+    def setUpClass(cls):
+        cls.config = Config()
+
     def __init__(self, method_name='TestModule'):
         """TODO: doc method"""
         super(TestModule, self).__init__(method_name)
 
-
     def test_000_dummytest(self):
         """TODO: doc method"""
         print("Library must can be installed, but not really tested")
-
 
     def test_001_xmlbase_instance(self):
         """TODO: doc method"""
@@ -39,8 +42,9 @@ class TestModule(TestCase):
     def test_003_connection_with_devkey(self):
         """TODO: doc method"""
         testlink = TlConnectionBase(
-            url='http://qalab.tk:86/lib/api/xmlrpc/v1/xmlrpc.php',
-            dev_key='ae2f4839476bea169f7461d74b0ed0ac')
+            url=self.config.url,
+            dev_key=self.config.dev_key
+        )
         self.assertIsInstance(testlink, TlConnectionBase)
         res = testlink.check_dev_key()
         self.assertIsNotNone(res)
@@ -49,21 +53,19 @@ class TestModule(TestCase):
     def test_004_connection_failed(self):
         """TODO: doc method"""
         testlink = TlConnectionBase(
-            url='http://qalab.tk:86/lib/api/xmlrpc/v1/xmlrpc.php',
-            dev_key='failed')
+            url=self.config.url,
+            dev_key='failed'
+        )
         self.assertIsInstance(testlink, TlConnectionBase)
         self.assertRaises(Exception, testlink.check_dev_key)
 
     def test_005_tprojects(self):
         """TODO: doc method"""
         testlink = TlConnectionBase(
-            url='http://qalab.tk:86/lib/api/xmlrpc/v1/xmlrpc.php',
-            dev_key='ae2f4839476bea169f7461d74b0ed0ac')
+            url=self.config.url,
+            dev_key=self.config.dev_key
+        )
         res = testlink.test_projects()
         self.assertIsNotNone(res)
         self.assertIsInstance(res.test_projects[0], TlTestProject)
         self.assertIsInstance(res.test_projects[1], TlTestProject)
-        print("id={}".format(res.test_projects[0].id))
-        print("name={}".format(res.test_projects[0].name))
-        print("notes={}".format(res.test_projects[0].notes))
-        print("is_active={}".format(res.test_projects[0].is_active))
