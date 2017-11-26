@@ -7,6 +7,7 @@ import logging
 from qatestlink.core.connections.connection_base import ConnectionBase
 from qatestlink.core.utils.Utils import read_file
 from qatestlink.core.xmls.route_type import RouteType
+from qatestlink.core.xmls.request_handler import RequestHandler
 
 
 PATH_CONFIG = 'qatestlink/configs/settings.json'
@@ -41,7 +42,7 @@ class TestlinkManager(object):
         self._settings = settings
         self._logger_manager = LoggerManager()
         self.log = self._logger_manager.log
-        self._xml_manager = XMLRPCManager()
+        self._xml_manager = XMLRPCManager(self.log)
 
     def get_settings(self, json_path=None):
         """
@@ -71,8 +72,11 @@ class XMLRPCManager(object):
     _reponse_handler = None
     _error_handler = None
 
-    def __init__(self):
-        self._request_handler = None
+    log = None
+
+    def __init__(self, log):
+        self.log = log
+        self._request_handler = RequestHandler(self.log)
         self._reponse_handler = None
         self._error_handler = None
 
@@ -81,15 +85,11 @@ class XMLRPCManager(object):
         :return:
             And string xml object ready to use on API call
         """
-        request = self._request_handler.create(
-            method_name=RouteType.TLINK_CHECK_DEV_KEY)
+        req = self._request_handler.create(
+            RouteType.TLINK_CHECK_DEV_KEY)
         self._request_handler.add_param(
-            request,
-            "struct", # param type
-            "devKey", # param name
-            dev_key) # param value
-        return request
-
+            req, 'struct', 'devKey', dev_key)
+        return req
 
 
 
