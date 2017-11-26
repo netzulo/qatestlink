@@ -1,0 +1,8 @@
+{
+    "connection":{
+        "https": false,
+        "host": "localhost",
+        "port": 80
+    },
+    "dev_key": "ae2f4839476bea169f7461d74b0ed0ac"
+}
