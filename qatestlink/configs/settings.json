@@ -4,5 +4,6 @@
         "host": "qalab.tk",
         "port": 86
     },
-    "dev_key": "ae2f4839476bea169f7461d74b0ed0ac"
+    "dev_key": "ae2f4839476bea169f7461d74b0ed0ac",
+    "log_level":"DEBUG"
 }

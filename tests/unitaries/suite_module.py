@@ -5,7 +5,7 @@
 import logging
 from unittest import TestCase
 from unittest import skip
-from qatestlink.core.testlink_manager import TestlinkManager
+from qatestlink.core.testlink_manager import TLManager
 #from xml.etree.ElementTree import Element
 #from qatestlink.core.TlConnectionBase import TlConnectionBase
 #from qatestlink.core.xmls.XmlParserBase import XmlParserBase
@@ -18,11 +18,11 @@ class TestModule(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.testlink_manager = TestlinkManager()
+        cls.testlink_manager = TLManager()
 
     def setUp(self):
         self.assertIsInstance(
-            self.testlink_manager, TestlinkManager)
+            self.testlink_manager, TLManager)
         self.assertIsInstance(
             self.testlink_manager.log, logging.Logger)
 
@@ -30,7 +30,6 @@ class TestModule(TestCase):
         """TODO: doc method"""
         self.testlink_manager.api_login()
 
-    @skip("Testcase not ready to be executed yet")
     def test001_conn_ok_byparam(self):
         """TODO: doc method"""
         self.testlink_manager.api_login(

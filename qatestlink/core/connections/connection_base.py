@@ -44,7 +44,7 @@ class ConnectionBase(object):
             headers: {'Content-Type':'application/xml'}
             data: <methodCall>...</methodCall>
         """
-        self._log.debug("POST request:")
+        self._log.info("POST request:")
         self._log.debug("    url={}".format(self._url))
         self._log.debug("    headers={}".format(headers))
         self._log.debug("    data={}".format(req_data))
@@ -52,8 +52,8 @@ class ConnectionBase(object):
             self._url,
             headers=headers,
             data=req_data)
-        self._log.debug("POST response:")
-        self._log.debug("    status_code={}".format(
+        self._log.info("POST response:")
+        self._log.info("    status_code={}".format(
             response.status_code))
         self._log.debug("    data={}".format(
             response.text))
