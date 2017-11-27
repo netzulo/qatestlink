@@ -4,6 +4,7 @@
 
 import json
 import logging
+import requests
 from qatestlink.core.connections.connection_base import ConnectionBase
 from qatestlink.core.utils.Utils import read_file
 from qatestlink.core.xmls.route_type import RouteType
@@ -11,7 +12,6 @@ from qatestlink.core.xmls.request_handler import RequestHandler
 
 
 PATH_CONFIG = 'qatestlink/configs/settings.json'
-
 
 class TestlinkManager(object):
     """
@@ -23,6 +23,7 @@ class TestlinkManager(object):
     _settings = None
     _logger_manager = None
     _xml_manager = None
+    _conn = None
 
     log = None
 
@@ -43,6 +44,13 @@ class TestlinkManager(object):
         self._logger_manager = LoggerManager()
         self.log = self._logger_manager.log
         self._xml_manager = XMLRPCManager(self.log)
+        # generate url using settings
+        conn = self._settings.get('connection')
+        self._conn = ConnectionBase(
+            self.log,
+            host=conn.get('host'),
+            port=conn.get('port'),
+            is_https=conn.get('is_https'))
 
     def get_settings(self, json_path=None):
         """
@@ -54,11 +62,15 @@ class TestlinkManager(object):
             json_path_selected = json_path
         return read_file(file_path=json_path_selected, is_json=True)
 
-    def api_login(self):
+    def api_login(self, dev_key=None):
         """Call to method named 'checkDevKey' for testlink XMLRPC"""
-        # TODO: response must be dict({}) wit data returned
-        response = self._xml_manager.check_dev_key(self._settings['dev_key'])
-        self.log.warning('Not Implemented')
+        if dev_key is None:
+            dev_key = self._settings.get('dev_key')
+        req_data = self._xml_manager.check_dev_key(dev_key)
+        res_data = self._conn.post(self._xml_manager.headers, req_data)
+        #TODO: response_handler time
+        #self.xml
+        raise NotImplementedError('TODO: do request, and handle response')
 
 
 class XMLRPCManager(object):
@@ -73,12 +85,14 @@ class XMLRPCManager(object):
     _error_handler = None
 
     log = None
+    headers = None
 
     def __init__(self, log):
         self.log = log
         self._request_handler = RequestHandler(self.log)
         self._reponse_handler = None
         self._error_handler = None
+        self.headers = {'Content-Type': 'application/xml'}
 
     def check_dev_key(self, dev_key):
         """
@@ -87,9 +101,8 @@ class XMLRPCManager(object):
         """
         req = self._request_handler.create(
             RouteType.TLINK_CHECK_DEV_KEY)
-        self._request_handler.add_param(
+        return self._request_handler.add_param(
             req, 'struct', 'devKey', dev_key)
-        return req
 
 
 
