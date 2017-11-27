@@ -106,3 +106,6 @@ qacode/configs/settings.json
 tests/reports/report_xunit.xml
 # Visual Studio
 .vs/
+
+# Old files
+old*/
