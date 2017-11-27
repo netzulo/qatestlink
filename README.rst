@@ -20,8 +20,6 @@ qatestlink
 +=======================+=======================================================================+================================================================================================+
 |  master               | .. image:: https://travis-ci.org/netzulo/qatestlink.svg?branch=master | .. image:: https://ci.appveyor.com/api/projects/status/7low4kw7qa6a5vem/branch/master?svg=true |
 +-----------------------+-----------------------+-----------------------------------------------+------------------------------------------------------------------------------------------------+
-|  devel                | .. image:: https://travis-ci.org/netzulo/qatestlink.svg?branch=devel  | .. image:: https://ci.appveyor.com/api/projects/status/7low4kw7qa6a5vem/branch/devel?svg=true |
-+-----------------------+-----------------------------------------------------------------------+------------------------------------------------------------------------------------------------+
 
 
 Python tested versions
@@ -71,14 +69,30 @@ SETUP.py install
 
 ``python setup.py install``
 
+
+Configuration File
+------------------
+
+.. highlight:: json
+.. code-block:: json
+   :linenos:
+
+::
+
+    {
+      "connection":{
+        "is_https": false,
+        "host": "qalab.tk",
+        "port": 86
+      },
+      "dev_key": "ae2f4839476bea169f7461d74b0ed0ac",
+      "log_level":"DEBUG"
+    }
+
+
 Tests
 -----
 
-To run the tests, you need the following environment variables:
-
-- TESTLINK_URL: The main URL to access the TestLink installation, by default 'http://localhost'.
-- TESTLINK_DEV_KEY: The dev key to use in the calls, mandatory.
-
-After setting them, you can just execute:
+*Just execute on command line*
 
 ``python setup.py test``
