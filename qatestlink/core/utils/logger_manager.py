@@ -34,4 +34,3 @@ class LoggerManager(object):
         logger.addHandler(logger_stream)
         # alias to improve logging calls
         self.log = logger
-        
