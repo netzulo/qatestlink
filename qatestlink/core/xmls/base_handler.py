@@ -54,25 +54,64 @@ class BaseHandler(object):
                 MSG_ADDED_TEXT.format(tag, text))
         return node
 
-    def find_node(self, tag, req_str=None, parent=None):
+    def find_node(self, tag, xml_str=None, parent=None):
         """
         Returns firt node obtained iter
          by tag name on string 'request'
         """
         err_msg = 'Can\'t use this function like this, read documentation'
-        if req_str is None and parent is None:
+        if xml_str is None and parent is None:
             raise Exception(err_msg)
-        if req_str is not None and parent is not None:
+        if xml_str is not None and parent is not None:
             raise Exception(err_msg)
         if parent is not None:
             root = parent
-        if req_str is not None:
-            root = self.xml_parse(req_str)
+        if xml_str is not None:
+            root = self.xml_parse(xml_str)
         # Search element
         for node in ElementTree(element=root).iter(tag=tag):
             if node.tag == tag:
                 self.log.debug(MSG_FOUND_NODE.format(node.tag, node.text))
                 return node
+
+    def find_nodes(self, tag, xml_str=None, parent=None):
+        """
+        Returns list of nodes obtained itering
+         by tag name on string 'request'
+        """
+        err_msg = 'Can\'t use this function like this, read documentation'
+        if xml_str is None and parent is None:
+            raise Exception(err_msg)
+        if xml_str is not None and parent is not None:
+            raise Exception(err_msg)
+        if parent is not None:
+            root = parent
+        if xml_str is not None:
+            root = self.xml_parse(xml_str)
+        # Search element
+        nodes_found = list()
+        for node in ElementTree(element=root).iter(tag=tag):
+            if node.tag == tag:
+                self.log.debug(MSG_FOUND_NODE.format(node.tag, node.text))
+                nodes_found.append(node)
+        return nodes_found
+
+    def parse_node_value(self, node_value):
+        """
+        Parse and validate XML value member and return it
+         parsed to each valid type
+        """
+        value_node_string = self.find_node(
+            'string', parent=node_value)
+        value_node_struct = self.find_node(
+            'string', parent=node_value)
+        if value_node_string is not None:
+            return value_node_string.text
+        if value_node_struct is not None:
+            # TODO: i don't know how to do this yet
+            raise NotImplementedError(
+                'Response node_member struct not handled yet')
+
 
     def xml_parse(self, xml_str):
         """
