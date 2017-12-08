@@ -19,14 +19,14 @@ class RouteType(Enum):
         use intellisense to improve development
     """
 
-    # TestProyects
+    # TestProjects
 
     """TODO
     Args:
         devKey:string
             authorization dev key
     """
-    TPROYECT_CREATE = 'tl.createTestProject'
+    TPROJECT_CREATE = 'tl.createTestProject'
 
     """TODO
     Args:
