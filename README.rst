@@ -73,10 +73,6 @@ SETUP.py install
 Configuration File
 ------------------
 
-.. highlight:: json
-.. code-block:: json
-   :linenos:
-
 ::
 
     {
