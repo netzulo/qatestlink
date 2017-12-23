@@ -5,17 +5,31 @@ env:
     - TESTLINK_URL=http://qalab.tk:86
     - TESTLINK_DEV_KEY=ae2f4839476bea169f7461d74b0ed0ac
 language: python
-python:
-- '2.7'
-- '3.4'
-- '3.5'
-- '3.6'
+matrix:
+  include:
+    - os: linux
+      sudo;: required
+      python: 2.7
+      env: TOXENV=py27
+    - os: linux
+      sudo;: required
+      python: 3.4
+      env: TOXENV=py34
+    - os: linux
+      sudo;: required
+      python: 3.5
+      env: TOXENV=py35
+    - os: linux
+      sudo;: required
+      python: 3.6
+      env: TOXENV=py36
+
 before_install:
 - pip freeze
 install:
-- python setup.py install
+- pip install tox
 script:
-- python setup.py test
+- tox -e "{$TOXENV}"
 after_script:
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
       sonar-scanner -X -Dsonar.login=${SONAR_GITHUB_TOKEN} -Dsonar.host.url=http://qalab.tk:82 ;
