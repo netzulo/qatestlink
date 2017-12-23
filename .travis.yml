@@ -28,6 +28,7 @@ before_install:
 - pip freeze
 install:
 - pip install tox
+- pip install pytest
 script:
 - tox -e "{$TOXENV}"
 after_script:
