@@ -63,7 +63,6 @@ install:
 - "pip install --disable-pip-version-check --user --upgrade pip"
 - "python -m pip install wheel"
 - "python -m pip install --pre -U tox"
-- "python -m pip install --pre -U pytest"
 - "python setup.py install"
 
 test_script:

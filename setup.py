@@ -59,13 +59,13 @@ setup(
     install_requires=[
         'requests',
         'enum34;python_version < "3.4"',
+        'pytest'
     ],
     setup_requires=[
         'tox',
         'pytest-runner'
     ],
     tests_require=[
-        'pytest',
         'pytest-coverage',
         'pytest-html',
         'pytest-dependency',
