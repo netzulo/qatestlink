@@ -58,7 +58,7 @@ setup(
     ],
     install_requires=[
         'requests',
-        'enum34;python_version < "3.4"',
+        'enum34',
         'pytest'
     ],
     setup_requires=[
