@@ -8,6 +8,7 @@ from qatestlink.core.utils.Utils import read_file
 from qatestlink.core.utils.Utils import path_format
 
 
+VERSION = '0.0.4'
 CURR_PATH = "{}{}".format(path.abspath(path.dirname(__file__)), '/')
 
 
@@ -35,7 +36,7 @@ def read(file_name=None, is_encoding=True, ignore_raises=False):
 
 setup(
     name='qatestlink',
-    version='0.0.3',
+    version=VERSION,
     license=read("LICENSE", is_encoding=False, ignore_raises=True),
     packages=find_packages(exclude=['tests']),
     description='Main automation lib',
@@ -43,7 +44,8 @@ setup(
     author='Netzulo Open Source',
     author_email='netzuleando@gmail.com',
     url='https://github.com/netzulo/qatestlink',
-    download_url='https://github.com/netzulo/qatestlink/tarball/v0.0.3',
+    download_url='https://github.com/netzulo/qatestlink/tarball/v{}'.format(
+        VERSION),
     keywords=[
         'testing',
         'logging',
@@ -56,12 +58,18 @@ setup(
     ],
     install_requires=[
         'requests',
-        'enum34;python_version < "3.4"',
+        'enum34',
+        'pytest'
     ],
-    setup_requires=['pytest-runner'],
+    setup_requires=[
+        'tox',
+        'pytest-runner'
+    ],
     tests_require=[
-        'nose',
-        'pytest',
+        'pytest-coverage',
+        'pytest-html',
+        'pytest-dependency',
+        'flake8'
     ],
     classifiers=[
         'Development Status :: 4 - Beta',

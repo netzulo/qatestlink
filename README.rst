@@ -1,19 +1,26 @@
-qatestlink
-==========
+
+QA Testlink
+===========
 
 *qatestlink XMLRPC manager for Testlink*
 
 
 
-.. image:: https://img.shields.io/github/downloads/netzulo/qatestlink/total.svg
-  :alt: Downloads on Github
-  :target: https://img.shields.io/github/downloads/netzulo/qatestlink/total.svg
-.. image:: https://img.shields.io/pypi/dd/qatestlink.svg
-  :alt: Downloads on Pypi
-  :target: https://img.shields.io/pypi/dd/qatestlink.svg
+.. image:: https://img.shields.io/github/issues/netzulo/qatestlink.svg
+  :alt: Issues on Github
+  :target: https://github.com/netzulo/qatestlink/issues
+
+.. image:: https://img.shields.io/github/issues-pr/netzulo/qatestlink.svg
+  :alt: Pull Request opened on Github
+  :target: https://github.com/netzulo/qatestlink/issues
+
 .. image:: https://img.shields.io/github/release/netzulo/qatestlink.svg
-  :alt: GitHub release
-  :target: https://img.shields.io/github/release/netzulo/qatestlink.svg
+  :alt: Release version on Github
+  :target: https://github.com/netzulo/qatestlink/releases/latest
+
+.. image:: https://img.shields.io/github/release-date/netzulo/qatestlink.svg
+  :alt: Release date on Github
+  :target: https://github.com/netzulo/qatestlink/releases/latest
 
 +------------------------+-------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------+
 |  Branch                |  Linux Deploy                                                           |  Windows Deploy                                                                                  |
@@ -73,10 +80,6 @@ SETUP.py install
 Configuration File
 ------------------
 
-.. highlight:: json
-.. code-block:: json
-   :linenos:
-
 ::
 
     {
@@ -96,3 +99,19 @@ Tests
 *You will need real testlink app running before you can just execute on command line*
 
 ``python setup.py test``
+
+
+TOX environments
+****************
+
++---------------------+--------------------------------+
+| Env name            | Env description                |
++=====================+================================+
+| py27,py34,py35,py36 | Python supported versions      |
++---------------------+--------------------------------+
+| docs                | Generate doc HTML in /docs     |
++---------------------+--------------------------------+
+| flake8              | Exec linter in qalab/ tests/   |
++---------------------+--------------------------------+
+| coverage            | Generate XML and HTML reports  |
++---------------------+--------------------------------+
