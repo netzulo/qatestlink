@@ -21,13 +21,23 @@ class ResponseHandler(BaseHandler):
 
     def get_response_members(self, xml_str):
         """
-        Allow to parse string XML to ResponseMember
-         object list
+        Allow to parse string XML object list response to
+         ResponseMember object list
         :Args:
             xml_str: must be XML format string
-             <data><value><struct><member></..close all elements>
+             <param>
+               <value>
+                 <array>
+                   <data>
+                     <value>
+                       <struct>
+                         <member>
+             </..close all elements>
         """
-        node_data = self.find_node('data', xml_str=xml_str)
+        node_param = self.find_node('param', xml_str=xml_str)
+        node_param_value = self.find_node('array', parent=node_param)
+        node_array = self.find_node('array', parent=node_param_value)
+        node_data = self.find_node('data', parent=node_array)
         nodes_value = self.find_nodes('value', parent=node_data)
         res_members_list = list()
         for node_value in nodes_value:
@@ -43,6 +53,27 @@ class ResponseHandler(BaseHandler):
                     res_members.append(res_member)
                 res_members_list.append(res_members)
         return res_members_list
+
+    def get_response_struct_members(self, xml_str):
+        """
+        Allow to parse string XML object list response to
+         ResponseMember object list
+        :Args:
+            xml_str: must be XML format string
+             <param>
+               <struct>
+                 <member>
+             </..close all elements>
+        """
+        node_param = self.find_node('param', xml_str=xml_str)
+        node_struct = self.find_node('struct', parent=node_param)
+        nodes_member = self.find_nodes('member', parent=node_struct)
+        res_members = list()
+        for node_member in nodes_member:
+            res_member = ResponseMember(self.log, node_member)
+            res_members.append(res_member)
+        return res_members
+        
 
 
 class ResponseMember(BaseHandler):
@@ -83,6 +114,6 @@ class ResponseMember(BaseHandler):
             'value', parent=self._node_member)
         self.name = node_name.text
         self.value = self.parse_node_value(node_value)
-        self.log.info(
+        self.log.debug(
             'ResponseMember instance: name={}, value={}'.format(
                 self.name, self.value))

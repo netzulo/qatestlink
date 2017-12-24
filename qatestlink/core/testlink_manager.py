@@ -9,6 +9,7 @@ from qatestlink.core.utils.logger_manager import LoggerManager
 from qatestlink.core.connections.connection_base import ConnectionBase
 from qatestlink.core.utils.Utils import read_file
 from qatestlink.core.xmls.route_type import RouteType
+from qatestlink.core.xmls.error_handler import ErrorHandler
 from qatestlink.core.xmls.request_handler import RequestHandler
 from qatestlink.core.xmls.response_handler import ResponseHandler
 from qatestlink.core.xmls.base_handler import BaseHandler
@@ -81,8 +82,8 @@ class TLManager(object):
             return False
         return bool(node_boolean.text)
 
-    def api_get_tprojects(self, dev_key=None):
-        """Call to method naed ''"""
+    def api_tprojects(self, dev_key=None):
+        """Call to method named 'tl.getProjects'"""
         if dev_key is None:
             dev_key = self._settings.get('dev_key')
         req_data = self._xml_manager.req_get_tprojects(dev_key)
@@ -91,6 +92,19 @@ class TLManager(object):
             res.status_code, res.text, as_models=True)
         # TODO: filter by name and/or value
         return res_as_models
+
+    def api_tproject(self, tproject_name, dev_key=None):
+        """Call to method named 'tl.getTestProjectByName'"""
+        if dev_key is None:
+            dev_key = self._settings.get('dev_key')
+        req_data = self._xml_manager.req_get_tproject_by_name(
+            dev_key, tproject_name)
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        # TODO: parse errors on ALL requests
+        err = self._xml_manager.parse_errors(res.text)
+        res_as_model = self._xml_manager.res_get_tproject_by_name(
+            res.status_code, res.text, as_model=True)
+        return res_as_model
 
 
 class XMLRPCManager(object):
@@ -112,9 +126,14 @@ class XMLRPCManager(object):
         self.log = log
         self._request_handler = RequestHandler(self.log)
         self._response_handler = ResponseHandler(self.log)
-        self._error_handler = None
+        self._error_handler = ErrorHandler(self.log)
         self.headers = {'Content-Type': 'application/xml'}
         self.handler = BaseHandler(self.log)
+
+    def parse_errors(self, xml_str):
+        """Raise an exception if response have error structure"""
+        #TODO: make enum and custom exception for each exception number
+        self._error_handler.get_response_error(xml_str)
 
     def req_check_dev_key(self, dev_key):
         """
@@ -123,7 +142,7 @@ class XMLRPCManager(object):
         """
         req = self._request_handler.create(
             RouteType.TLINK_CHECK_DEV_KEY)
-        return self._request_handler.add_param(
+        return self._request_handler.create_param(
             req, 'struct', 'devKey', dev_key)
 
     def res_check_dev_key(self, status_code, res_str):
@@ -142,8 +161,8 @@ class XMLRPCManager(object):
     def req_get_tprojects(self, dev_key):
         """
         Obtains all test projects created on remote
-         testlink database, can filter with any property+value
-         combination
+         testlink database, 
+         TODO: can filter with any property+value combination
 
         :return:
             List of TProject objects containing all database
@@ -151,7 +170,7 @@ class XMLRPCManager(object):
         """
         req = self._request_handler.create(
             RouteType.TPROJECTS)
-        return self._request_handler.add_param(
+        return self._request_handler.create_param(
             req, 'struct', 'devKey', dev_key)
 
     def res_get_tprojects(self, status_code, res_str, as_models=True):
@@ -175,16 +194,54 @@ class XMLRPCManager(object):
             RouteType.TPROJECTS, res_str)
         if not as_models:
             return res
-        # TODO: create objects and return them as list
         res_members_list = self._response_handler.get_response_members(
             xml_str=res)
-        # TODO: build objects
         tprojects = list()
         for res_members in res_members_list:
-            #TODO: all members by project
-            tproject = TProject(res_members)            
+            tproject = TProject(res_members)
             tprojects.append(tproject)
         return tprojects
 
 
+    def req_get_tproject_by_name(self, dev_key, tproject_name):
+        """
+        Obtains all test projects created on remote
+         testlink database, can filter by name
 
+        :return:
+            TProject object containing all database
+             data loaded
+        """
+        if tproject_name is None:
+            raise Exception("Can't call XMLRPC without param, tproject_name")
+        req = self._request_handler.create(
+            RouteType.TPROJECT_BY_NAME)
+        req = self._request_handler.create_param(
+            req, 'struct', 'devKey', dev_key)
+        req = self._request_handler.add_param(
+            req, 'testprojectname', tproject_name)
+        return req
+
+    def res_get_tproject_by_name(self, status_code, res_str, as_model=True):
+        """
+        Parse and validate response for method
+         named 'tl.getTestProjectByName', by default response
+         TProject object, can response xml string too
+        :return:
+            if as_models is True
+                object instanced with Model classes
+            if as_models is False
+                string xml object ready to
+                 parse/write/find/add Elements on it
+        """
+        if status_code != 200:
+            raise Exception(
+                "status_code invalid: code={}".format(
+                    status_code))
+        res = self._response_handler.create(
+            RouteType.TPROJECT_BY_NAME, res_str)
+        if not as_model:
+            return res
+        res_members_list = self._response_handler.get_response_struct_members(
+            xml_str=res)
+        return TProject(res_members_list)

@@ -31,6 +31,8 @@ class LoggerManager(object):
         logger.setLevel(log_level)
         logger_stream.setLevel(log_level)
         logger_stream.setFormatter(formatter)
+        for old_handler in logger.handlers:
+            logger.removeHandler(old_handler)
         logger.addHandler(logger_stream)
         # alias to improve logging calls
         self.log = logger
