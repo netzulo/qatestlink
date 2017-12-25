@@ -11,6 +11,7 @@ from qatestlink.core.testlink_manager import TLManager
 from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TPlan
 from qatestlink.core.models.tl_models import TSuite
+from qatestlink.core.models.tl_models import TPlaform
 
 
 API_DEV_KEY = 'ae2f4839476bea169f7461d74b0ed0ac'
@@ -84,6 +85,17 @@ class TestMethods(TestCase):
             CONFIG['tproject_name'], CONFIG['tplan_name'])
         self.assertIsInstance(tplan, TPlan)
         self.assertEquals(tplan.name, CONFIG['tplan_name'])
+
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_006_method_tplan_platforms(self):
+        """TODO: doc method"""
+        platforms = self.testlink_manager.api_tplan_platforms(
+            CONFIG['tplan_name'])
+        self.assertIsInstance(platforms, list)
+        self.assertGreater(len(platforms), 0)
+        for platform in platforms:
+            self.testlink_manager.log.debug(repr(platform))
+            self.assertIsInstance(platform, TPlaform)
 
 class TestMethodsRaises(TestCase):
     """TODO: doc class"""

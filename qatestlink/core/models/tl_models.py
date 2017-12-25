@@ -90,9 +90,7 @@ class TProject(ModelBase):
         return "TProject: id={}, name={}, is_public={}".format(
             self.id,
             self.name,
-            self.is_public
-        )
-
+            self.is_public)
 
 
 class TPlan(ModelBase):
@@ -141,10 +139,7 @@ class TPlan(ModelBase):
         return "TPlan: id={}, name={}, is_public={}".format(
             self.id,
             self.name,
-            self.is_public
-        )
-
-
+            self.is_public)
 
 
 class TSuite(ModelBase):
@@ -193,5 +188,40 @@ class TSuite(ModelBase):
         return "TSuite: id={}, name={}, parent_id={}".format(
             self.id,
             self.name,
-            self.parent_id
-        )
+            self.parent_id)
+
+
+class TPlatform(ModelBase):
+    """TODO: doc class"""
+
+    _res_members = None
+
+    # Testlink object properties
+    id = None
+    name = None
+
+
+    def __init__(self, res_members):
+        """TODO: doc method"""
+        super(TPlatform, self).__init__()
+        if res_members is None:
+            raise Exception('Bad param, res_member can\'t be None')
+        if len(res_members) <= 0:
+            raise Exception(
+                'Bad param, res_member can\'t be empty list')
+        self._res_members = res_members
+        self._load()
+
+    def _load(self):
+        for res_member in self._res_members:
+            name = res_member.name
+            value = res_member.value
+            if name == 'id':
+                self.id = value
+            if name == 'name':
+                self.name = value
+
+    def __repr__(self):
+        return "TSuite: id={}, name={}".format(
+            self.id,
+            self.name)
