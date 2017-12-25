@@ -120,7 +120,7 @@ class TestMethods(TestCase):
         for tsuite in tsuites:
             self.testlink_manager.log.debug(repr(tsuite))
             self.assertIsInstance(tsuite, TSuite)
-            
+
 
 class TestMethodsRaises(TestCase):
     """TODO: doc class"""
@@ -224,7 +224,7 @@ class TestMethodsRaises(TestCase):
             ResponseException,
             self.testlink_manager.api_tplan_platforms,
             -1)
-    
+
     @skipIf(SKIP, 'Test SKIPPED')
     def test_013_raises_tplan_builds_notid(self):
         """TODO: doc method"""
