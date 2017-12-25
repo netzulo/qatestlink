@@ -124,12 +124,45 @@ Usage ( *XMLRPC* )
 + 2. Instance **testlink_manager** object ``testlink_manager = TLManager(settings=my_json_config)``
 + 3. Use some *method name with prefix* '**api_**'
 
+**api_login**
++++++++++++++
 
-+ **api_login** ( *call to method named* '*tl.checkDevKey*' ): check if dev_key it's valid
-+ **api_tprojects** ( *call to method named* '*tl.getProjects*' ): get all test projects
-+ **api_tproject** ( *call to method named* '*tl.getTestProjectByName*' ): get one test project filtered by name
-+ **api_tproject_tplans** ( *call to method named* '*tl.getProjectTestPlans*' ): get all test plans for one test project
-+ **api_tproject_tsuites_first_level** ( *call to method named* '*tl.getFirstLevelTestSuitesForTestProject*' ): get all test suites on first level for one test project
-+ **api_tplan** ( *call to method named* '*tl.getTestPlanByName*' ): get one test plan filtered by project and plan names
-+ **api_tplan_platforms** ( *call to method named* '*tl.getTestPlanPlatforms*' ): get one test plan filtered by project and plan names
+* **XMLRPC**: *call to method named* '*tl.checkDevKey*'
+* **Description** : check if dev_key it's valid
 
+**api_tprojects** 
++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getProjects*'
+* **Description** : get all test projects
+
+
+**api_tproject**
++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getTestProjectByName*'
+* **Description** : get one test project filtered by name
+
+**api_tproject_tplans** 
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getProjectTestPlans*'
+* **Description** : get all test plans for one test project
+
+**api_tproject_tsuites_first_level**
+++++++++++++++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getFirstLevelTestSuitesForTestProject*'
+* **Description** : get all test suites on first level for one test project
+
+**api_tplan**
++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getTestPlanByName*'
+* **Description** : get one test plan filtered by project and plan names
+
+**api_tplan_platforms**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getTestPlanPlatforms*'
+* **Description** : get one test plan filtered by project and plan names
