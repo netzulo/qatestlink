@@ -172,3 +172,9 @@ Usage ( *XMLRPC* )
 
 * **XMLRPC**: *call to method named* '*tl.getBuildsForTestPlan*'
 * **Description** : get all builds for test project filtered by id
+
+**api_tplan_suites**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getTestSuitesForTestPlan*'
+* **Description** : get all test suites assigned to test plan filtered by id

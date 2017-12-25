@@ -109,6 +109,19 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(build))
             self.assertIsInstance(build, TBuild)
 
+
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_007_method_tplan_tsuites(self):
+        """TODO: doc method"""
+        tsuites = self.testlink_manager.api_tplan_tsuites(
+            CONFIG['tplan_id'])
+        self.assertIsInstance(tsuites, list)
+        self.assertGreater(len(tsuites), 0)
+        for tsuite in tsuites:
+            self.testlink_manager.log.debug(repr(tsuite))
+            self.assertIsInstance(tsuite, TSuite)
+
+
 class TestMethodsRaises(TestCase):
     """TODO: doc class"""
 
@@ -202,26 +215,40 @@ class TestMethodsRaises(TestCase):
     def test_011_raises_tplan_platforms_notname(self):
         """TODO: doc method"""
         self.assertRaises(
-            Exception, self.testlink_manager.api_tproject)
+            Exception, self.testlink_manager.api_tplan_platforms)
 
     @skipIf(SKIP, 'Test SKIPPED')
-    def test_012_raises_tplan_platforms_emptyname(self):
+    def test_012_raises_tplan_platforms_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
             ResponseException,
-            self.testlink_manager.api_tproject,
-            '')
-    
-    @skipIf(SKIP, 'Test SKIPPED')
-    def test_012_raises_tplan_builds_notid(self):
-        """TODO: doc method"""
-        self.assertRaises(
-            Exception, self.testlink_manager.api_tproject)
+            self.testlink_manager.api_tplan_platforms,
+            -1)
 
     @skipIf(SKIP, 'Test SKIPPED')
-    def test_013_raises_tplan_builds_notfoundid(self):
+    def test_013_raises_tplan_builds_notid(self):
+        """TODO: doc method"""
+        self.assertRaises(
+            Exception, self.testlink_manager.api_tplan_builds)
+
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_014_raises_tplan_builds_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
             ResponseException,
-            self.testlink_manager.api_tproject,
+            self.testlink_manager.api_tplan_builds,
+            -1)
+
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_015_raises_tplan_tsuites_notid(self):
+        """TODO: doc method"""
+        self.assertRaises(
+            Exception, self.testlink_manager.api_tplan_tsuites)
+
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_016_raises_tplan_tsuites_notfoundid(self):
+        """TODO: doc method"""
+        self.assertRaises(
+            ResponseException,
+            self.testlink_manager.api_tplan_tsuites,
             -1)

@@ -155,3 +155,15 @@ class TLManager(object):
         res_as_models = self._xml_manager.res_tplan_builds(
             res.status_code, res.text, as_models=True)
         return res_as_models
+
+    def api_tplan_tsuites(self, tplan_id, dev_key=None):
+        """Call to method named 'tl.getTestSuitesForTestPlan'"""
+        if dev_key is None:
+            dev_key = self._settings.get('dev_key')
+        req_data = self._xml_manager.req_tplan_tsuites(
+            dev_key, tplan_id)
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        self._xml_manager.parse_errors(res.text)
+        res_as_models = self._xml_manager.res_tplan_tsuites(
+            res.status_code, res.text, as_models=True)
+        return res_as_models
