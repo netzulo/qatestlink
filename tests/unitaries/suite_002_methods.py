@@ -97,6 +97,7 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(platform))
             self.assertIsInstance(platform, TPlatform)
 
+
 class TestMethodsRaises(TestCase):
     """TODO: doc class"""
 
@@ -199,3 +200,4 @@ class TestMethodsRaises(TestCase):
             ResponseException,
             self.testlink_manager.api_tproject,
             '')
+
