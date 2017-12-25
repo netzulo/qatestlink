@@ -199,6 +199,7 @@ class TPlatform(ModelBase):
     # Testlink object properties
     id = None
     name = None
+    notes = None
 
 
     def __init__(self, res_members):
@@ -220,8 +221,11 @@ class TPlatform(ModelBase):
                 self.id = value
             if name == 'name':
                 self.name = value
+            if name == 'notes':
+                self.notes = value
 
     def __repr__(self):
-        return "TSuite: id={}, name={}".format(
+        return "TPlatform: id={}, name={}, notes={}".format(
             self.id,
-            self.name)
+            self.name,
+            self.notes)

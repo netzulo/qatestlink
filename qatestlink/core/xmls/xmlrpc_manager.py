@@ -10,6 +10,7 @@ from qatestlink.core.xmls.base_handler import BaseHandler
 from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TPlan
 from qatestlink.core.models.tl_models import TSuite
+from qatestlink.core.models.tl_models import TPlatform
 
 
 
@@ -300,7 +301,7 @@ class XMLRPCManager(object):
             xml_str=res)
         return TPlan(res_members_list)
 
-    def req_tplan_platforms(self, dev_key, tplan_name):
+    def req_tplan_platforms(self, dev_key, tplan_id):
         """
         Obtains all platforms asigned to test plan
          created on remote testlink database,
@@ -310,14 +311,14 @@ class XMLRPCManager(object):
             List of TPlan objects containing all database
              data loaded
         """
-        if tplan_name is None:
-            raise Exception("Can't call XMLRPC without param, tplan_name")
+        if tplan_id is None:
+            raise Exception("Can't call XMLRPC without param, tplan_id")
         req = self._request_handler.create(
             RouteType.TPLAN_PLATFORMS)
         req = self._request_handler.create_param(
             req, 'struct', 'devKey', dev_key)
         req = self._request_handler.add_param(
-            req, 'testplanname', tplan_name)
+            req, 'testplanid', tplan_id)
         return req
 
     def res_tplan_platforms(self, status_code, res_str, as_models=True):
@@ -333,7 +334,6 @@ class XMLRPCManager(object):
                 string xml object ready to
                  parse/write/find/add Elements on it
         """
-        raise NotImplementedError("need to edit this copypasted code")
         if status_code != 200:
             raise Exception(
                 "status_code invalid: code={}".format(
