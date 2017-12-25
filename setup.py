@@ -8,7 +8,7 @@ from qatestlink.core.utils.Utils import read_file
 from qatestlink.core.utils.Utils import path_format
 
 
-VERSION = '0.0.4'
+VERSION = '0.0.5'
 CURR_PATH = "{}{}".format(path.abspath(path.dirname(__file__)), '/')
 
 
