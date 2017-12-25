@@ -17,7 +17,9 @@ API_DEV_KEY = 'ae2f4839476bea169f7461d74b0ed0ac'
 SKIP = False
 CONFIG = {
     "tproject_name": "qacode",
-    "tproject_id" : 11
+    "tproject_id" : 11,
+    "tplan_name" : "v0.3.8",
+    "tplan_id" : 84
 }
 
 
@@ -75,6 +77,14 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tsuite))
             self.assertIsInstance(tsuite, TSuite)
 
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_005_method_tplan(self):
+        """TODO: doc method"""
+        tplan = self.testlink_manager.api_tplan(
+            CONFIG['tproject_name'], CONFIG['tplan_name'])
+        self.assertIsInstance(tplan, TPlan)
+        self.assertEquals(tplan.name, CONFIG['tplan_name'])
+
 class TestMethodsRaises(TestCase):
     """TODO: doc class"""
 
@@ -131,3 +141,35 @@ class TestMethodsRaises(TestCase):
             ResponseException,
             self.testlink_manager.api_tproject_tsuites_first_level,
             -1)
+
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_007_raises_tplan_notname(self):
+        """TODO: doc method"""
+        self.assertRaises(
+            Exception, self.testlink_manager.api_tplan)
+
+    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7')
+    def test_008_raises_tplan_emptytprojectname(self):
+        """TODO: doc method"""
+        self.assertRaises(
+            ResponseException,
+            self.testlink_manager.api_tplan,
+            '',
+            CONFIG['tplan_name'])
+
+    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7')
+    def test_009_raises_tplan_emptytplanname(self):
+        """TODO: doc method"""
+        self.assertRaises(
+            ResponseException,
+            self.testlink_manager.api_tplan,
+            CONFIG['tproject_name'],
+            '')
+
+    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7')
+    def test_010_raises_tplan_emptytnames(self):
+        """TODO: doc method"""
+        self.assertRaises(
+            ResponseException,
+            self.testlink_manager.api_tplan,
+            '', '')

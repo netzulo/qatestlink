@@ -252,3 +252,50 @@ class XMLRPCManager(object):
             tsuite = TSuite(res_members)
             tsuites.append(tsuite)
         return tsuites
+
+    def req_tplan_by_name(self, dev_key, tproject_name, tplan_name):
+        """
+        Obtains all test projects created on remote
+         testlink database, can filter by name
+
+        :return:
+            TProject object containing all database
+             data loaded
+        """
+        if tproject_name is None:
+            raise Exception("Can't call XMLRPC without param, tproject_name")
+        if tplan_name is None:
+            raise Exception("Can't call XMLRPC without param, tplan_name")
+        req = self._request_handler.create(
+            RouteType.TPLAN_BY_NAME)
+        req = self._request_handler.create_param(
+            req, 'struct', 'devKey', dev_key)
+        req = self._request_handler.add_param(
+            req, 'testprojectname', tproject_name)
+        req = self._request_handler.add_param(
+            req, 'testplanname', tplan_name)
+        return req
+
+    def res_tplan_by_name(self, status_code, res_str, as_model=True):
+        """
+        Parse and validate response for method
+         named 'tl.getTestProjectByName', by default response
+         TProject object, can response xml string too
+        :return:
+            if as_models is True
+                object instanced with Model classes
+            if as_models is False
+                string xml object ready to
+                 parse/write/find/add Elements on it
+        """
+        if status_code != 200:
+            raise Exception(
+                "status_code invalid: code={}".format(
+                    status_code))
+        res = self._response_handler.create(
+            RouteType.TPLAN_BY_NAME, res_str)
+        if not as_model:
+            return res
+        res_members_list = self._response_handler.get_response_struct_members(
+            xml_str=res)
+        return TPlan(res_members_list)
