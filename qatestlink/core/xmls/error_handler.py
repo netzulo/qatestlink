@@ -4,6 +4,7 @@
 
 from xml.etree.ElementTree import tostring as xml_to_str
 from qatestlink.core.xmls.base_handler import BaseHandler
+from qatestlink.core.exceptions.response_exception import ResponseException
 
 
 class ErrorHandler(BaseHandler):
@@ -66,16 +67,3 @@ class ErrorHandler(BaseHandler):
         raise ResponseException(code, self.log, message=message)
 
 
-class ResponseException(Exception):
-    """Inherits exception, just for raises testlink XMLRPC errors"""
-
-    def __init__(self, code, log,
-                 message='Response Exception message not defined at raise',
-                 err=None):
-        """Raise an exception from any part of qacode package"""
-        super(ResponseException, self).__init__(err, message)
-        self._code = code
-        self._message = message
-        log.error(
-            "Response exception detected: \n    code={}\n    message={}".format(
-                self._code, self._message))

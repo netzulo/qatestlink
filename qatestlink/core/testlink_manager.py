@@ -2,9 +2,6 @@
 """Testlink Managers"""
 
 
-import json
-import logging
-import requests
 from qatestlink.core.utils.logger_manager import LoggerManager
 from qatestlink.core.connections.connection_base import ConnectionBase
 from qatestlink.core.utils.Utils import read_file
@@ -74,6 +71,7 @@ class TLManager(object):
             dev_key = self._settings.get('dev_key')
         req_data = self._xml_manager.req_check_dev_key(dev_key)
         res = self._conn.post(self._xml_manager.headers, req_data)
+        self._xml_manager.parse_errors(res.text)
         res_xml = self._xml_manager.res_check_dev_key(
             res.status_code, res.text)
         node_boolean = self._xml_manager.handler.find_node(
@@ -88,6 +86,7 @@ class TLManager(object):
             dev_key = self._settings.get('dev_key')
         req_data = self._xml_manager.req_get_tprojects(dev_key)
         res = self._conn.post(self._xml_manager.headers, req_data)
+        self._xml_manager.parse_errors(res.text)
         res_as_models = self._xml_manager.res_get_tprojects(
             res.status_code, res.text, as_models=True)
         # TODO: filter by name and/or value
@@ -100,8 +99,7 @@ class TLManager(object):
         req_data = self._xml_manager.req_get_tproject_by_name(
             dev_key, tproject_name)
         res = self._conn.post(self._xml_manager.headers, req_data)
-        # TODO: parse errors on ALL requests
-        err = self._xml_manager.parse_errors(res.text)
+        self._xml_manager.parse_errors(res.text)
         res_as_model = self._xml_manager.res_get_tproject_by_name(
             res.status_code, res.text, as_model=True)
         return res_as_model
