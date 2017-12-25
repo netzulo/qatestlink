@@ -7,6 +7,7 @@ from qatestlink.core.xmls.request_handler import RequestHandler
 from qatestlink.core.xmls.response_handler import ResponseHandler
 from qatestlink.core.xmls.base_handler import BaseHandler
 from qatestlink.core.models.tl_models import TProject
+from qatestlink.core.models.tl_models import TPlan
 
 
 
@@ -171,7 +172,7 @@ class XMLRPCManager(object):
         return req
 
 
-    def res_tproject_tplans(self, status_code, res_str, as_model=True):
+    def res_tproject_tplans(self, status_code, res_str, as_models=True):
         """
         Parse and validate response for method
          named 'tl.getProjectTestPlans', by default response list
