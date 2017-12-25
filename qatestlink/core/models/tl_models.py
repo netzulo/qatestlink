@@ -229,3 +229,62 @@ class TPlatform(ModelBase):
             self.id,
             self.name,
             self.notes)
+
+
+class TBuild(ModelBase):
+    """TODO: doc class"""
+
+    _res_members = None
+
+    # Testlink object properties
+    id = None
+    name = None
+    notes = None
+    testplan_id = None
+    active = None
+    is_open = None
+    release_date = None
+    closed_on_date = None
+    creation_ts = None
+
+
+    def __init__(self, res_members):
+        """TODO: doc method"""
+        super(TBuild, self).__init__()
+        if res_members is None:
+            raise Exception('Bad param, res_member can\'t be None')
+        if len(res_members) <= 0:
+            raise Exception(
+                'Bad param, res_member can\'t be empty list')
+        self._res_members = res_members
+        self._load()
+
+    def _load(self):
+        for res_member in self._res_members:
+            name = res_member.name
+            value = res_member.value
+            if name == 'id':
+                self.id = value
+            if name == 'name':
+                self.name = value
+            if name == 'notes':
+                self.notes = value
+            if name == 'testplan_id':
+                self.testplan_id = value
+            if name == 'active':
+                self.active = value
+            if name == 'is_open':
+                self.is_open = value
+            if name == 'release_date':
+                self.release_date = value
+            if name == 'closed_on_date':
+                self.closed_on_date = value
+            if name == 'creation_ts':
+                self.creation_ts = value
+
+    def __repr__(self):
+        return "TBuild: id={}, name={}, notes={}, testplan_id={}".format(
+            self.id,
+            self.name,
+            self.notes,
+            self.testplan_id)

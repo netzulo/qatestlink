@@ -12,6 +12,7 @@ from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TPlan
 from qatestlink.core.models.tl_models import TSuite
 from qatestlink.core.models.tl_models import TPlatform
+from qatestlink.core.models.tl_models import TBuild
 
 
 API_DEV_KEY = 'ae2f4839476bea169f7461d74b0ed0ac'
@@ -97,6 +98,16 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(platform))
             self.assertIsInstance(platform, TPlatform)
 
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_007_method_tplan_builds(self):
+        """TODO: doc method"""
+        builds = self.testlink_manager.api_tplan_builds(
+            CONFIG['tplan_id'])
+        self.assertIsInstance(builds, list)
+        self.assertGreater(len(builds), 0)
+        for build in builds:
+            self.testlink_manager.log.debug(repr(build))
+            self.assertIsInstance(build, TBuild)
 
 class TestMethodsRaises(TestCase):
     """TODO: doc class"""
@@ -200,3 +211,17 @@ class TestMethodsRaises(TestCase):
             ResponseException,
             self.testlink_manager.api_tproject,
             '')
+    
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_012_raises_tplan_builds_notid(self):
+        """TODO: doc method"""
+        self.assertRaises(
+            Exception, self.testlink_manager.api_tproject)
+
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_013_raises_tplan_builds_notfoundid(self):
+        """TODO: doc method"""
+        self.assertRaises(
+            ResponseException,
+            self.testlink_manager.api_tproject,
+            -1)

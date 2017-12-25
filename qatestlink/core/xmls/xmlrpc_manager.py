@@ -11,6 +11,7 @@ from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TPlan
 from qatestlink.core.models.tl_models import TSuite
 from qatestlink.core.models.tl_models import TPlatform
+from qatestlink.core.models.tl_models import TBuild
 
 
 
@@ -349,3 +350,52 @@ class XMLRPCManager(object):
             tplatform = TPlatform(res_members)
             tplatforms.append(tplatform)
         return tplatforms
+
+    def req_tplan_builds(self, dev_key, tplan_id):
+        """
+        Obtains all platforms asigned to test plan
+         created on remote testlink database,
+         can filter by test plan name
+
+        :return:
+            List of Tbuild objects containing all database
+             data loaded
+        """
+        if tplan_id is None:
+            raise Exception("Can't call XMLRPC without param, tplan_id")
+        req = self._request_handler.create(
+            RouteType.TPLAN_BUILDS)
+        req = self._request_handler.create_param(
+            req, 'struct', 'devKey', dev_key)
+        req = self._request_handler.add_param(
+            req, 'testplanid', tplan_id)
+        return req
+
+    def res_tplan_builds(self, status_code, res_str, as_models=True):
+        """
+        Parse and validate response for method
+         named 'tl.getBuildsForTestPlan', by default response list
+         of Tbuild objects, can response xml string too
+        :return:
+            if as_models is True
+                list of objects instanced with
+                 Model classes
+            if as_models is False
+                string xml object ready to
+                 parse/write/find/add Elements on it
+        """
+        if status_code != 200:
+            raise Exception(
+                "status_code invalid: code={}".format(
+                    status_code))
+        res = self._response_handler.create(
+            RouteType.TPLAN_BUILDS, res_str)
+        if not as_models:
+            return res
+        res_members_list = self._response_handler.get_response_members(
+            xml_str=res)
+        tbuilds = list()
+        for res_members in res_members_list:
+            tbuild = TBuild(res_members)
+            tbuilds.append(tbuild)
+        return tbuilds
