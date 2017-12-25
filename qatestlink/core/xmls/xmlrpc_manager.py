@@ -151,7 +151,7 @@ class XMLRPCManager(object):
 
 
     def req_tproject_tplans(self, dev_key, tproject_id):
-         """
+        """
         Obtains all test plans asigned to test project
          created on remote testlink database,
          can filter by project name
@@ -172,7 +172,7 @@ class XMLRPCManager(object):
 
 
     def res_tproject_tplans(self, status_code, res_str, as_model=True):
-         """
+        """
         Parse and validate response for method
          named 'tl.getProjectTestPlans', by default response list
          of TPlan objects, can response xml string too
