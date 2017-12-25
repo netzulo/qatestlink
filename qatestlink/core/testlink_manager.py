@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=invalid-name
 """Testlink Managers"""
 
 
-from qatestlink.core.utils.Utils import read_file
+from qatestlink.core.utils.Utils import settings as settings_func
 from qatestlink.core.utils.logger_manager import LoggerManager
 from qatestlink.core.connections.connection_base import ConnectionBase
 from qatestlink.core.xmls.xmlrpc_manager import XMLRPCManager
@@ -25,7 +26,7 @@ class TLManager(object):
 
     log = None
 
-    def __init__(self, settings_path=None, settings=None):
+    def __init__(self, file_path=None, file_name=None, settings=None):
         """
         This instance allow to handle requests+reponses to/from XMLRPC
         just need settings_path and settings dict loaded to works
@@ -37,7 +38,12 @@ class TLManager(object):
                 'qatestlink/configs/settings.json'
         """
         if settings is None:
-            settings = self.get_settings(json_path=settings_path)
+            if file_path is None or file_name is None:
+                settings = settings_func()
+            else:
+                settings = settings_func(
+                    file_path=file_path,
+                    file_name=file_name)
         self._settings = settings
         self._logger_manager = LoggerManager(
             self._settings.get('log_level'))
@@ -50,16 +56,6 @@ class TLManager(object):
             host=conn.get('host'),
             port=conn.get('port'),
             is_https=conn.get('is_https'))
-
-    def get_settings(self, json_path=None):
-        """
-        Get default settings path or search on param path
-         to load as a dict and return it
-        """
-        json_path_selected = PATH_CONFIG
-        if json_path is not None:
-            json_path_selected = json_path
-        return read_file(file_path=json_path_selected, is_json=True)
 
     def api_login(self, dev_key=None):
         """Call to method named 'checkDevKey' for testlink XMLRPC"""
@@ -108,7 +104,18 @@ class TLManager(object):
             dev_key, tproject_id)
         res = self._conn.post(self._xml_manager.headers, req_data)
         self._xml_manager.parse_errors(res.text)
-        # TODO: make works
         res_as_models = self._xml_manager.res_tproject_tplans(
+            res.status_code, res.text, as_models=True)
+        return res_as_models
+
+    def api_tproject_tsuites_first_level(self, tproject_id, dev_key=None):
+        """Call to method named 'tl.getFirstLevelTestSuitesForTestProject'"""
+        if dev_key is None:
+            dev_key = self._settings.get('dev_key')
+        req_data = self._xml_manager.req_tproject_tsuites_first_level(
+            dev_key, tproject_id)
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        self._xml_manager.parse_errors(res.text)
+        res_as_models = self._xml_manager.res_tproject_tsuites_first_level(
             res.status_code, res.text, as_models=True)
         return res_as_models

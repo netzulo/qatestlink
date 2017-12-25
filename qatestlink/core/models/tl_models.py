@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=invalid-name
+# pylint: disable=too-few-public-methods
+# pylint: disable=too-many-instance-attributes
 """TODO: doc module"""
 
 
@@ -43,7 +46,7 @@ class TProject(ModelBase):
                 'Bad param, res_member can\'t be empty list')
         self._res_members = res_members
         self._load()
-    
+
     def _load(self):
         for res_member in self._res_members:
             name = res_member.name
@@ -116,7 +119,7 @@ class TPlan(ModelBase):
                 'Bad param, res_member can\'t be empty list')
         self._res_members = res_members
         self._load()
-    
+
     def _load(self):
         for res_member in self._res_members:
             name = res_member.name
@@ -135,9 +138,60 @@ class TPlan(ModelBase):
                 self.notes = value
 
     def __repr__(self):
-        return "TProject: id={}, name={}, is_public={}".format(
+        return "TPlan: id={}, name={}, is_public={}".format(
             self.id,
             self.name,
             self.is_public
         )
 
+
+
+
+class TSuite(ModelBase):
+    """TODO: doc class"""
+
+    _res_members = None
+
+    # Testlink object properties
+    id = None
+    name = None
+    parent_id = None
+    node_type_id = None
+    node_order = None
+    node_table = None
+
+
+    def __init__(self, res_members):
+        """TODO: doc method"""
+        super(TSuite, self).__init__()
+        if res_members is None:
+            raise Exception('Bad param, res_member can\'t be None')
+        if len(res_members) <= 0:
+            raise Exception(
+                'Bad param, res_member can\'t be empty list')
+        self._res_members = res_members
+        self._load()
+
+    def _load(self):
+        for res_member in self._res_members:
+            name = res_member.name
+            value = res_member.value
+            if name == 'id':
+                self.id = value
+            if name == 'name':
+                self.name = value
+            if name == 'parent_id':
+                self.parent_id = value
+            if name == 'node_type_id':
+                self.node_type_id = value
+            if name == 'node_order':
+                self.node_order = value
+            if name == 'node_table':
+                self.node_table = value
+
+    def __repr__(self):
+        return "TSuite: id={}, name={}, parent_id={}".format(
+            self.id,
+            self.name,
+            self.parent_id
+        )

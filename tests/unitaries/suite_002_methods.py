@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=invalid-name
 """TODO: doc module"""
 
 
@@ -9,6 +10,7 @@ from qatestlink.core.xmls.error_handler import ResponseException
 from qatestlink.core.testlink_manager import TLManager
 from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TPlan
+from qatestlink.core.models.tl_models import TSuite
 
 
 API_DEV_KEY = 'ae2f4839476bea169f7461d74b0ed0ac'
@@ -62,6 +64,17 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tplan))
             self.assertIsInstance(tplan, TPlan)
 
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_004_method_tproject_tsuites_first_level(self):
+        """TODO: doc method"""
+        tsuites = self.testlink_manager.api_tproject_tsuites_first_level(
+            CONFIG['tproject_id'])
+        self.assertIsInstance(tsuites, list)
+        self.assertGreater(len(tsuites), 0)
+        for tsuite in tsuites:
+            self.testlink_manager.log.debug(repr(tsuite))
+            self.assertIsInstance(tsuite, TSuite)
+
 class TestMethodsRaises(TestCase):
     """TODO: doc class"""
 
@@ -82,7 +95,7 @@ class TestMethodsRaises(TestCase):
         """TODO: doc method"""
         self.assertRaises(
             Exception, self.testlink_manager.api_tproject)
-    
+
     @skipIf(SKIP, 'Test SKIPPED')
     def test_002_raises_tproject_emptyname(self):
         """TODO: doc method"""
@@ -90,7 +103,7 @@ class TestMethodsRaises(TestCase):
             ResponseException,
             self.testlink_manager.api_tproject,
             '')
-    
+
     @skipIf(SKIP, 'Test SKIPPED')
     def test_003_raises_tproject_tplans_notid(self):
         """TODO: doc method"""
@@ -103,4 +116,18 @@ class TestMethodsRaises(TestCase):
         self.assertRaises(
             ResponseException,
             self.testlink_manager.api_tproject_tplans,
+            -1)
+
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_005_raises_tproject_tsuites_first_level_notid(self):
+        """TODO: doc method"""
+        self.assertRaises(
+            Exception, self.testlink_manager.api_tproject_tsuites_first_level)
+
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_006_raises_tproject_tsuites_first_level_notfoundid(self):
+        """TODO: doc method"""
+        self.assertRaises(
+            ResponseException,
+            self.testlink_manager.api_tproject_tsuites_first_level,
             -1)
