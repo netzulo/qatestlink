@@ -115,3 +115,21 @@ TOX environments
 +---------------------+--------------------------------+
 | coverage            | Generate XML and HTML reports  |
 +---------------------+--------------------------------+
+
+
+Usage ( *XMLRPC* )
+**********************************
+
++ 1. Create JSON configuration ( runtime or read from file, *read config section* )
++ 2. Instance **testlink_manager** object ``testlink_manager = TLManager(settings=my_json_config)``
++ 3. Use some *method name with prefix* '**api_**'
+
+
++ **api_login** ( *call to method named* '*tl.checkDevKey*' ): check if dev_key it's valid
++ **api_tprojects** ( *call to method named* '*tl.getProjects*' ): get all test projects
++ **api_tproject** ( *call to method named* '*tl.getTestProjectByName*' ): get one test project filtered by name
++ **api_tproject_tplans** ( *call to method named* '*tl.getProjectTestPlans*' ): get all test plans for one test project
++ **api_tproject_tsuites_first_level** ( *call to method named* '*tl.getFirstLevelTestSuitesForTestProject*' ): get all test suites on first level for one test project
++ **api_tplan** ( *call to method named* '*tl.getTestPlanByName*' ): get one test plan filtered by project and plan names
++ **api_tplan_platforms** ( *call to method named* '*tl.getTestPlanPlatforms*' ): get one test plan filtered by project and plan names
+

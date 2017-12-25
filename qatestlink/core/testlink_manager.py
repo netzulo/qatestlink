@@ -133,7 +133,7 @@ class TLManager(object):
         return res_as_model
 
     def api_tplan_platforms(self, tplan_id, dev_key=None):
-        """Call to method named 'tl.getProjectTestPlans'"""
+        """Call to method named 'tl.getTestPlanPlatforms'"""
         if dev_key is None:
             dev_key = self._settings.get('dev_key')
         req_data = self._xml_manager.req_tplan_platforms(
