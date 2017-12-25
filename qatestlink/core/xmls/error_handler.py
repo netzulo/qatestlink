@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=too-many-locals
+# pylint: disable=useless-super-delegation
 """TODO: doc module"""
 
 
@@ -54,16 +56,12 @@ class ErrorHandler(BaseHandler):
         if len(node_struct_members) != 2:
             return
         # 1º member
-        node_name_one = self.find_node('name', parent=node_struct_members[0])
         node_value_one = self.find_node('value', parent=node_struct_members[0])
         node_value_type_one = self.find_node('int', parent=node_value_one)
         # 2º member
-        node_name_second = self.find_node('name', parent=node_struct_members[1])
         node_value_second = self.find_node('value', parent=node_struct_members[1])
         node_value_type_second = self.find_node('string', parent=node_value_second)
         # build response error
         code = int(node_value_type_one.text)
         message = str(node_value_type_second.text)
         raise ResponseException(code, self.log, message=message)
-
-

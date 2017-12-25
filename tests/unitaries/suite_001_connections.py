@@ -4,9 +4,7 @@
 
 import logging
 from unittest import TestCase
-from unittest import skip
 from qatestlink.core.testlink_manager import TLManager
-from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.exceptions.response_exception import ResponseException
 
 
