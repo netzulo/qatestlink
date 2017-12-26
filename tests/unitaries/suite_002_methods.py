@@ -13,6 +13,7 @@ from qatestlink.core.models.tl_models import TPlan
 from qatestlink.core.models.tl_models import TSuite
 from qatestlink.core.models.tl_models import TPlatform
 from qatestlink.core.models.tl_models import TBuild
+from qatestlink.core.models.tl_models import TCase
 
 
 API_DEV_KEY = 'ae2f4839476bea169f7461d74b0ed0ac'
@@ -109,9 +110,8 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(build))
             self.assertIsInstance(build, TBuild)
 
-
     @skipIf(SKIP, 'Test SKIPPED')
-    def test_007_method_tplan_tsuites(self):
+    def test_008_method_tplan_tsuites(self):
         """TODO: doc method"""
         tsuites = self.testlink_manager.api_tplan_tsuites(
             CONFIG['tplan_id'])
@@ -121,6 +121,16 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tsuite))
             self.assertIsInstance(tsuite, TSuite)
 
+    @skipIf(SKIP, 'Test SKIPPED')
+    def test_009_method_tplan_tcases(self):
+        """TODO: doc method"""
+        tcases = self.testlink_manager.api_tplan_tcases(
+            CONFIG['tplan_id'])
+        self.assertIsInstance(tcases, list)
+        self.assertGreater(len(tcases), 0)
+        for tcase in tcases:
+            self.testlink_manager.log.debug(repr(tcase))
+            self.assertIsInstance(tcase, TCase)
 
 class TestMethodsRaises(TestCase):
     """TODO: doc class"""
