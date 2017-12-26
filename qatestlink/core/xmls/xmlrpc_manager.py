@@ -12,6 +12,7 @@ from qatestlink.core.models.tl_models import TPlan
 from qatestlink.core.models.tl_models import TSuite
 from qatestlink.core.models.tl_models import TPlatform
 from qatestlink.core.models.tl_models import TBuild
+from qatestlink.core.models.tl_models import TCase
 
 
 
@@ -448,3 +449,89 @@ class XMLRPCManager(object):
             tsuite = TSuite(res_members)
             tsuites.append(tsuite)
         return tsuites
+
+    def req_tplan_tcases(self, dev_key, tplan_id):
+        """
+        Obtains all test cases assigned to test plan
+         created on remote testlink database,
+         can filter by test plan id
+
+        :return:
+            List of TCase objects containing all database
+             data loaded
+        """
+        if tplan_id is None:
+            raise Exception("Can't call XMLRPC without param, tplan_id")
+        req = self._request_handler.create(
+            RouteType.TPLAN_TCASES)
+        req = self._request_handler.create_param(
+            req, 'struct', 'devKey', dev_key)
+        req = self._request_handler.add_param(
+            req, 'testplanid', tplan_id)
+        return req
+
+    def res_tplan_tcases(self, status_code, res_str, as_models=True):
+        """
+        Parse and validate response for method
+         named 'tl.getTestCasesForTestPlan', by default response list
+         of TCase objects, can response xml string too
+        :return:
+            if as_models is True
+                list of objects instanced with
+                 Model classes
+            if as_models is False
+                string xml object ready to
+                 parse/write/find/add Elements on it
+        """
+        if status_code != 200:
+            raise Exception(
+                "status_code invalid: code={}".format(
+                    status_code))
+        res = self._response_handler.create(
+            RouteType.TPLAN_TCASES, res_str)
+        if not as_models:
+            return res
+        res_members_list = self._response_handler.get_response_struct_members(
+            xml_str=res)
+        tcases = list()
+        for res_members in res_members_list:
+            # TODO: something it's wrong using get_response_struct_members
+            tcase = TCase(res_members)
+            tcases.append(tcase)
+        return tcases
+"""
+TODO: XML EXAMPLE for FIX 
+
+<?xml version="1.0"?>
+<methodResponse>
+    <params>
+        <param>
+            <value>
+                <struct>
+                    <member>
+                        <name>15</name>
+                        <value>
+                            <struct>
+                                <member>
+                                    <name>1</name>
+                                    <value>
+                                        <struct>
+                                            <member>
+                                                <name>tcase_name</name>
+                                                <value>
+                                                    <string>test_000_config_exist</string>
+                                                </value>
+                                            </member>
+                                            <member>
+                                                <name>tcase_id</name>
+                                                <value>
+                                                    <string>15</string>
+                                                </value>
+                                            </member>
+                                            <member>
+                                                <name>tc_id</name>
+                                                <value>
+                                                    <string>15</string>
+                                                </value>
+                                            </member>
+"""

@@ -288,3 +288,43 @@ class TBuild(ModelBase):
             self.name,
             self.notes,
             self.testplan_id)
+
+
+class TCase(ModelBase):
+    """TODO: doc class"""
+
+    _res_members = None
+
+    # Testlink object properties
+    id = None
+    name = None
+    notes = None
+
+
+    def __init__(self, res_members):
+        """TODO: doc method"""
+        super(TCase, self).__init__()
+        if res_members is None:
+            raise Exception('Bad param, res_member can\'t be None')
+        if len(res_members) <= 0:
+            raise Exception(
+                'Bad param, res_member can\'t be empty list')
+        self._res_members = res_members
+        self._load()
+
+    def _load(self):
+        for res_member in self._res_members:
+            name = res_member.name
+            value = res_member.value
+            if name == 'id':
+                self.id = value
+            if name == 'name':
+                self.name = value
+            if name == 'notes':
+                self.notes = value
+
+    def __repr__(self):
+        return "TCase: id={}, name={}, notes={}".format(
+            self.id,
+            self.name,
+            self.notes)

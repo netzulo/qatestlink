@@ -66,14 +66,14 @@ class ResponseHandler(BaseHandler):
              </..close all elements>
         """
         node_param = self.find_node('param', xml_str=xml_str)
-        node_struct = self.find_node('struct', parent=node_param)
+        node_param_value = self.find_node('value', parent=node_param)
+        node_struct = self.find_node('struct', parent=node_param_value)
         nodes_member = self.find_nodes('member', parent=node_struct)
         res_members = list()
         for node_member in nodes_member:
             res_member = ResponseMember(self.log, node_member)
             res_members.append(res_member)
         return res_members
-        
 
 
 class ResponseMember(BaseHandler):
@@ -95,7 +95,7 @@ class ResponseMember(BaseHandler):
     name = None
     value = None
 
-    def __init__(self, log, node_member, is_load=True):
+    def __init__(self, log, node_member, is_load=True, is_logging=False):
         """TODO: doc method"""
         super(ResponseMember, self).__init__(log)
         if log is None:
@@ -105,15 +105,16 @@ class ResponseMember(BaseHandler):
             raise Exception('node_member param can\'t be None')
         self._node_member = node_member
         if is_load:
-            self._load()
+            self._load(is_logging=is_logging)
 
-    def _load(self):
+    def _load(self, is_logging=False):
         node_name = self.find_node(
             'name', parent=self._node_member)
         node_value = self.find_node(
             'value', parent=self._node_member)
         self.name = node_name.text
         self.value = self.parse_node_value(node_value)
-        self.log.debug(
-            'ResponseMember instance: name={}, value={}'.format(
-                self.name, self.value))
+        if is_logging:
+            self.log.debug(
+                'ResponseMember instance: name={}, value={}'.format(
+                    self.name, self.value))
