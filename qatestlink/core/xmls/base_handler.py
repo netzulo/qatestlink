@@ -117,7 +117,7 @@ class BaseHandler(object):
         """
         Parse request string and return it
         """
-        self.log.debug("Parsing xml:")
+        self.log.info("Parsing xml_str to XML ElementTree class")
         self.log.debug("    from={}".format(xml_str))
         root = ElementTree(xml_from_str(xml_str)).getroot()
         self.log.debug("    to={}".format(root))

@@ -9,8 +9,12 @@ from qatestlink.core.xmls.base_handler import BaseHandler
 from qatestlink.core.exceptions.response_exception import ResponseException
 
 
+MSG_PARSE_ERROR = "get_response_error: Error at parse XML error structure from testlink"
+MSG_PARSE_NOT_FOUND = "get_response_error: not found XML error structure"
+
 class ErrorHandler(BaseHandler):
     """TODO: doc class"""
+
 
     def __init__(self, *args, **kwargs):
         """Instance handler"""
@@ -47,13 +51,15 @@ class ErrorHandler(BaseHandler):
         node_array = self.find_node('array', parent=node_param_value)
         # not an exception
         if node_array is None:
+            self.log.info(MSG_PARSE_NOT_FOUND)
             return
         node_data = self.find_node('data', parent=node_array)
         node_data_value = self.find_node('value', parent=node_data)
         node_struct = self.find_node('struct', parent=node_data_value)
         node_struct_members = self.find_nodes('member', parent=node_struct)
         # check error found, not safe, silenced errors here
-        if len(node_struct_members) != 2:
+        if node_struct_members is not None or len(node_struct_members) != 2:
+            self.log.error(MSG_PARSE_ERROR)
             return
         # 1º member
         node_value_one = self.find_node('value', parent=node_struct_members[0])
