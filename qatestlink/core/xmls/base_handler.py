@@ -104,7 +104,7 @@ class BaseHandler(object):
         value_node_string = self.find_node(
             'string', parent=node_value)
         value_node_struct = self.find_node(
-            'string', parent=node_value)
+            'struct', parent=node_value)
         if value_node_string is not None:
             return value_node_string.text
         if value_node_struct is not None:
