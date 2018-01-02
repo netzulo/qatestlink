@@ -4,11 +4,16 @@
 
 import logging
 from unittest import TestCase
+from unittest import skipIf
+from qatestlink.core.utils.Utils import settings
 from qatestlink.core.testlink_manager import TLManager
 from qatestlink.core.exceptions.response_exception import ResponseException
 
 
-API_DEV_KEY = 'ae2f4839476bea169f7461d74b0ed0ac'
+SETTINGS = settings()
+API_DEV_KEY = SETTINGS['dev_key']
+SKIP = SETTINGS['tests']['skip']['connection']
+SKIP_MESSAGE = SETTINGS['tests']['skip_message']
 
 
 class TestConnection(TestCase):
@@ -26,17 +31,20 @@ class TestConnection(TestCase):
         self.assertIsInstance(
             self.testlink_manager.log, logging.Logger)
 
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_001_connok_bysettings(self):
         """TODO: doc method"""
         self.assertTrue(
             self.testlink_manager.api_login())
 
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_002_connok_byparam(self):
         """TODO: doc method"""
         self.assertTrue(
             self.testlink_manager.api_login(
                 dev_key=API_DEV_KEY))
 
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_003_connok_notdevkey(self):
         """TODO: doc method"""
         self.assertTrue(
@@ -59,6 +67,7 @@ class TestConnectionRaises(TestCase):
         self.assertIsInstance(
             self.testlink_manager.log, logging.Logger)
 
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_001_raises_connemptydevkey(self):
         """TODO: doc method"""
         self.assertRaises(

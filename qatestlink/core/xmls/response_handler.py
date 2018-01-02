@@ -19,7 +19,7 @@ class ResponseHandler(BaseHandler):
         root = self.xml_parse(xml_str)
         return xml_to_str(root)
 
-    def get_response_members(self, xml_str):
+    def parse_members(self, xml_str):
         """
         Allow to parse string XML object list response to
          ResponseMember object list
@@ -41,8 +41,7 @@ class ResponseHandler(BaseHandler):
         nodes_value = self.find_nodes('value', parent=node_data)
         res_members_list = list()
         for node_value in nodes_value:
-            node_struct = self.find_node('struct', parent=node_value) # all okey
-            # import pdb; pdb.set_trace()
+            node_struct = self.find_node('struct', parent=node_value)
             if node_struct is None:
                 self.log.error("node_struct haven't <member> child tag")
             else:
@@ -54,7 +53,7 @@ class ResponseHandler(BaseHandler):
                 res_members_list.append(res_members)
         return res_members_list
 
-    def get_response_struct_members(self, xml_str):
+    def parse_struct_members(self, xml_str):
         """
         Allow to parse string XML object list response to
          ResponseMember object list
@@ -74,6 +73,28 @@ class ResponseHandler(BaseHandler):
             res_member = ResponseMember(self.log, node_member)
             res_members.append(res_member)
         return res_members
+
+    def parse_struct_tree(self, xml_str):
+        node_param = self.find_node('param', xml_str=xml_str)
+        node_param_value = self.find_node('value', parent=node_param)
+        node_struct = self.find_node('struct', parent=node_param_value)
+        nodes_member = self.find_nodes('member', parent=node_struct)
+        nodes_value = self.find_nodes('value', parent=node_data)
+        res_members_list = list()
+        for node_value in nodes_value:
+            node_struct = self.find_node('struct', parent=node_value) # all okey
+            # import pdb; pdb.set_trace()
+            if node_struct is None:
+                self.log.error("node_struct haven't <member> child tag")
+            else:
+                nodes_member = self.find_nodes('member', parent=node_struct)
+                res_members = list()
+                for node_member in nodes_member:
+                    res_member = ResponseMember(self.log, node_member)
+                    res_members.append(res_member)
+                res_members_list.append(res_members)
+        return res_members_list
+
 
 
 class ResponseMember(BaseHandler):

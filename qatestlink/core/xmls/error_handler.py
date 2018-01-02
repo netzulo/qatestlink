@@ -26,7 +26,7 @@ class ErrorHandler(BaseHandler):
         root = self.xml_parse(xml_str)
         return xml_to_str(root)
 
-    def get_response_error(self, xml_str):
+    def parse_error(self, xml_str):
         """
         Allow to parse string XML object list response to
          ResponseMember object list

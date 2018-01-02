@@ -5,5 +5,18 @@
         "port": 86
     },
     "dev_key": "ae2f4839476bea169f7461d74b0ed0ac",
-    "log_level":"DEBUG"
+    "log_level":"INFO",
+    "tests":{
+        "skip":{
+            "connection": false,
+            "methods": false
+        },
+        "skip_message": "Test SKIPPED by config settings",
+        "data": {
+            "tproject_name": "qacode",
+            "tproject_id" : 11,
+            "tplan_name" : "v0.3.8",
+            "tplan_id" : 12
+        }
+    }
 }
