@@ -58,7 +58,7 @@ class ErrorHandler(BaseHandler):
         node_struct = self.find_node('struct', parent=node_data_value)
         node_struct_members = self.find_nodes('member', parent=node_struct)
         # check error found, not safe, silenced errors here
-        if node_struct_members is not None or len(node_struct_members) != 2:
+        if node_struct_members is not None and len(node_struct_members) != 2:
             self.log.error(MSG_PARSE_ERROR)
             return
         # 1º member
