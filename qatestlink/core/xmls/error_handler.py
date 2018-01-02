@@ -9,8 +9,8 @@ from qatestlink.core.xmls.base_handler import BaseHandler
 from qatestlink.core.exceptions.response_exception import ResponseException
 
 
-MSG_PARSE_ERROR = "get_response_error: Error at parse XML error structure from testlink"
-MSG_PARSE_NOT_FOUND = "get_response_error: not found XML error structure"
+MSG_PARSE_ERROR = "parse_error: Error at parse XML error structure from testlink"
+MSG_PARSE_NOT_FOUND = "parse_error: not found XML error structure"
 
 class ErrorHandler(BaseHandler):
     """TODO: doc class"""
