@@ -79,20 +79,19 @@ class ResponseHandler(BaseHandler):
         node_param_value = self.find_node('value', parent=node_param)
         node_struct = self.find_node('struct', parent=node_param_value)
         nodes_member = self.find_nodes('member', parent=node_struct)
-        nodes_value = self.find_nodes('value', parent=node_data)
         res_members_list = list()
-        for node_value in nodes_value:
-            node_struct = self.find_node('struct', parent=node_value) # all okey
-            # import pdb; pdb.set_trace()
-            if node_struct is None:
-                self.log.error("node_struct haven't <member> child tag")
-            else:
-                nodes_member = self.find_nodes('member', parent=node_struct)
-                res_members = list()
-                for node_member in nodes_member:
-                    res_member = ResponseMember(self.log, node_member)
-                    res_members.append(res_member)
-                res_members_list.append(res_members)
+        for node_member in nodes_member:
+            node_member_value = self.find_node('value', parent=node_member)
+            node_value_struct = self.find_node('struct', parent=node_member_value)
+            node_member_second = self.find_node('member', parent=node_value_struct)
+            node_member_value_second = self.find_node('value', parent=node_member_second)
+            node_value_struct_second = self.find_node('struct', parent=node_member_value_second)
+            nodes_member_second = self.find_nodes('member', parent=node_value_struct_second)
+            res_members = list()
+            for node_member_second in nodes_member_second:
+                res_member = ResponseMember(self.log, node_member_second)
+                res_members.append(res_member)
+            res_members_list.append(res_members)
         return res_members_list
 
 

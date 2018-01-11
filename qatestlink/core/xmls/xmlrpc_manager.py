@@ -491,11 +491,11 @@ class XMLRPCManager(object):
             RouteType.TPLAN_TCASES, res_str)
         if not as_models:
             return res
-        res_members_list = self._response_handler.parse_struct_members(
+        res_members_list = self._response_handler.parse_struct_tree(
             xml_str=res)
         tcases = list()
         for res_members in res_members_list:
-            # TODO: something it's wrong using parse_struct_members
+            # TODO: something it's wrong using parse_struct_tree
             tcase = TCase(res_members)
             tcases.append(tcase)
         return tcases

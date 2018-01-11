@@ -109,9 +109,12 @@ class BaseHandler(object):
             return value_node_string.text
         if value_node_struct is not None:
             # TODO: i don't know how to do this yet
+            # different response for each request...
+            # maybe ResponseMaybe class have no sense 
+            # maybe must return dict always ?
             raise NotImplementedError(
                 'Response node_member struct not handled yet')
-
+            
 
     def xml_parse(self, xml_str):
         """
