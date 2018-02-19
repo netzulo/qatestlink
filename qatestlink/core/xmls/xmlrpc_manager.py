@@ -42,7 +42,7 @@ class XMLRPCManager(object):
     def parse_errors(self, xml_str):
         """Raise an exception if response have error structure"""
         #TODO: make enum and custom exception for each exception number
-        self._error_handler.get_response_error(xml_str)
+        self._error_handler.parse_error(xml_str)
 
     def req_check_dev_key(self, dev_key):
         """
@@ -103,7 +103,7 @@ class XMLRPCManager(object):
             RouteType.TPROJECTS, res_str)
         if not as_models:
             return res
-        res_members_list = self._response_handler.get_response_members(
+        res_members_list = self._response_handler.parse_members(
             xml_str=res)
         tprojects = list()
         for res_members in res_members_list:
@@ -151,7 +151,7 @@ class XMLRPCManager(object):
             RouteType.TPROJECT_BY_NAME, res_str)
         if not as_model:
             return res
-        res_members_list = self._response_handler.get_response_struct_members(
+        res_members_list = self._response_handler.parse_struct_members(
             xml_str=res)
         return TProject(res_members_list)
 
@@ -198,7 +198,7 @@ class XMLRPCManager(object):
             RouteType.TPROJECT_TEST_PLANS, res_str)
         if not as_models:
             return res
-        res_members_list = self._response_handler.get_response_members(
+        res_members_list = self._response_handler.parse_members(
             xml_str=res)
         tplans = list()
         for res_members in res_members_list:
@@ -248,7 +248,7 @@ class XMLRPCManager(object):
             RouteType.TPROJECT_TSUITES_FIRST_LEVEL, res_str)
         if not as_models:
             return res
-        res_members_list = self._response_handler.get_response_members(
+        res_members_list = self._response_handler.parse_members(
             xml_str=res)
         tsuites = list()
         for res_members in res_members_list:
@@ -299,7 +299,7 @@ class XMLRPCManager(object):
             RouteType.TPLAN_BY_NAME, res_str)
         if not as_model:
             return res
-        res_members_list = self._response_handler.get_response_struct_members(
+        res_members_list = self._response_handler.parse_struct_members(
             xml_str=res)
         return TPlan(res_members_list)
 
@@ -344,7 +344,7 @@ class XMLRPCManager(object):
             RouteType.TPLAN_PLATFORMS, res_str)
         if not as_models:
             return res
-        res_members_list = self._response_handler.get_response_members(
+        res_members_list = self._response_handler.parse_members(
             xml_str=res)
         tplatforms = list()
         for res_members in res_members_list:
@@ -393,7 +393,7 @@ class XMLRPCManager(object):
             RouteType.TPLAN_BUILDS, res_str)
         if not as_models:
             return res
-        res_members_list = self._response_handler.get_response_members(
+        res_members_list = self._response_handler.parse_members(
             xml_str=res)
         tbuilds = list()
         for res_members in res_members_list:
@@ -442,7 +442,7 @@ class XMLRPCManager(object):
             RouteType.TPLAN_TSUITES, res_str)
         if not as_models:
             return res
-        res_members_list = self._response_handler.get_response_members(
+        res_members_list = self._response_handler.parse_members(
             xml_str=res)
         tsuites = list()
         for res_members in res_members_list:
@@ -491,11 +491,11 @@ class XMLRPCManager(object):
             RouteType.TPLAN_TCASES, res_str)
         if not as_models:
             return res
-        res_members_list = self._response_handler.get_response_struct_members(
+        res_members_list = self._response_handler.parse_struct_tree(
             xml_str=res)
         tcases = list()
         for res_members in res_members_list:
-            # TODO: something it's wrong using get_response_struct_members
+            # TODO: something it's wrong using parse_struct_tree
             tcase = TCase(res_members)
             tcases.append(tcase)
         return tcases

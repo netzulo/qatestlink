@@ -104,20 +104,23 @@ class BaseHandler(object):
         value_node_string = self.find_node(
             'string', parent=node_value)
         value_node_struct = self.find_node(
-            'string', parent=node_value)
+            'struct', parent=node_value)
         if value_node_string is not None:
             return value_node_string.text
         if value_node_struct is not None:
             # TODO: i don't know how to do this yet
+            # different response for each request...
+            # maybe ResponseMaybe class have no sense 
+            # maybe must return dict always ?
             raise NotImplementedError(
                 'Response node_member struct not handled yet')
-
+            
 
     def xml_parse(self, xml_str):
         """
         Parse request string and return it
         """
-        self.log.debug("Parsing xml:")
+        self.log.info("Parsing xml_str to XML ElementTree class")
         self.log.debug("    from={}".format(xml_str))
         root = ElementTree(xml_from_str(xml_str)).getroot()
         self.log.debug("    to={}".format(root))
