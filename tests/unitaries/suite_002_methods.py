@@ -50,14 +50,14 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tproject))
             self.assertIsInstance(tproject, TProject)
 
-    @skipIf(SKIP, SKIP_MESSAGE)
+    @skipIf(False, SKIP_MESSAGE)
     def test_002_method_tproject(self):
         """TODO: doc method"""
         tproject = self.testlink_manager.api_tproject(DATA['tproject_name'])
         self.assertIsInstance(tproject, TProject)
         self.assertEquals(tproject.name, DATA['tproject_name'])
 
-    @skipIf(SKIP, SKIP_MESSAGE)
+    @skipIf(False, SKIP_MESSAGE)
     def test_003_method_tproject_tplans(self):
         """TODO: doc method"""
         tplans = self.testlink_manager.api_tproject_tplans(DATA['tproject_id'])
@@ -67,7 +67,7 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tplan))
             self.assertIsInstance(tplan, TPlan)
 
-    @skipIf(SKIP, SKIP_MESSAGE)
+    @skipIf(False, SKIP_MESSAGE)
     def test_004_method_tproject_tsuites_first_level(self):
         """TODO: doc method"""
         tsuites = self.testlink_manager.api_tproject_tsuites_first_level(

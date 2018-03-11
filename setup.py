@@ -24,7 +24,7 @@ def read(file_name=None, is_encoding=True, ignore_raises=False):
                                  file_name=file_name,
                                  ignore_raises=ignore_raises))
         except Exception:
-            #TODO: not silence like this,
+            # TODO: not silence like this,
             # must be on setup.cfg, README path
             return 'NOTFOUND'
     return read_file(is_encoding=is_encoding,

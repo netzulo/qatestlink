@@ -8,14 +8,14 @@
     "log_level":"DEBUG",
     "tests":{
         "skip":{
-            "connection": false,
+            "connection": true,
             "methods": true
         },
         "skip_message": "Test SKIPPED by config settings",
         "data": {
             "tproject_name": "qalab",
             "tproject_id" : 1,
-            "tplan_name" : "v0.4.1rc-a",
+            "tplan_name" : "v0.4.1",
             "tplan_id" : 2
         }
     }

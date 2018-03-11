@@ -90,7 +90,7 @@ class TProject(ModelBase):
 class TPlan(ModelBase):
     """TODO: doc class"""
 
-    _res_members = None
+    _properties = None
 
     # Testlink object properties
     id = None
@@ -100,34 +100,32 @@ class TPlan(ModelBase):
     tproject_id = None
     notes = None
 
-
-    def __init__(self, res_members):
+    def __init__(self, properties):
         """TODO: doc method"""
         super(TPlan, self).__init__()
-        if res_members is None:
+        if not properties:
             raise Exception('Bad param, res_member can\'t be None')
-        if len(res_members) <= 0:
+        if len(properties) <= 0:
             raise Exception(
                 'Bad param, res_member can\'t be empty list')
-        self._res_members = res_members
+        self._properties = properties
         self._load()
 
     def _load(self):
-        for res_member in self._res_members:
-            name = res_member.name
-            value = res_member.value
-            if name == 'id':
-                self.id = value
-            if name == 'name':
-                self.name = value
-            if name == 'is_public':
-                self.is_public = value
-            if name == 'active':
-                self.active = value
-            if name == 'testproject_id':
-                self.tproject_id = value
-            if name == 'notes':
-                self.notes = value
+        for res_property in self._properties:
+            name = self.convert_name(res_property['name'])
+            value = res_property['value']
+            properties_int = ['id', 'testproject_id']
+            properties_bool = [
+                'is_public',
+                'active',
+            ]
+            if name in properties_int:
+                setattr(self, name, int(value['string']))
+            elif name in properties_bool:
+                setattr(self, name, bool(value['string']))
+            else:
+                setattr(self, name, value['string'])
 
     def __repr__(self):
         return "TPlan: id={}, name={}, is_public={}".format(
@@ -139,7 +137,7 @@ class TPlan(ModelBase):
 class TSuite(ModelBase):
     """TODO: doc class"""
 
-    _res_members = None
+    _properties = None
 
     # Testlink object properties
     id = None
@@ -148,35 +146,40 @@ class TSuite(ModelBase):
     node_type_id = None
     node_order = None
     node_table = None
+    is_public = None
+    active = None
 
-
-    def __init__(self, res_members):
+    def __init__(self, properties):
         """TODO: doc method"""
         super(TSuite, self).__init__()
-        if res_members is None:
+        if properties is None:
             raise Exception('Bad param, res_member can\'t be None')
-        if len(res_members) <= 0:
+        if len(properties) <= 0:
             raise Exception(
                 'Bad param, res_member can\'t be empty list')
-        self._res_members = res_members
+        self._properties = properties
         self._load()
 
     def _load(self):
-        for res_member in self._res_members:
-            name = res_member.name
-            value = res_member.value
-            if name == 'id':
-                self.id = value
-            if name == 'name':
-                self.name = value
-            if name == 'parent_id':
-                self.parent_id = value
-            if name == 'node_type_id':
-                self.node_type_id = value
-            if name == 'node_order':
-                self.node_order = value
-            if name == 'node_table':
-                self.node_table = value
+        for res_property in self._properties:
+            name = self.convert_name(res_property['name'])
+            value = res_property['value']
+            properties_int = [
+                'id',
+                'parent_id',
+                'node_type_id',
+                'node_order'
+            ]
+            properties_bool = [
+                'is_public',
+                'active',
+            ]
+            if name in properties_int:
+                setattr(self, name, int(value['string']))
+            elif name in properties_bool:
+                setattr(self, name, bool(value['string']))
+            else:
+                setattr(self, name, value['string'])
 
     def __repr__(self):
         return "TSuite: id={}, name={}, parent_id={}".format(
