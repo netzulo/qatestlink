@@ -78,7 +78,7 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tsuite))
             self.assertIsInstance(tsuite, TSuite)
 
-    @skipIf(SKIP, SKIP_MESSAGE)
+    @skipIf(False, SKIP_MESSAGE)
     def test_005_method_tplan(self):
         """TODO: doc method"""
         tplan = self.testlink_manager.api_tplan(

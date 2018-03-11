@@ -162,7 +162,7 @@ class TLManager(object):
         return tplans
 
     def api_tproject_tsuites_first_level(self, tproject_id, dev_key=None):
-        """Call to method named 'tl.getFirstLevelTestSuitesForTestProject'  for
+        """Call to method named 'tl.getFirstLevelTestSuitesForTestProject' for
             testlink XMLRPC
 
         Arguments:
@@ -193,19 +193,35 @@ class TLManager(object):
             tsuites.append(tsuite)
         return tsuites
 
-# TODO: HERE!!
-
     def api_tplan(self, tproject_name, tplan_name, dev_key=None):
-        """Call to method named 'tl.getTestPlanByName'"""
-        if dev_key is None:
+        """Call to method named 'tl.getTestPlanByName' for testlink XMLRPC
+
+        Arguments:
+            tproject_name {str} -- ID of Testlink Test Project to get
+                Testlink Test Project
+            tplan_name {str} -- ID of Testlink Test Project to get
+                Testlink Test Plan
+
+        Keyword Arguments:
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+
+        Returns:
+            TPlan -- object model for Testlink Test Plan data
+        """
+        if not dev_key:
             dev_key = self._settings.get('dev_key')
         req_data = self._xml_manager.req_tplan_by_name(
             dev_key, tproject_name, tplan_name)
         res = self._conn.post(self._xml_manager.headers, req_data)
-        self._xml_manager.parse_errors(res.text)
-        res_as_model = self._xml_manager.res_tplan_by_name(
-            res.status_code, res.text, as_model=True)
-        return res_as_model
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        data_properties = res_param.get(
+            'array')['data']['value']['struct']['member']
+        return TPlan(data_properties)
+
+# TODO: HERE!!
 
     def api_tplan_platforms(self, tplan_id, dev_key=None):
         """Call to method named 'tl.getTestPlanPlatforms'"""
