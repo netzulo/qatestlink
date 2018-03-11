@@ -6,8 +6,8 @@ from qatestlink.core.xmls.base_handler import BaseHandler
 from xml.etree.ElementTree import tostring as xml_to_str
 
 
-MSG_CREATED_XMLREQUEST = "Created XML request: \n {}"
-MSG_CREATED_XMLPARAM = "Created XML param: \n {}"
+MSG_XMLREQUEST = "XML request:\n{}"
+MSG_XMLPARAM = "XML param:\n{}"
 
 
 class RequestHandler(BaseHandler):
@@ -27,7 +27,8 @@ class RequestHandler(BaseHandler):
         self.create_node(
             'methodName', parent=root, text=route_type.value)
         self.create_node('params', parent=root)
-        self.log.info(MSG_CREATED_XMLREQUEST.format(xml_to_str(root)))
+        self.log.info("XML request created")
+        self.log.debug(MSG_XMLREQUEST.format(xml_to_str(root)))
         return xml_to_str(root)
 
     def create_param(self, req_str, param_type, param_name, param_value):
@@ -55,7 +56,8 @@ class RequestHandler(BaseHandler):
                 'string', parent=n_value, text=param_value)
         else:
             raise Exception('param_type not supported, can\'t add_param')
-        self.log.info(MSG_CREATED_XMLPARAM.format(xml_to_str(root)))
+        self.log.info("XML param created")
+        self.log.debug(MSG_XMLPARAM.format(xml_to_str(root)))
         return xml_to_str(root)
 
     def add_param(self, req_str, param_name, param_value):
@@ -84,5 +86,6 @@ class RequestHandler(BaseHandler):
         self.create_node('name', parent=n_member, text=param_name)
         n_value = self.create_node('value', parent=n_member)
         self.create_node('string', parent=n_value, text=param_value)
-        self.log.info(MSG_CREATED_XMLPARAM.format(xml_to_str(root)))
+        self.log.info("XML param added")
+        self.log.debug(MSG_XMLPARAM.format(xml_to_str(root)))
         return xml_to_str(root)

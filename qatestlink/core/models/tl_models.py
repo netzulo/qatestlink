@@ -5,6 +5,9 @@
 """TODO: doc module"""
 
 
+import re
+
+
 class ModelBase(object):
     """TODO: doc class"""
 
@@ -12,11 +15,17 @@ class ModelBase(object):
         """TODO: doc method"""
         pass
 
+    def convert_name(self, name):
+        first_cap_re = re.compile('(.)([A-Z][a-z]+)')
+        all_cap_re = re.compile('([a-z0-9])([A-Z])')
+        s1 = first_cap_re.sub(r'\1_\2', name)
+        return all_cap_re.sub(r'\1_\2', s1).lower()
+
 
 class TProject(ModelBase):
     """TODO: doc class"""
 
-    _res_members = None
+    _properties = None
 
     # Testlink object properties
     id = None
@@ -34,57 +43,42 @@ class TProject(ModelBase):
     issue_tracker_enabled = None
     reqmgr_integration_enabled = None
     api_key = None
-    opt = None #noqa
+    opt = None # noqa
 
-    def __init__(self, res_members):
+    def __init__(self, properties):
         """TODO: doc method"""
         super(TProject, self).__init__()
-        if res_members is None:
+        if properties is None:
             raise Exception('Bad param, res_member can\'t be None')
-        if len(res_members) <= 0:
+        if len(properties) <= 0:
             raise Exception(
                 'Bad param, res_member can\'t be empty list')
-        self._res_members = res_members
+        self._properties = properties
         self._load()
 
     def _load(self):
-        for res_member in self._res_members:
-            name = res_member.name
-            value = res_member.value
-            if name == 'id':
-                self.id = value
-            if name == 'name':
-                self.name = value
-            if name == 'is_public':
-                self.is_public = value
-            if name == 'notes':
-                self.notes = value
-            if name == 'color':
-                self.color = value
-            if name == 'active':
-                self.active = value
-            if name == 'option_reqs':
-                self.option_reqs = value
-            if name == 'option_priority':
-                self.option_priority = value
-            if name == 'option_automation':
-                self.option_automation = value
-            if name == 'options':
-                self.options = value
-            if name == 'prefix':
-                self.prefix = value
-            if name == 'tc_counter':
-                self.tc_counter = value
-            if name == 'issue_tracker_enabled':
-                self.issue_tracker_enabled = value
-            if name == 'reqmgr_integration_enabled':
-                self.reqmgr_integration_enabled = value
-            if name == 'api_key':
-                self.api_key = value
-            # not sure if is obtaining this member struct
-            if name == 'opt':
-                self.opt = value
-
+        for res_property in self._properties:
+            name = self.convert_name(res_property['name'])
+            value = res_property['value']
+            properties_int = ['id', 'tc_counter']
+            properties_bool = [
+                'is_public',
+                'active',
+                'option_reqs',
+                'option_priority',
+                'option_automation',
+                'issue_tracker_enabled',
+                'reqmgr_integration_enabled'
+            ]
+            if name in properties_int:
+                setattr(self, name, int(value['string']))
+            elif name in properties_bool:
+                setattr(self, name, bool(value['string']))
+            elif name == 'opt':
+                # TODO: parse this
+                pass
+            else:
+                setattr(self, name, value['string'])
 
     def __repr__(self):
         return "TProject: id={}, name={}, is_public={}".format(

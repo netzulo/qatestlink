@@ -7,7 +7,7 @@ import logging
 from unittest import TestCase
 from unittest import skipIf
 from qatestlink.core.utils.Utils import settings
-from qatestlink.core.xmls.error_handler import ResponseException
+from qatestlink.core.exceptions.response_exception import ResponseException
 from qatestlink.core.testlink_manager import TLManager
 from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TPlan
@@ -39,7 +39,7 @@ class TestMethods(TestCase):
         self.assertIsInstance(
             self.testlink_manager.log, logging.Logger)
 
-    @skipIf(SKIP, SKIP_MESSAGE)
+    @skipIf(False, SKIP_MESSAGE)
     def test_001_method_tprojects(self):
         """TODO: doc method"""
         tprojects = self.testlink_manager.api_tprojects(
@@ -119,9 +119,10 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tsuite))
             self.assertIsInstance(tsuite, TSuite)
 
-    @skipIf(True, SKIP_MESSAGE) # TODO: don't skip because of yes
+    @skipIf(True, SKIP_MESSAGE)
     def test_009_method_tplan_tcases(self):
         """TODO: doc method"""
+        # TODO: don't skip because of yes
         tcases = self.testlink_manager.api_tplan_tcases(
             DATA['tplan_id'])
         self.assertIsInstance(tcases, list)
@@ -129,6 +130,7 @@ class TestMethods(TestCase):
         for tcase in tcases:
             self.testlink_manager.log.debug(repr(tcase))
             self.assertIsInstance(tcase, TCase)
+
 
 class TestMethodsRaises(TestCase):
     """TODO: doc class"""

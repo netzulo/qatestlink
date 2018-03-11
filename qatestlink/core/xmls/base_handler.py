@@ -7,13 +7,14 @@ from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import SubElement
 from xml.etree.ElementTree import fromstring as xml_from_str
 from qatestlink.core.xmls.route_type import RouteType
+from qatestlink.core.exceptions.response_exception import ResponseException
 
 
 MSG_CREATED_ELEMENT = "Created element named: '{}'"
 MSG_CREATED_SUBELEMENT = "Created subelement named: parent='{}',  tag='{}'"
 MSG_ADDED_TEXT = "Added text to element: tag='{}', text='{}'"
 MSG_FOUND_NODE = "Found node: tag='{}', text='{}'"
-MSG_ROUTE_TYPE_OK = "Valid route_type: '{}'"
+MSG_ROUTE_TYPE = "Using route_type: '{}'"
 
 
 class BaseHandler(object):
@@ -31,7 +32,7 @@ class BaseHandler(object):
         """
         if not isinstance(route_type, RouteType):
             raise Exception('Bad RouteType : {}'.format(route_type))
-        self.log.info(MSG_ROUTE_TYPE_OK.format(route_type))
+        self.log.debug(MSG_ROUTE_TYPE.format(route_type))
         return True
 
     def create_node(self, tag, parent=None, text=None):
@@ -114,14 +115,26 @@ class BaseHandler(object):
             # maybe must return dict always ?
             raise NotImplementedError(
                 'Response node_member struct not handled yet')
-            
 
     def xml_parse(self, xml_str):
+        """Parse request string and return ElementTree instance
+
+        Arguments:
+            xml_str {str} -- unicode string of xml what want to be parsed to
+                objects
+
+        Raises:
+            ResponseException -- if param xml_str is not string type
+
+        Returns:
+            ElementTree -- XML string parsed to python object
         """
-        Parse request string and return it
-        """
-        self.log.info("Parsing xml_str to XML ElementTree class")
-        self.log.debug("    from={}".format(xml_str))
+        if not isinstance(xml_str, (type(b''), str)):
+            raise ResponseException(
+                500, self.log, message="Can't parse not string value")
         root = ElementTree(xml_from_str(xml_str)).getroot()
+        self.log.info("XML string parse handled by: {}".format(
+            type(self).__name__))
+        self.log.debug("    from={}".format(xml_str))
         self.log.debug("    to={}".format(root))
         return root

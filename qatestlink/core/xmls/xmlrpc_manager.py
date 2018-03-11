@@ -2,8 +2,11 @@
 # pylint: disable=invalid-name
 """XMLRPC managers"""
 
+
+import xmltodict
+from dicttoxml import dicttoxml
+from qatestlink.core.exceptions.response_exception import ResponseException
 from qatestlink.core.xmls.route_type import RouteType
-from qatestlink.core.xmls.error_handler import ErrorHandler
 from qatestlink.core.xmls.request_handler import RequestHandler
 from qatestlink.core.xmls.response_handler import ResponseHandler
 from qatestlink.core.xmls.base_handler import BaseHandler
@@ -15,7 +18,6 @@ from qatestlink.core.models.tl_models import TBuild
 from qatestlink.core.models.tl_models import TCase
 
 
-
 class XMLRPCManager(object):
     """
     Manage all XMLRPCManager requests,
@@ -25,92 +27,101 @@ class XMLRPCManager(object):
     """
     _request_handler = None
     _response_handler = None
-    _error_handler = None
 
     log = None
     headers = None
     handler = None
+    req_dict = None
 
     def __init__(self, log):
         self.log = log
         self._request_handler = RequestHandler(self.log)
         self._response_handler = ResponseHandler(self.log)
-        self._error_handler = ErrorHandler(self.log)
         self.headers = {'Content-Type': 'application/xml'}
         self.handler = BaseHandler(self.log)
+        self.req_dict = {
+            "methodName": "",
+            "params": {}
+        }
 
-    def parse_errors(self, xml_str):
-        """Raise an exception if response have error structure"""
-        #TODO: make enum and custom exception for each exception number
-        self._error_handler.parse_error(xml_str)
+    def parse_response(self, response):
+        """Parse response from call to requests library from XML string format
+            to 'dict' ready to create/update/find/add/delete Elements on it
+
+        Arguments:
+            response {requests.post()} -- Response of call on requests library
+
+        Raises:
+            Exception -- if code of response XMLRPC request is not 200
+
+        Returns:
+            str -- xml as string text
+        """
+        if response.status_code != 200:
+            raise Exception(
+                "status_code invalid: code={}".format(
+                    response.status_code))
+        return xmltodict.parse(response.text)
+
+    def parse_errors(self, response_as_dict):
+        if not isinstance(response_as_dict, dict):
+            raise Exception("Bad param 'response_as_dict' value provided")
+        res_value = response_as_dict.get(
+            'methodResponse')['params']['param']['value']
+        err_info = res_value.get(
+            'array')['data']['value']['struct']['member']
+        raise ResponseException(
+            self.log,
+            code=err_info[0]['value']['int'],
+            message=err_info[1]['value']['string']
+        )
 
     def req_check_dev_key(self, dev_key):
         """
         :return:
             string xml object ready to use on API call
         """
-        req = self._request_handler.create(
-            RouteType.TLINK_CHECK_DEV_KEY)
-        return self._request_handler.create_param(
-            req, 'struct', 'devKey', dev_key)
-
-    def res_check_dev_key(self, status_code, res_str):
-        """
-        :return:
-            string xml object ready to
-             parse/write/find/add Elements on it
-        """
-        if status_code != 200:
-            raise Exception(
-                "status_code invalid: code={}".format(
-                    status_code))
-        return self._response_handler.create(
-            RouteType.TLINK_CHECK_DEV_KEY, res_str)
+        self.req_dict.update({
+            "methodName": RouteType.TLINK_CHECK_DEV_KEY.value
+        })
+        self.req_dict.update({
+            "params": {
+                "struct": {
+                    "name": "devKey",
+                    "value": dev_key
+                }
+            }
+        })
+        xml = dicttoxml(
+            self.req_dict, custom_root='methodCall', attr_type=False)
+        return xml
 
     def req_tprojects(self, dev_key):
-        """
-        Obtains all test projects created on remote
-         testlink database,
-         TODO: can filter with any property+value combination
+        """Obtains all test projects created on remote testlink database,
 
-        :return:
-            List of TProject objects containing all database
-             data loaded
-        """
-        req = self._request_handler.create(
-            RouteType.TPROJECTS)
-        return self._request_handler.create_param(
-            req, 'struct', 'devKey', dev_key)
+            TODO: can filter with any property+value combination
 
-    def res_tprojects(self, status_code, res_str, as_models=True):
-        """
-        Parse and validate response for method
-         named 'tl.getProjects', by default response list
-         of TProject objects, can response xml string too
-        :return:
-            if as_models is True
-                list of objects instanced with
-                 Model classes
-            if as_models is False
-                string xml object ready to
-                 parse/write/find/add Elements on it
-        """
-        if status_code != 200:
-            raise Exception(
-                "status_code invalid: code={}".format(
-                    status_code))
-        res = self._response_handler.create(
-            RouteType.TPROJECTS, res_str)
-        if not as_models:
-            return res
-        res_members_list = self._response_handler.parse_members(
-            xml_str=res)
-        tprojects = list()
-        for res_members in res_members_list:
-            tproject = TProject(res_members)
-            tprojects.append(tproject)
-        return tprojects
+        Arguments:
+            dev_key {[type]} -- [description]
 
+        Returns:
+            list(TProject) -- List of TProject objects containing all database
+                data loaded
+        """
+        self.req_dict.update({
+            "methodName": RouteType.TPROJECTS.value
+        })
+        self.req_dict.update({
+            "params": {
+                "struct": {
+                    "name": "devKey",
+                    "value": dev_key
+                }
+            }
+        })
+        xml = dicttoxml(
+            self.req_dict, custom_root='methodCall', attr_type=False)
+        return xml
 
     def req_tproject_by_name(self, dev_key, tproject_name):
         """

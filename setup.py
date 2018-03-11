@@ -59,7 +59,9 @@ setup(
     install_requires=[
         'requests',
         'enum34',
-        'pytest'
+        'pytest',
+        'xmltodict',
+        'dicttoxml',
     ],
     setup_requires=[
         'tox',

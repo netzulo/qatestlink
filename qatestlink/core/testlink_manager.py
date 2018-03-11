@@ -3,14 +3,16 @@
 """Testlink Managers"""
 
 
+import xmltodict
 from qatestlink.core.utils.Utils import settings as settings_func
 from qatestlink.core.utils.logger_manager import LoggerManager
 from qatestlink.core.connections.connection_base import ConnectionBase
 from qatestlink.core.xmls.xmlrpc_manager import XMLRPCManager
-
+from qatestlink.core.models.tl_models import TProject
 
 
 PATH_CONFIG = 'qatestlink/configs/settings.json'
+
 
 class TLManager(object):
     """
@@ -37,8 +39,8 @@ class TLManager(object):
             settings: Load settings at default path,
                 'qatestlink/configs/settings.json'
         """
-        if settings is None:
-            if file_path is None or file_name is None:
+        if not settings:
+            if not file_path or not file_name:
                 settings = settings_func()
             else:
                 settings = settings_func(
@@ -58,31 +60,51 @@ class TLManager(object):
             is_https=conn.get('is_https'))
 
     def api_login(self, dev_key=None):
-        """Call to method named 'checkDevKey' for testlink XMLRPC"""
-        if dev_key is None:
+        """Call to method named 'checkDevKey' for testlink XMLRPC
+
+        Keyword Arguments:
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+
+        Returns:
+            bool -- check if developer key it's valid for Testlink
+        """
+        if not dev_key:
             dev_key = self._settings.get('dev_key')
         req_data = self._xml_manager.req_check_dev_key(dev_key)
         res = self._conn.post(self._xml_manager.headers, req_data)
-        self._xml_manager.parse_errors(res.text)
-        res_xml = self._xml_manager.res_check_dev_key(
-            res.status_code, res.text)
-        node_boolean = self._xml_manager.handler.find_node(
-            'boolean', xml_str=res_xml)
-        if node_boolean is None:
-            return False
-        return bool(node_boolean.text)
+        res_dict = self._xml_manager.parse_response(res)
+        res_value = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        if res_value.get('boolean'):
+            return bool(res_value.get('boolean'))
+        self._xml_manager.parse_errors(res_dict)
 
     def api_tprojects(self, dev_key=None):
-        """Call to method named 'tl.getProjects'"""
-        if dev_key is None:
+        """Call to method named 'tl.getProjects' for testlink XMLRPC
+
+        Keyword Arguments:
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+
+        Returns:
+            list(TProject) -- TODO
+        """
+
+        if not dev_key:
             dev_key = self._settings.get('dev_key')
         req_data = self._xml_manager.req_tprojects(dev_key)
         res = self._conn.post(self._xml_manager.headers, req_data)
-        self._xml_manager.parse_errors(res.text)
-        res_as_models = self._xml_manager.res_tprojects(
-            res.status_code, res.text, as_models=True)
-        # TODO: filter by name and/or value
-        return res_as_models
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        data_list = res_param.get('array')['data']['value']
+        tprojects = list()
+        for data_properties in data_list:
+            properties = data_properties['struct']['member']
+            tproject = TProject(properties)
+            tprojects.append(tproject)
+        return tprojects
 
     def api_tproject(self, tproject_name, dev_key=None):
         """Call to method named 'tl.getTestProjectByName'"""
