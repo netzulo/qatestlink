@@ -8,7 +8,7 @@
     "log_level":"DEBUG",
     "tests":{
         "skip":{
-            "connection": true,
+            "connection": false,
             "methods": true
         },
         "skip_message": "Test SKIPPED by config settings",
