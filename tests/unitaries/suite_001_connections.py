@@ -71,5 +71,5 @@ class TestConnectionRaises(TestCase):
     def test_001_raises_connemptydevkey(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
-            self.testlink_manager.api_login, dev_key='')
+            Exception,
+            self.testlink_manager.api_login, dev_key=' ')

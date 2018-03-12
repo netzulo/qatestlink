@@ -11,6 +11,10 @@ from qatestlink.core.xmls.xmlrpc_manager import XMLRPCManager
 from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TPlan
 from qatestlink.core.models.tl_models import TSuite
+from qatestlink.core.models.tl_models import TPlatform
+from qatestlink.core.models.tl_models import TBuild
+from qatestlink.core.models.tl_models import TCase
+
 
 PATH_CONFIG = 'qatestlink/configs/settings.json'
 
@@ -197,10 +201,10 @@ class TLManager(object):
         """Call to method named 'tl.getTestPlanByName' for testlink XMLRPC
 
         Arguments:
-            tproject_name {str} -- ID of Testlink Test Project to get
+            tproject_name {str} -- NAME of Testlink Test Project to get
                 Testlink Test Project
-            tplan_name {str} -- ID of Testlink Test Project to get
-                Testlink Test Plan
+            tplan_name {str} -- NAME of Testlink Test Project to get Testlink
+                Test Plan
 
         Keyword Arguments:
             dev_key {str} -- string of developer key provided by Testlink
@@ -221,52 +225,122 @@ class TLManager(object):
             'array')['data']['value']['struct']['member']
         return TPlan(data_properties)
 
-# TODO: HERE!!
-
     def api_tplan_platforms(self, tplan_id, dev_key=None):
-        """Call to method named 'tl.getTestPlanPlatforms'"""
+        """Call to method named 'tl.getTestPlanPlatforms' for testlink XMLRPC
+
+        Arguments:
+            tplan_id {int} -- ID of Testlink Test Project to get Testlink
+                Test Plan
+
+        Keyword Arguments:
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+
+        Returns:
+            list(TPlatform) -- list of object model for Testlink Platform data
+        """
         if dev_key is None:
             dev_key = self._settings.get('dev_key')
-        req_data = self._xml_manager.req_tplan_platforms(
-            dev_key, tplan_id)
+        req_data = self._xml_manager.req_tplan_platforms(dev_key, tplan_id)
         res = self._conn.post(self._xml_manager.headers, req_data)
-        self._xml_manager.parse_errors(res.text)
-        res_as_models = self._xml_manager.res_tplan_platforms(
-            res.status_code, res.text, as_models=True)
-        return res_as_models
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        data_list = res_param.get('array')['data']['value']
+        tplatforms = list()
+        for data_properties in data_list:
+            properties = data_properties['struct']['member']
+            tplatform = TPlatform(properties)
+            tplatforms.append(tplatform)
+        return tplatforms
 
     def api_tplan_builds(self, tplan_id, dev_key=None):
-        """Call to method named 'tl.getBuildsForTestPlan'"""
-        if dev_key is None:
+        """Call to method named 'tl.getBuildsForTestPlan' for testlink XMLRPC
+
+        Arguments:
+            tplan_id {int} -- ID of Testlink Test Project to get Testlink
+                Test Plan
+
+        Keyword Arguments:
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+
+        Returns:
+            list(TBuild) -- list of object model for Testlink Build data
+        """
+        if not dev_key:
             dev_key = self._settings.get('dev_key')
-        req_data = self._xml_manager.req_tplan_builds(
-            dev_key, tplan_id)
+        req_data = self._xml_manager.req_tplan_builds(dev_key, tplan_id)
         res = self._conn.post(self._xml_manager.headers, req_data)
-        self._xml_manager.parse_errors(res.text)
-        res_as_models = self._xml_manager.res_tplan_builds(
-            res.status_code, res.text, as_models=True)
-        return res_as_models
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        data_list = res_param.get('array')['data']['value']
+        tbuilds = list()
+        for data_properties in data_list:
+            properties = data_properties['struct']['member']
+            tbuild = TBuild(properties)
+            tbuilds.append(tbuild)
+        return tbuilds
 
     def api_tplan_tsuites(self, tplan_id, dev_key=None):
-        """Call to method named 'tl.getTestSuitesForTestPlan'"""
-        if dev_key is None:
+        """Call to method named 'tl.getTestSuitesForTestPlan' for testlink
+            XMLRPC
+
+        Arguments:
+            tplan_id {int} -- ID of Testlink Test Project to get Testlink
+                Test Plan
+
+        Keyword Arguments:
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+
+        Returns:
+            list(TSuite) -- list of object model for Testlink Test Suite data
+        """
+        if not dev_key:
             dev_key = self._settings.get('dev_key')
-        req_data = self._xml_manager.req_tplan_tsuites(
-            dev_key, tplan_id)
+        req_data = self._xml_manager.req_tplan_tsuites(dev_key, tplan_id)
         res = self._conn.post(self._xml_manager.headers, req_data)
-        self._xml_manager.parse_errors(res.text)
-        res_as_models = self._xml_manager.res_tplan_tsuites(
-            res.status_code, res.text, as_models=True)
-        return res_as_models
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        data_list = res_param.get('array')['data']['value']
+        tsuites = list()
+        for data_properties in data_list:
+            properties = data_properties['struct']['member']
+            tsuite = TSuite(properties)
+            tsuites.append(tsuite)
+        return tsuites
 
     def api_tplan_tcases(self, tplan_id, dev_key=None):
-        """Call to method named 'tl.getTestCasesForTestPlan'"""
+        """Call to method named 'tl.getTestCasesForTestPlan' for testlink
+            XMLRPC
+
+        Arguments:
+            tplan_id {int} -- ID of Testlink Test Project to get Testlink
+                Test Plan
+
+        Keyword Arguments:
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+
+        Returns:
+            list(TCase) -- list of object model for Testlink Test Case data
+        """
         if dev_key is None:
             dev_key = self._settings.get('dev_key')
-        req_data = self._xml_manager.req_tplan_tcases(
-            dev_key, tplan_id)
+        req_data = self._xml_manager.req_tplan_tcases(dev_key, tplan_id)
         res = self._conn.post(self._xml_manager.headers, req_data)
-        self._xml_manager.parse_errors(res.text)
-        res_as_models = self._xml_manager.res_tplan_tcases(
-            res.status_code, res.text, as_models=True)
-        return res_as_models
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        data_list = res_param.get('struct')['member']
+        tcases = list()
+        for data_properties in data_list:
+            # TODO: make all assigned builds reporting to models, not just first
+            properties = data_properties.get(
+                'value')['struct']['member'][0]['value']['struct']['member']
+            tcase = TCase(properties)
+            tcases.append(tcase)
+        return tcases

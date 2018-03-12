@@ -39,7 +39,7 @@ class TestMethods(TestCase):
         self.assertIsInstance(
             self.testlink_manager.log, logging.Logger)
 
-    @skipIf(False, SKIP_MESSAGE)
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_001_method_tprojects(self):
         """TODO: doc method"""
         tprojects = self.testlink_manager.api_tprojects(
@@ -50,14 +50,14 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tproject))
             self.assertIsInstance(tproject, TProject)
 
-    @skipIf(False, SKIP_MESSAGE)
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_002_method_tproject(self):
         """TODO: doc method"""
         tproject = self.testlink_manager.api_tproject(DATA['tproject_name'])
         self.assertIsInstance(tproject, TProject)
         self.assertEquals(tproject.name, DATA['tproject_name'])
 
-    @skipIf(False, SKIP_MESSAGE)
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_003_method_tproject_tplans(self):
         """TODO: doc method"""
         tplans = self.testlink_manager.api_tproject_tplans(DATA['tproject_id'])
@@ -67,7 +67,7 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tplan))
             self.assertIsInstance(tplan, TPlan)
 
-    @skipIf(False, SKIP_MESSAGE)
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_004_method_tproject_tsuites_first_level(self):
         """TODO: doc method"""
         tsuites = self.testlink_manager.api_tproject_tsuites_first_level(
@@ -78,7 +78,7 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tsuite))
             self.assertIsInstance(tsuite, TSuite)
 
-    @skipIf(False, SKIP_MESSAGE)
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_005_method_tplan(self):
         """TODO: doc method"""
         tplan = self.testlink_manager.api_tplan(
@@ -100,8 +100,7 @@ class TestMethods(TestCase):
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_007_method_tplan_builds(self):
         """TODO: doc method"""
-        builds = self.testlink_manager.api_tplan_builds(
-            DATA['tplan_id'])
+        builds = self.testlink_manager.api_tplan_builds(DATA['tplan_id'])
         self.assertIsInstance(builds, list)
         self.assertGreater(len(builds), 0)
         for build in builds:
@@ -111,29 +110,31 @@ class TestMethods(TestCase):
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_008_method_tplan_tsuites(self):
         """TODO: doc method"""
-        tsuites = self.testlink_manager.api_tplan_tsuites(
-            DATA['tplan_id'])
+        tsuites = self.testlink_manager.api_tplan_tsuites(DATA['tplan_id'])
         self.assertIsInstance(tsuites, list)
         self.assertGreater(len(tsuites), 0)
         for tsuite in tsuites:
             self.testlink_manager.log.debug(repr(tsuite))
             self.assertIsInstance(tsuite, TSuite)
 
-    @skipIf(True, SKIP_MESSAGE)
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_009_method_tplan_tcases(self):
         """TODO: doc method"""
-        # TODO: don't skip because of yes
-        tcases = self.testlink_manager.api_tplan_tcases(
-            DATA['tplan_id'])
+        tcases = self.testlink_manager.api_tplan_tcases(DATA['tplan_id'])
         self.assertIsInstance(tcases, list)
         self.assertGreater(len(tcases), 0)
         for tcase in tcases:
             self.testlink_manager.log.debug(repr(tcase))
             self.assertIsInstance(tcase, TCase)
+            if tcase.id == DATA['tcase_id']:
+                self.assertEquals(
+                    tcase.full_external_id,
+                    DATA['tcase_full_external_id']
+                )
 
 
 class TestMethodsRaises(TestCase):
-    """TODO: doc class"""
+
 
     @classmethod
     def setUpClass(cls):
@@ -157,7 +158,7 @@ class TestMethodsRaises(TestCase):
     def test_002_raises_tproject_emptyname(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tproject,
             '')
 
@@ -171,7 +172,7 @@ class TestMethodsRaises(TestCase):
     def test_004_raises_tproject_tplans_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tproject_tplans,
             -1)
 
@@ -185,7 +186,7 @@ class TestMethodsRaises(TestCase):
     def test_006_raises_tproject_tsuites_first_level_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tproject_tsuites_first_level,
             -1)
 
@@ -199,7 +200,7 @@ class TestMethodsRaises(TestCase):
     def test_008_raises_tplan_emptytprojectname(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan,
             '',
             DATA['tplan_name'])
@@ -208,7 +209,7 @@ class TestMethodsRaises(TestCase):
     def test_009_raises_tplan_emptytplanname(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan,
             DATA['tproject_name'],
             '')
@@ -217,7 +218,7 @@ class TestMethodsRaises(TestCase):
     def test_010_raises_tplan_emptytnames(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan,
             '', '')
 
@@ -231,7 +232,7 @@ class TestMethodsRaises(TestCase):
     def test_012_raises_tplan_platforms_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan_platforms,
             -1)
 
@@ -245,7 +246,7 @@ class TestMethodsRaises(TestCase):
     def test_014_raises_tplan_builds_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan_builds,
             -1)
 
@@ -259,6 +260,6 @@ class TestMethodsRaises(TestCase):
     def test_016_raises_tplan_tsuites_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan_tsuites,
             -1)
