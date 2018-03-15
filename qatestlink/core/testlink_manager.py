@@ -343,3 +343,15 @@ class TLManager(object):
             tcase = TCase(properties)
             tcases.append(tcase)
         return tcases
+
+    def api_tsuite(self, tsuite_id, dev_key=None):
+        """TODO: doc"""
+        if dev_key is None:
+            dev_key = self._settings.get('dev_key')
+        req_data = self._xml_manager.req_tsuite_by_id(dev_key, tsuite_id)
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        properties = res_param.get('struct')['member']
+        return TSuite(properties)

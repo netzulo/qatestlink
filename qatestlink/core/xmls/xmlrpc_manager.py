@@ -405,3 +405,37 @@ class XMLRPCManager(object):
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
+
+    def req_tsuite_by_id(self, dev_key, tsuite_id):
+        """Obtains one test suite created on remote testlink database, can
+            filter by test plan id
+
+        Arguments:
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+            tsute_id {int} -- ID of Testlink Test Suite data
+
+        Raises:
+            Exception -- Bad params
+
+        Returns:
+            str -- string xml object ready to use on API call
+        """
+        if not tsuite_id:
+            raise Exception("Can't call XMLRPC without param, tsuite_id")
+        self.req_dict.update({
+            "methodName": RouteType.TSUITE_BY_ID.value
+        })
+        self.req_dict.update({
+            "params": {
+                "struct": {
+                    "member": [
+                        {"name": "devKey", "value": dev_key},
+                        {"name": "testsuiteid", "value": tsuite_id}
+                    ]
+                }
+            }
+        })
+        xml = dicttoxml(
+            self.req_dict, custom_root='methodCall', attr_type=False)
+        return xml
