@@ -3,17 +3,16 @@
 """Testlink Managers"""
 
 
-import xmltodict
-from qatestlink.core.utils.Utils import settings as settings_func
-from qatestlink.core.utils.logger_manager import LoggerManager
 from qatestlink.core.connections.connection_base import ConnectionBase
-from qatestlink.core.xmls.xmlrpc_manager import XMLRPCManager
-from qatestlink.core.models.tl_models import TProject
-from qatestlink.core.models.tl_models import TPlan
-from qatestlink.core.models.tl_models import TSuite
-from qatestlink.core.models.tl_models import TPlatform
 from qatestlink.core.models.tl_models import TBuild
 from qatestlink.core.models.tl_models import TCase
+from qatestlink.core.models.tl_models import TPlan
+from qatestlink.core.models.tl_models import TPlatform
+from qatestlink.core.models.tl_models import TProject
+from qatestlink.core.models.tl_models import TSuite
+from qatestlink.core.utils.Utils import settings as settings_func
+from qatestlink.core.utils.logger_manager import LoggerManager
+from qatestlink.core.xmls.xmlrpc_manager import XMLRPCManager
 
 
 PATH_CONFIG = 'qatestlink/configs/settings.json'
@@ -338,7 +337,8 @@ class TLManager(object):
         data_list = res_param.get('struct')['member']
         tcases = list()
         for data_properties in data_list:
-            # TODO: make all assigned builds reporting to models, not just first
+            # TODO: make all assigned builds reporting to models,
+            # not just first
             properties = data_properties.get(
                 'value')['struct']['member'][0]['value']['struct']['member']
             tcase = TCase(properties)

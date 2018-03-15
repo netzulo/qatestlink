@@ -5,9 +5,8 @@
 import logging
 from unittest import TestCase
 from unittest import skipIf
-from qatestlink.core.utils.Utils import settings
 from qatestlink.core.testlink_manager import TLManager
-from qatestlink.core.exceptions.response_exception import ResponseException
+from qatestlink.core.utils import settings
 
 
 SETTINGS = settings()

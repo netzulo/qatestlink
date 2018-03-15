@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-"""TODO: doc module"""
+"""module qatestlink.core.models"""

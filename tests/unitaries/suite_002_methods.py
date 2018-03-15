@@ -6,15 +6,14 @@
 import logging
 from unittest import TestCase
 from unittest import skipIf
-from qatestlink.core.utils.Utils import settings
-from qatestlink.core.exceptions.response_exception import ResponseException
-from qatestlink.core.testlink_manager import TLManager
-from qatestlink.core.models.tl_models import TProject
-from qatestlink.core.models.tl_models import TPlan
-from qatestlink.core.models.tl_models import TSuite
-from qatestlink.core.models.tl_models import TPlatform
 from qatestlink.core.models.tl_models import TBuild
 from qatestlink.core.models.tl_models import TCase
+from qatestlink.core.models.tl_models import TPlan
+from qatestlink.core.models.tl_models import TPlatform
+from qatestlink.core.models.tl_models import TProject
+from qatestlink.core.models.tl_models import TSuite
+from qatestlink.core.testlink_manager import TLManager
+from qatestlink.core.utils import settings
 
 
 SETTINGS = settings()
@@ -134,7 +133,11 @@ class TestMethods(TestCase):
 
 
 class TestMethodsRaises(TestCase):
+    """Test suite for tests methods
 
+    Arguments:
+        TestCase {unittest.TestCase} -- base python class for testing
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -196,7 +199,7 @@ class TestMethodsRaises(TestCase):
         self.assertRaises(
             Exception, self.testlink_manager.api_tplan)
 
-    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7')
+    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7') # noqa
     def test_008_raises_tplan_emptytprojectname(self):
         """TODO: doc method"""
         self.assertRaises(
@@ -205,7 +208,7 @@ class TestMethodsRaises(TestCase):
             '',
             DATA['tplan_name'])
 
-    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7')
+    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7') # noqa
     def test_009_raises_tplan_emptytplanname(self):
         """TODO: doc method"""
         self.assertRaises(
@@ -214,7 +217,7 @@ class TestMethodsRaises(TestCase):
             DATA['tproject_name'],
             '')
 
-    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7')
+    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7') # noqa
     def test_010_raises_tplan_emptytnames(self):
         """TODO: doc method"""
         self.assertRaises(

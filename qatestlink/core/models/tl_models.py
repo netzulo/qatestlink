@@ -32,6 +32,7 @@ class ModelBase(object):
         self._load()
 
     def _load(self):
+        """Load properties setting all as object properties"""
         for res_property in self._properties:
             name = self.convert_name(res_property['name'])
             value = res_property['value']
@@ -46,6 +47,14 @@ class ModelBase(object):
                     setattr(self, name, 'NOT_IMPLEMENTED')
 
     def convert_name(self, name):
+        """Take an string in CamelCase notation to transform to snake_case
+
+        Arguments:
+            name {str} -- text at CamelCase notation
+
+        Returns:
+            str -- text transformed to snake_case
+        """
         first_cap_re = re.compile('(.)([A-Z][a-z]+)')
         all_cap_re = re.compile('([a-z0-9])([A-Z])')
         s1 = first_cap_re.sub(r'\1_\2', name)
@@ -88,6 +97,12 @@ class TProject(ModelBase):
         )
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TProject: id={}, name={}, is_public={}'
+        """
         return "TProject: id={}, name={}, is_public={}".format(
             self.id,
             self.name,
@@ -112,6 +127,12 @@ class TPlan(ModelBase):
         )
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TPlan: id={}, name={}, is_public={}'
+        """
         return "TPlan: id={}, name={}, is_public={}".format(
             self.id,
             self.name,
@@ -143,6 +164,12 @@ class TSuite(ModelBase):
         )
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TSuite: id={}, name={}, parent_id={}'
+        """
         return "TSuite: id={}, name={}, parent_id={}".format(
             self.id,
             self.name,
@@ -164,6 +191,12 @@ class TPlatform(ModelBase):
         )
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TPlatform: id={}, name={}, notes={}'
+        """
         return "TPlatform: id={}, name={}, notes={}".format(
             self.id,
             self.name,
@@ -191,6 +224,12 @@ class TBuild(ModelBase):
         )
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TBuild: id={}, name={}, notes={}, testplan_id={}'
+        """
         return "TBuild: id={}, name={}, notes={}, testplan_id={}".format(
             self.id,
             self.name,
@@ -223,6 +262,12 @@ class TCase(ModelBase):
                 setattr(self, 'name', value['string'])
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TCase: id={}, name={}, notes={}'
+        """
         return "TCase: id={}, name={}, notes={}".format(
             self.id,
             self.name,

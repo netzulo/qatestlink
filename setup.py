@@ -4,8 +4,8 @@
 
 from os import path
 from setuptools import setup, find_packages
-from qatestlink.core.utils.Utils import read_file
-from qatestlink.core.utils.Utils import path_format
+from qatestlink.core.utils import read_file
+from qatestlink.core.utils import path_format
 
 
 VERSION = '0.0.5'

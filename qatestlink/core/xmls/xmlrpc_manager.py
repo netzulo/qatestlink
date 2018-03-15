@@ -3,10 +3,10 @@
 """XMLRPC managers"""
 
 
-import xmltodict
 from dicttoxml import dicttoxml
 from qatestlink.core.exceptions.response_exception import ResponseException
 from qatestlink.core.xmls.route_type import RouteType
+import xmltodict
 
 
 class XMLRPCManager(object):
@@ -23,6 +23,11 @@ class XMLRPCManager(object):
     req_dict = None
 
     def __init__(self, log):
+        """Instance for XMLRPC requests manager
+
+        Arguments:
+            log {logging.Logger} -- logger func ready to log messages
+        """
         self.log = log
         self.headers = {'Content-Type': 'application/xml'}
         self.req_dict = {
@@ -50,6 +55,15 @@ class XMLRPCManager(object):
         return xmltodict.parse(response.text)
 
     def parse_errors(self, response_as_dict):
+        """Find Testlink XMLRPC error structure and raise it's founds
+
+        Arguments:
+            response_as_dict {dict} -- dict parsed from XML string
+
+        Raises:
+            Exception -- Bad params
+            ResponseException -- if error structure it's found
+        """
         if not isinstance(response_as_dict, dict):
             raise Exception("Bad param 'response_as_dict' value provided")
         res_value = response_as_dict.get(
@@ -63,9 +77,13 @@ class XMLRPCManager(object):
         )
 
     def req_check_dev_key(self, dev_key):
-        """
-        :return:
-            string xml object ready to use on API call
+        """String xml object ready to use on API call
+
+        Arguments:
+            dev_key {str} -- string for Testlink API_KEY
+
+        Returns:
+            str -- XML request with parsed params
         """
         self.req_dict.update({
             "methodName": RouteType.TLINK_CHECK_DEV_KEY.value
@@ -215,7 +233,7 @@ class XMLRPCManager(object):
         return xml
 
     def req_tplan_by_name(self, dev_key, tproject_name, tplan_name):
-        """"Obtains all test projects created on remote testlink database, can
+        """Obtains all test projects created on remote testlink database, can
             filter by name
 
         Arguments:
