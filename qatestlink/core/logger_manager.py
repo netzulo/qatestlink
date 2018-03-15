@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""TODO: doc module"""
+"""module qatestlink.core.utils.logger_manager"""
 
 
 import logging
@@ -15,7 +15,8 @@ class LoggerManager(object):
 
     def __init__(self, log_level=None):
         """Start logger"""
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         logger = logging.getLogger('qatestlink')
         logger_stream = logging.StreamHandler()
         if log_level is None or log_level == 'DEBUG':

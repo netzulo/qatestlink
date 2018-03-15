@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""TODO: doc module"""
+"""module qatestlink.core.connections"""
 
 
 import requests
@@ -37,7 +37,6 @@ class ConnectionBase(object):
             self._port,
             self._xmlrpc_route)
 
-
     def post(self, headers, req_data):
         """
         :Args:
@@ -58,4 +57,3 @@ class ConnectionBase(object):
         self._log.debug("    data={}".format(
             response.text))
         return response
-

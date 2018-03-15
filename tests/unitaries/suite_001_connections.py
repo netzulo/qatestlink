@@ -5,9 +5,8 @@
 import logging
 from unittest import TestCase
 from unittest import skipIf
-from qatestlink.core.utils.Utils import settings
 from qatestlink.core.testlink_manager import TLManager
-from qatestlink.core.exceptions.response_exception import ResponseException
+from qatestlink.core.utils import settings
 
 
 SETTINGS = settings()
@@ -71,5 +70,5 @@ class TestConnectionRaises(TestCase):
     def test_001_raises_connemptydevkey(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
-            self.testlink_manager.api_login, dev_key='')
+            Exception,
+            self.testlink_manager.api_login, dev_key=' ')

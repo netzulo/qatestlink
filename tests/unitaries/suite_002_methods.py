@@ -6,15 +6,14 @@
 import logging
 from unittest import TestCase
 from unittest import skipIf
-from qatestlink.core.utils.Utils import settings
-from qatestlink.core.xmls.error_handler import ResponseException
-from qatestlink.core.testlink_manager import TLManager
-from qatestlink.core.models.tl_models import TProject
-from qatestlink.core.models.tl_models import TPlan
-from qatestlink.core.models.tl_models import TSuite
-from qatestlink.core.models.tl_models import TPlatform
 from qatestlink.core.models.tl_models import TBuild
 from qatestlink.core.models.tl_models import TCase
+from qatestlink.core.models.tl_models import TPlan
+from qatestlink.core.models.tl_models import TPlatform
+from qatestlink.core.models.tl_models import TProject
+from qatestlink.core.models.tl_models import TSuite
+from qatestlink.core.testlink_manager import TLManager
+from qatestlink.core.utils import settings
 
 
 SETTINGS = settings()
@@ -100,8 +99,7 @@ class TestMethods(TestCase):
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_007_method_tplan_builds(self):
         """TODO: doc method"""
-        builds = self.testlink_manager.api_tplan_builds(
-            DATA['tplan_id'])
+        builds = self.testlink_manager.api_tplan_builds(DATA['tplan_id'])
         self.assertIsInstance(builds, list)
         self.assertGreater(len(builds), 0)
         for build in builds:
@@ -111,27 +109,35 @@ class TestMethods(TestCase):
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_008_method_tplan_tsuites(self):
         """TODO: doc method"""
-        tsuites = self.testlink_manager.api_tplan_tsuites(
-            DATA['tplan_id'])
+        tsuites = self.testlink_manager.api_tplan_tsuites(DATA['tplan_id'])
         self.assertIsInstance(tsuites, list)
         self.assertGreater(len(tsuites), 0)
         for tsuite in tsuites:
             self.testlink_manager.log.debug(repr(tsuite))
             self.assertIsInstance(tsuite, TSuite)
 
-    @skipIf(True, SKIP_MESSAGE) # TODO: don't skip because of yes
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_009_method_tplan_tcases(self):
         """TODO: doc method"""
-        tcases = self.testlink_manager.api_tplan_tcases(
-            DATA['tplan_id'])
+        tcases = self.testlink_manager.api_tplan_tcases(DATA['tplan_id'])
         self.assertIsInstance(tcases, list)
         self.assertGreater(len(tcases), 0)
         for tcase in tcases:
             self.testlink_manager.log.debug(repr(tcase))
             self.assertIsInstance(tcase, TCase)
+            if tcase.id == DATA['tcase_id']:
+                self.assertEquals(
+                    tcase.full_external_id,
+                    DATA['tcase_full_external_id']
+                )
+
 
 class TestMethodsRaises(TestCase):
-    """TODO: doc class"""
+    """Test suite for tests methods
+
+    Arguments:
+        TestCase {unittest.TestCase} -- base python class for testing
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -155,7 +161,7 @@ class TestMethodsRaises(TestCase):
     def test_002_raises_tproject_emptyname(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tproject,
             '')
 
@@ -169,7 +175,7 @@ class TestMethodsRaises(TestCase):
     def test_004_raises_tproject_tplans_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tproject_tplans,
             -1)
 
@@ -183,7 +189,7 @@ class TestMethodsRaises(TestCase):
     def test_006_raises_tproject_tsuites_first_level_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tproject_tsuites_first_level,
             -1)
 
@@ -193,29 +199,29 @@ class TestMethodsRaises(TestCase):
         self.assertRaises(
             Exception, self.testlink_manager.api_tplan)
 
-    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7')
+    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7') # noqa
     def test_008_raises_tplan_emptytprojectname(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan,
             '',
             DATA['tplan_name'])
 
-    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7')
+    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7') # noqa
     def test_009_raises_tplan_emptytplanname(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan,
             DATA['tproject_name'],
             '')
 
-    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7')
+    @skipIf(True, 'Test SKIPPED, waiting for issue https://github.com/viglesiasce/testlink/issues/7') # noqa
     def test_010_raises_tplan_emptytnames(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan,
             '', '')
 
@@ -229,7 +235,7 @@ class TestMethodsRaises(TestCase):
     def test_012_raises_tplan_platforms_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan_platforms,
             -1)
 
@@ -243,7 +249,7 @@ class TestMethodsRaises(TestCase):
     def test_014_raises_tplan_builds_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan_builds,
             -1)
 
@@ -257,6 +263,6 @@ class TestMethodsRaises(TestCase):
     def test_016_raises_tplan_tsuites_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            ResponseException,
+            Exception,
             self.testlink_manager.api_tplan_tsuites,
             -1)

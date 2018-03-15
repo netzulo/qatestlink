@@ -88,8 +88,22 @@ Configuration File
         "host": "qalab.tk",
         "port": 86
       },
-      "dev_key": "ae2f4839476bea169f7461d74b0ed0ac",
-      "log_level":"DEBUG"
+      "dev_key": "1bfd2ef4ceda22b482b12f2b25457495",
+      "log_level":"DEBUG",
+      "tests":{
+        "skip":{
+            "connection": false,
+            "methods": false
+        },
+        "skip_message": "Test SKIPPED by config settings",
+        "data": {
+            "tproject_name": "qalab",
+            "tproject_id" : 1,
+            "tplan_name" : "v0.4.1",
+            "tplan_id" : 2,
+            "tcase_id" : 8,
+            "tcase_full_external_id": "qalab-1"
+        }
     }
 
 

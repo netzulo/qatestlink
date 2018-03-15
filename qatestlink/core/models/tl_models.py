@@ -5,22 +5,66 @@
 """TODO: doc module"""
 
 
+import re
+
+
 class ModelBase(object):
     """TODO: doc class"""
 
-    def __init__(self):
+    # Testlink common object properties
+    id = None
+    name = None
+
+    def __init__(self, properties, properties_int=None, properties_bool=None):
         """TODO: doc method"""
-        pass
+        if properties is None:
+            raise Exception('Bad param, res_member can\'t be None')
+        if len(properties) <= 0:
+            raise Exception(
+                'Bad param, res_member can\'t be empty list')
+        self._properties = properties
+        if not properties_int:
+            properties_int = []
+        self._properties_int = properties_int
+        if not properties_bool:
+            properties_bool = []
+        self._properties_bool = properties_bool
+        self._load()
+
+    def _load(self):
+        """Load properties setting all as object properties"""
+        for res_property in self._properties:
+            name = self.convert_name(res_property['name'])
+            value = res_property['value']
+            if name in self._properties_int:
+                setattr(self, name, int(value['string']))
+            elif name in self._properties_bool:
+                setattr(self, name, bool(value['string']))
+            else:
+                if value.get('string', None):
+                    setattr(self, name, value['string'])
+                if value.get('struct', None):
+                    setattr(self, name, 'NOT_IMPLEMENTED')
+
+    def convert_name(self, name):
+        """Take an string in CamelCase notation to transform to snake_case
+
+        Arguments:
+            name {str} -- text at CamelCase notation
+
+        Returns:
+            str -- text transformed to snake_case
+        """
+        first_cap_re = re.compile('(.)([A-Z][a-z]+)')
+        all_cap_re = re.compile('([a-z0-9])([A-Z])')
+        s1 = first_cap_re.sub(r'\1_\2', name)
+        return all_cap_re.sub(r'\1_\2', s1).lower()
 
 
 class TProject(ModelBase):
     """TODO: doc class"""
 
-    _res_members = None
-
     # Testlink object properties
-    id = None
-    name = None
     is_public = None
     notes = None
     color = None
@@ -34,59 +78,31 @@ class TProject(ModelBase):
     issue_tracker_enabled = None
     reqmgr_integration_enabled = None
     api_key = None
-    opt = None #noqa
+    opt = None # noqa
 
-    def __init__(self, res_members):
+    def __init__(self, properties, properties_int=None, properties_bool=None):
         """TODO: doc method"""
-        super(TProject, self).__init__()
-        if res_members is None:
-            raise Exception('Bad param, res_member can\'t be None')
-        if len(res_members) <= 0:
-            raise Exception(
-                'Bad param, res_member can\'t be empty list')
-        self._res_members = res_members
-        self._load()
-
-    def _load(self):
-        for res_member in self._res_members:
-            name = res_member.name
-            value = res_member.value
-            if name == 'id':
-                self.id = value
-            if name == 'name':
-                self.name = value
-            if name == 'is_public':
-                self.is_public = value
-            if name == 'notes':
-                self.notes = value
-            if name == 'color':
-                self.color = value
-            if name == 'active':
-                self.active = value
-            if name == 'option_reqs':
-                self.option_reqs = value
-            if name == 'option_priority':
-                self.option_priority = value
-            if name == 'option_automation':
-                self.option_automation = value
-            if name == 'options':
-                self.options = value
-            if name == 'prefix':
-                self.prefix = value
-            if name == 'tc_counter':
-                self.tc_counter = value
-            if name == 'issue_tracker_enabled':
-                self.issue_tracker_enabled = value
-            if name == 'reqmgr_integration_enabled':
-                self.reqmgr_integration_enabled = value
-            if name == 'api_key':
-                self.api_key = value
-            # not sure if is obtaining this member struct
-            if name == 'opt':
-                self.opt = value
-
+        super(TProject, self).__init__(
+            properties,
+            properties_int=['id', 'tc_counter'],
+            properties_bool=[
+                'is_public',
+                'active',
+                'option_reqs',
+                'option_priority',
+                'option_automation',
+                'issue_tracker_enabled',
+                'reqmgr_integration_enabled'
+            ]
+        )
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TProject: id={}, name={}, is_public={}'
+        """
         return "TProject: id={}, name={}, is_public={}".format(
             self.id,
             self.name,
@@ -96,46 +112,27 @@ class TProject(ModelBase):
 class TPlan(ModelBase):
     """TODO: doc class"""
 
-    _res_members = None
-
     # Testlink object properties
-    id = None
-    name = None
     is_public = None
     active = None
     tproject_id = None
     notes = None
 
-
-    def __init__(self, res_members):
+    def __init__(self, properties):
         """TODO: doc method"""
-        super(TPlan, self).__init__()
-        if res_members is None:
-            raise Exception('Bad param, res_member can\'t be None')
-        if len(res_members) <= 0:
-            raise Exception(
-                'Bad param, res_member can\'t be empty list')
-        self._res_members = res_members
-        self._load()
-
-    def _load(self):
-        for res_member in self._res_members:
-            name = res_member.name
-            value = res_member.value
-            if name == 'id':
-                self.id = value
-            if name == 'name':
-                self.name = value
-            if name == 'is_public':
-                self.is_public = value
-            if name == 'active':
-                self.active = value
-            if name == 'testproject_id':
-                self.tproject_id = value
-            if name == 'notes':
-                self.notes = value
+        super(TPlan, self).__init__(
+            properties,
+            properties_int=['id', 'testproject_id'],
+            properties_bool=['is_public', 'active']
+        )
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TPlan: id={}, name={}, is_public={}'
+        """
         return "TPlan: id={}, name={}, is_public={}".format(
             self.id,
             self.name,
@@ -145,46 +142,34 @@ class TPlan(ModelBase):
 class TSuite(ModelBase):
     """TODO: doc class"""
 
-    _res_members = None
-
     # Testlink object properties
-    id = None
-    name = None
     parent_id = None
     node_type_id = None
     node_order = None
     node_table = None
+    is_public = None
+    active = None
 
-
-    def __init__(self, res_members):
+    def __init__(self, properties):
         """TODO: doc method"""
-        super(TSuite, self).__init__()
-        if res_members is None:
-            raise Exception('Bad param, res_member can\'t be None')
-        if len(res_members) <= 0:
-            raise Exception(
-                'Bad param, res_member can\'t be empty list')
-        self._res_members = res_members
-        self._load()
-
-    def _load(self):
-        for res_member in self._res_members:
-            name = res_member.name
-            value = res_member.value
-            if name == 'id':
-                self.id = value
-            if name == 'name':
-                self.name = value
-            if name == 'parent_id':
-                self.parent_id = value
-            if name == 'node_type_id':
-                self.node_type_id = value
-            if name == 'node_order':
-                self.node_order = value
-            if name == 'node_table':
-                self.node_table = value
+        super(TSuite, self).__init__(
+            properties,
+            properties_int=[
+                'id',
+                'parent_id',
+                'node_type_id',
+                'node_order'
+            ],
+            properties_bool=['is_public', 'active']
+        )
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TSuite: id={}, name={}, parent_id={}'
+        """
         return "TSuite: id={}, name={}, parent_id={}".format(
             self.id,
             self.name,
@@ -194,37 +179,24 @@ class TSuite(ModelBase):
 class TPlatform(ModelBase):
     """TODO: doc class"""
 
-    _res_members = None
-
     # Testlink object properties
-    id = None
-    name = None
     notes = None
 
-
-    def __init__(self, res_members):
+    def __init__(self, properties):
         """TODO: doc method"""
-        super(TPlatform, self).__init__()
-        if res_members is None:
-            raise Exception('Bad param, res_member can\'t be None')
-        if len(res_members) <= 0:
-            raise Exception(
-                'Bad param, res_member can\'t be empty list')
-        self._res_members = res_members
-        self._load()
-
-    def _load(self):
-        for res_member in self._res_members:
-            name = res_member.name
-            value = res_member.value
-            if name == 'id':
-                self.id = value
-            if name == 'name':
-                self.name = value
-            if name == 'notes':
-                self.notes = value
+        super(TPlatform, self).__init__(
+            properties,
+            properties_int=['id'],
+            properties_bool=[]
+        )
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TPlatform: id={}, name={}, notes={}'
+        """
         return "TPlatform: id={}, name={}, notes={}".format(
             self.id,
             self.name,
@@ -234,11 +206,7 @@ class TPlatform(ModelBase):
 class TBuild(ModelBase):
     """TODO: doc class"""
 
-    _res_members = None
-
     # Testlink object properties
-    id = None
-    name = None
     notes = None
     testplan_id = None
     active = None
@@ -247,42 +215,21 @@ class TBuild(ModelBase):
     closed_on_date = None
     creation_ts = None
 
-
-    def __init__(self, res_members):
+    def __init__(self, properties):
         """TODO: doc method"""
-        super(TBuild, self).__init__()
-        if res_members is None:
-            raise Exception('Bad param, res_member can\'t be None')
-        if len(res_members) <= 0:
-            raise Exception(
-                'Bad param, res_member can\'t be empty list')
-        self._res_members = res_members
-        self._load()
-
-    def _load(self):
-        for res_member in self._res_members:
-            name = res_member.name
-            value = res_member.value
-            if name == 'id':
-                self.id = value
-            if name == 'name':
-                self.name = value
-            if name == 'notes':
-                self.notes = value
-            if name == 'testplan_id':
-                self.testplan_id = value
-            if name == 'active':
-                self.active = value
-            if name == 'is_open':
-                self.is_open = value
-            if name == 'release_date':
-                self.release_date = value
-            if name == 'closed_on_date':
-                self.closed_on_date = value
-            if name == 'creation_ts':
-                self.creation_ts = value
+        super(TBuild, self).__init__(
+            properties,
+            properties_int=['id', 'testplan_id'],
+            properties_bool=['active', 'is_open']
+        )
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TBuild: id={}, name={}, notes={}, testplan_id={}'
+        """
         return "TBuild: id={}, name={}, notes={}, testplan_id={}".format(
             self.id,
             self.name,
@@ -293,37 +240,34 @@ class TBuild(ModelBase):
 class TCase(ModelBase):
     """TODO: doc class"""
 
-    _res_members = None
-
     # Testlink object properties
-    id = None
-    name = None
     notes = None
 
-
-    def __init__(self, res_members):
+    def __init__(self, properties):
         """TODO: doc method"""
-        super(TCase, self).__init__()
-        if res_members is None:
-            raise Exception('Bad param, res_member can\'t be None')
-        if len(res_members) <= 0:
-            raise Exception(
-                'Bad param, res_member can\'t be empty list')
-        self._res_members = res_members
-        self._load()
+        super(TCase, self).__init__(
+            properties,
+            properties_int=['id', 'tcase_id'],
+            properties_bool=None
+        )
 
     def _load(self):
-        for res_member in self._res_members:
-            name = res_member.name
-            value = res_member.value
-            if name == 'id':
-                self.id = value
-            if name == 'name':
-                self.name = value
-            if name == 'notes':
-                self.notes = value
+        super(TCase, self)._load()
+        for res_property in self._properties:
+            name = self.convert_name(res_property['name'])
+            value = res_property['value']
+            if name == 'tcase_id':
+                setattr(self, 'id', int(value['string']))
+            if name == 'tcase_name':
+                setattr(self, 'name', value['string'])
 
     def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'TCase: id={}, name={}, notes={}'
+        """
         return "TCase: id={}, name={}, notes={}".format(
             self.id,
             self.name,

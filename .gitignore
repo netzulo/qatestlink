@@ -112,3 +112,6 @@ tests/reports/report_coverage_html/*
 
 # Old files
 old*/
+
+# Visual Code
+.vscode/
