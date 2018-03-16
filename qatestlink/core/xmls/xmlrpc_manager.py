@@ -439,3 +439,52 @@ class XMLRPCManager(object):
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
+
+    def req_tcase_by_id_or_external(self, dev_key,
+                                    tcase_id=None, external_id=None):
+        """Obtains one test case created on remote testlink database, can
+            filter by test case id (int) or external id (str)
+
+        Arguments:
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+            tcase_id {int} -- ID of Testlink Test Case data (default: None)
+            external_id {str} -- tc_full_external_id of Testlink Test Case
+                data (default: None)
+
+        Raises:
+            Exception -- Bad params
+
+        Returns:
+            str -- string xml object ready to use on API call
+        """
+        if tcase_id and external_id:
+            raise Exception(
+                ("Can't call XMLRPC without both params,"
+                 "choose one of : [tcase_id, external_id]"))
+        if not tcase_id and not external_id:
+            raise Exception(
+                ("Can't call XMLRPC without any params,"
+                 "choose one of : [tcase_id, external_id]"))
+        self.req_dict.update({
+            "methodName": RouteType.TCASE_BY_IDS.value
+        })
+        data = {
+            "params": {
+                "struct": {
+                    "member": [
+                        {"name": "devKey", "value": dev_key}
+                    ]
+                }
+            }
+        }
+        if isinstance(tcase_id, int):
+            data['params']['struct']['member'].append(
+                {"name": "testcaseid", "value": int(tcase_id)})
+        if isinstance(external_id, str):
+            data['params']['struct']['member'].append(
+                {"name": "testcaseexternalid", "value": str(external_id)})
+        self.req_dict.update(data)
+        xml = dicttoxml(
+            self.req_dict, custom_root='methodCall', attr_type=False)
+        return xml
