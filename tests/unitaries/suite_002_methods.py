@@ -131,6 +131,14 @@ class TestMethods(TestCase):
                     DATA['tcase_full_external_id']
                 )
 
+    @skipIf(False, SKIP_MESSAGE)
+    def test_010_method_tsuite(self):
+        """TODO: doc method"""
+        tsuite = self.testlink_manager.api_tsuite(
+            DATA['tsuite_id'])
+        self.assertIsInstance(tsuite, TSuite)
+        self.assertEquals(tsuite.name, DATA['tsuite_name'])
+
 
 class TestMethodsRaises(TestCase):
     """Test suite for tests methods

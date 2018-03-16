@@ -102,7 +102,9 @@ Configuration File
             "tplan_name" : "v0.4.1",
             "tplan_id" : 2,
             "tcase_id" : 8,
-            "tcase_full_external_id": "qalab-1"
+            "tcase_full_external_id": "qalab-1",
+            "tsuite_id": 12,
+            "tsuite_name": "tox environments"
         }
     }
 
@@ -192,3 +194,9 @@ Usage ( *XMLRPC* )
 
 * **XMLRPC**: *call to method named* '*tl.getTestSuitesForTestPlan*'
 * **Description** : get all test suites assigned to test plan filtered by id
+
+**api_tsuite**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getTestSuiteByID*'
+* **Description** : get test suite filtered by id
