@@ -256,10 +256,12 @@ class TCase(ModelBase):
         for res_property in self._properties:
             name = self.convert_name(res_property['name'])
             value = res_property['value']
-            if name == 'tcase_id':
+            if name == 'testcase_id':
                 setattr(self, 'id', int(value['string']))
-            if name == 'tcase_name':
+            if name == 'testcase_name':
                 setattr(self, 'name', value['string'])
+            if name == 'full_tc_external_id':
+                setattr(self, 'external_id', value['string'])
 
     def __repr__(self):
         """Show basic properties for this object
