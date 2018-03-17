@@ -5,7 +5,7 @@
         "port": 86
     },
     "dev_key": "1bfd2ef4ceda22b482b12f2b25457495",
-    "log_level":"DEBUG",
+    "log_level":"INFO",
     "tests":{
         "skip":{
             "connection": false,

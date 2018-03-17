@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=invalid-name
-# pylint: disable=too-few-public-methods
-# pylint: disable=too-many-instance-attributes
-"""TODO: doc module"""
+"""module qatestlink.core.models.tl_models"""
 
 
 import re
@@ -15,7 +12,8 @@ class ModelBase(object):
     id = None
     name = None
 
-    def __init__(self, properties, properties_int=None, properties_bool=None):
+    def __init__(self, properties, properties_int=None, properties_bool=None,
+                 load=True):
         """TODO: doc method"""
         if properties is None:
             raise Exception('Bad param, res_member can\'t be None')
@@ -29,7 +27,8 @@ class ModelBase(object):
         if not properties_bool:
             properties_bool = []
         self._properties_bool = properties_bool
-        self._load()
+        if load:
+            self._load()
 
     def _load(self):
         """Load properties setting all as object properties"""

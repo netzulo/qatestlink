@@ -207,6 +207,12 @@ Usage ( *XMLRPC* )
 * **XMLRPC**: *call to method named* '*tl.getLatestBuildForTestPlan*'
 * **Description** : get latest build by choosing the maximum build id for a specific test plan id
 
+**api_tplan_totals**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getTotalsForTestPlan*'
+* **Description** : get totals for testplan filtered by id
+
 **api_tsuite**
 +++++++++++++++++++++++
 

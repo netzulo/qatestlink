@@ -10,6 +10,7 @@ from qatestlink.core.models.tl_models import TPlan
 from qatestlink.core.models.tl_models import TPlatform
 from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TSuite
+from qatestlink.core.models.tl_reports import RTPlanTotals
 from qatestlink.core.utils import settings as settings_func
 from qatestlink.core.xmls.xmlrpc_manager import XMLRPCManager
 
@@ -355,6 +356,18 @@ class TLManager(object):
             'methodResponse')['params']['param']['value']
         properties = res_param.get('struct')['member']
         return TBuild(properties)
+
+    def api_tplan_totals(self, tplan_id, dev_key=None):
+        """TODO: doc"""
+        if dev_key is None:
+            dev_key = self._settings.get('dev_key')
+        req_data = self._xml_manager.req_tplan_totals(dev_key, tplan_id)
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        properties = res_param.get('struct')['member']
+        return RTPlanTotals(properties)
 
     def api_tsuite(self, tsuite_id, dev_key=None):
         """TODO: doc"""
