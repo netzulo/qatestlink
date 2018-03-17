@@ -20,7 +20,11 @@
             "tcase_id" : 8,
             "tcase_full_external_id": "qalab-1",
             "tsuite_id": 12,
-            "tsuite_name": "tox environments"
+            "tsuite_name": "tox environments",
+            "build_id_one": 1,
+            "build_name_one": "issue1",
+            "build_id_two": 2,
+            "build_name_two": "issue2"
         }
     }
 }
