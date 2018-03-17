@@ -488,3 +488,37 @@ class XMLRPCManager(object):
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
+
+    def req_tplan_build_latest(self, dev_key, tplan_id):
+        """Obtains latest build by choosing the maximum build id for a specific
+            test plan remote testlink database, can filter by test plan id
+
+        Arguments:
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+            tplan_id {int} -- ID of Testlink Test Plan data
+
+        Raises:
+            Exception -- Bad params
+
+        Returns:
+            str -- string xml object ready to use on API call
+        """
+        if not tplan_id:
+            raise Exception("Can't call XMLRPC without param, tsuite_id")
+        self.req_dict.update({
+            "methodName": RouteType.TPLAN_BUILD_LATEST.value
+        })
+        self.req_dict.update({
+            "params": {
+                "struct": {
+                    "member": [
+                        {"name": "devKey", "value": dev_key},
+                        {"name": "testplanid", "value": tplan_id}
+                    ]
+                }
+            }
+        })
+        xml = dicttoxml(
+            self.req_dict, custom_root='methodCall', attr_type=False)
+        return xml

@@ -344,6 +344,18 @@ class TLManager(object):
             tcases.append(tcase)
         return tcases
 
+    def api_tplan_build_latest(self, tplan_id, dev_key=None):
+        """TODO: doc"""
+        if dev_key is None:
+            dev_key = self._settings.get('dev_key')
+        req_data = self._xml_manager.req_tplan_build_latest(dev_key, tplan_id)
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        properties = res_param.get('struct')['member']
+        return TBuild(properties)
+
     def api_tsuite(self, tsuite_id, dev_key=None):
         """TODO: doc"""
         if dev_key is None:

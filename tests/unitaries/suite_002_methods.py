@@ -132,7 +132,16 @@ class TestMethods(TestCase):
                 )
 
     @skipIf(False, SKIP_MESSAGE)
-    def test_010_method_tsuite(self):
+    def test_010_method_tplan_tbuild_latest(self):
+        """TODO: doc method"""
+        build = self.testlink_manager.api_tplan_build_latest(
+            DATA['tplan_id'])
+        self.assertIsInstance(build, TBuild)
+        self.assertEquals(build.id, DATA['build_id_two'])
+        self.assertEquals(build.name, DATA['build_name_two'])
+
+    @skipIf(False, SKIP_MESSAGE)
+    def test_011_method_tsuite(self):
         """TODO: doc method"""
         tsuite = self.testlink_manager.api_tsuite(
             DATA['tsuite_id'])
@@ -140,7 +149,7 @@ class TestMethods(TestCase):
         self.assertEquals(tsuite.name, DATA['tsuite_name'])
 
     @skipIf(False, SKIP_MESSAGE)
-    def test_011_method_tcase_byid(self):
+    def test_012_method_tcase_byid(self):
         """TODO: doc method"""
         tcase = self.testlink_manager.api_tcase(
             tcase_id=DATA['tcase_id'])
@@ -148,7 +157,7 @@ class TestMethods(TestCase):
         self.assertEquals(tcase.id, DATA['tcase_id'])
 
     @skipIf(False, SKIP_MESSAGE)
-    def test_012_method_tcase_byexternalid(self):
+    def test_013_method_tcase_byexternalid(self):
         """TODO: doc method"""
         tcase = self.testlink_manager.api_tcase(
             external_id=DATA['tcase_full_external_id'])

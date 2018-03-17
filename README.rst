@@ -195,8 +195,26 @@ Usage ( *XMLRPC* )
 * **XMLRPC**: *call to method named* '*tl.getTestSuitesForTestPlan*'
 * **Description** : get all test suites assigned to test plan filtered by id
 
+**api_tplan_tcases**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getTestCasesForTestPlan*'
+* **Description** : get all test cases assigned to test plan filtered by id
+
+**api_tplan_build_latest**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getLatestBuildForTestPlan*'
+* **Description** : get latest build by choosing the maximum build id for a specific test plan id
+
 **api_tsuite**
 +++++++++++++++++++++++
 
 * **XMLRPC**: *call to method named* '*tl.getTestSuiteByID*'
 * **Description** : get test suite filtered by id
+
+**api_tcase**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getTestCase*'
+* **Description** : get test case filtered by id or external id
