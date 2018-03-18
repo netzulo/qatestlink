@@ -664,3 +664,16 @@ class XMLRPCManager(object):
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
+
+    def req_say_hello(self):
+        """String xml object ready to use on API call
+
+        Returns:
+            str -- XML request with parsed params
+        """
+        self.req_dict.update({
+            "methodName": RouteType.TLINK_SAY_HELLO.value
+        })
+        xml = dicttoxml(
+            self.req_dict, custom_root='methodCall', attr_type=False)
+        return xml

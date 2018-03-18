@@ -216,6 +216,13 @@ class TestMethods(TestCase):
         self.assertIsInstance(about, str)
         self.assertEquals(about, DATA['about'])
 
+    @skipIf(SKIP, SKIP_MESSAGE)
+    def test_019_method_say_hello(self):
+        """TODO: doc method"""
+        say_hello = self.testlink_manager.api_say_hello()
+        self.assertIsInstance(say_hello, str)
+        self.assertEquals(say_hello, DATA['say_hello'])
+
 
 class TestMethodsRaises(TestCase):
     """Test suite for tests methods
