@@ -193,6 +193,15 @@ class TestMethods(TestCase):
         self.assertEquals(
             tcase.external_id, DATA['tcase_full_external_id'])
 
+    @skipIf(SKIP, SKIP_MESSAGE)
+    def test_016_method_tcase_byname(self):
+        """TODO: doc method"""
+        tcase = self.testlink_manager.api_tcase_by_name(
+            DATA['tcase_name'])
+        self.assertIsInstance(tcase, TCase)
+        self.assertEquals(
+            tcase.name, DATA['tcase_name'])
+
 
 class TestMethodsRaises(TestCase):
     """Test suite for tests methods

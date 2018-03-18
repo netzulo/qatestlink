@@ -412,3 +412,17 @@ class TLManager(object):
         properties = res_param.get(
             'array')['data']['value']['struct']['member']
         return TCase(properties)
+
+    def api_tcase_by_name(self, tcase_name, dev_key=None):
+        """TODO: doc"""
+        if dev_key is None:
+            dev_key = self._settings.get('dev_key')
+        req_data = self._xml_manager.req_tcase_by_name(
+            dev_key, tcase_name)
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        properties = res_param.get(
+            'array')['data']['value']['struct']['member']
+        return TCase(properties)

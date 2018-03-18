@@ -230,3 +230,9 @@ Usage ( *XMLRPC* )
 
 * **XMLRPC**: *call to method named* '*tl.getTestCase*'
 * **Description** : get test case filtered by id or external id
+
+**api_tcase_by_name**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getTestCaseIDByName*'
+* **Description** : get test case filtered by name
