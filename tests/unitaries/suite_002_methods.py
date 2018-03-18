@@ -208,7 +208,7 @@ class TestMethods(TestCase):
         is_user = self.testlink_manager.api_user_exist(
             DATA['user_name'])
         self.assertTrue(is_user)
-    
+
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_018_method_about(self):
         """TODO: doc method"""
