@@ -229,6 +229,14 @@ class TestMethods(TestCase):
         ping = self.testlink_manager.api_ping()
         self.assertIsInstance(ping, str)
         self.assertEquals(ping, DATA['ping'])
+    
+    @skipIf(SKIP, SKIP_MESSAGE)
+    def test_021_method_repeat(self):
+        """TODO: doc method"""
+        repeat = self.testlink_manager.api_repeat(DATA['repeat'])
+        self.assertIsInstance(repeat, str)
+        self.assertEquals(
+            repeat, "You said: {}".format(DATA['repeat']))
 
 
 class TestMethodsRaises(TestCase):

@@ -690,3 +690,27 @@ class XMLRPCManager(object):
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
+
+    def req_repeat(self, repeat):
+        """String xml object ready to use on API call
+
+        Returns:
+            str -- XML request with parsed params
+        """
+        if not repeat:
+            raise Exception("Can't call XMLRPC without param, repeat")
+        self.req_dict.update({
+            "methodName": RouteType.TLINK_REPEAT.value
+        })
+        self.req_dict.update({
+            "params": {
+                "struct": {
+                    "member": [
+                        {"name": "str", "value": repeat},
+                    ]
+                }
+            }
+        })
+        xml = dicttoxml(
+            self.req_dict, custom_root='methodCall', attr_type=False)
+        return xml
