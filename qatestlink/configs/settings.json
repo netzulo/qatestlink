@@ -28,7 +28,8 @@
             "build_name_two": "issue2",
             "user_name": "qacode",
             "about": "Testlink API Version: 1.0 initially written by Asiel Brumfield\n with contributions by TestLink development Team",
-            "say_hello": "Hello!"
+            "say_hello": "Hello!",
+            "ping": "Hello!"
         }
     }
 }

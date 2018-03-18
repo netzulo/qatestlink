@@ -463,12 +463,25 @@ class TLManager(object):
         return res_value.get('string')
 
     def api_say_hello(self):
-        """Call to method named 'tl.about' for testlink XMLRPC
+        """Call to method named 'tl.sayHello' for testlink XMLRPC
 
         Returns:
             str -- Message predefined by Testlink code
         """
         req_data = self._xml_manager.req_say_hello()
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        res_dict = self._xml_manager.parse_response(res)
+        res_value = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        return res_value.get('string')
+
+    def api_ping(self):
+        """Call to method named 'tl.ping' for testlink XMLRPC
+
+        Returns:
+            str -- Message predefined by Testlink code
+        """
+        req_data = self._xml_manager.req_ping()
         res = self._conn.post(self._xml_manager.headers, req_data)
         res_dict = self._xml_manager.parse_response(res)
         res_value = res_dict.get(
