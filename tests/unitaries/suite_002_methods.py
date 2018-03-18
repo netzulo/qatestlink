@@ -202,6 +202,13 @@ class TestMethods(TestCase):
         self.assertEquals(
             tcase.name, DATA['tcase_name'])
 
+    @skipIf(SKIP, SKIP_MESSAGE)
+    def test_017_method_user_exist(self):
+        """TODO: doc method"""
+        is_user = self.testlink_manager.api_user_exist(
+            DATA['user_name'])
+        self.assertTrue(is_user)
+
 
 class TestMethodsRaises(TestCase):
     """Test suite for tests methods

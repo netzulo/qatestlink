@@ -236,3 +236,9 @@ Usage ( *XMLRPC* )
 
 * **XMLRPC**: *call to method named* '*tl.getTestCaseIDByName*'
 * **Description** : get test case filtered by name
+
+**api_user_exist**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.doesUserExist*'
+* **Description** : check if user name it's valid

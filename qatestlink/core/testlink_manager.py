@@ -426,3 +426,25 @@ class TLManager(object):
         properties = res_param.get(
             'array')['data']['value']['struct']['member']
         return TCase(properties)
+
+    def api_user_exist(self, user_name, dev_key=None):
+        """Call to method named 'tl.doesUserExist' for testlink XMLRPC
+
+        Keyword Arguments:
+            user_name {str} -- NAME of remote testlink user
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+
+        Returns:
+            bool -- check if user name it's valid for Testlink
+        """
+        if not dev_key:
+            dev_key = self._settings.get('dev_key')
+        req_data = self._xml_manager.req_user_exist(dev_key, user_name)
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        res_dict = self._xml_manager.parse_response(res)
+        res_value = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        if res_value.get('boolean'):
+            return bool(res_value.get('boolean'))
+        self._xml_manager.parse_errors(res_dict)
