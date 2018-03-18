@@ -624,3 +624,30 @@ class XMLRPCManager(object):
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
+
+    def req_user_exist(self, dev_key, user_name):
+        """String xml object ready to use on API call
+
+        Arguments:
+            dev_key {str} -- string for Testlink API_KEY
+            user_name {str} -- NAME of Testlink user
+
+        Returns:
+            str -- XML request with parsed params
+        """
+        self.req_dict.update({
+            "methodName": RouteType.TLINK_USER_EXIST.value
+        })
+        self.req_dict.update({
+            "params": {
+                "struct": {
+                    "member": [
+                        {"name": "devKey", "value": dev_key},
+                        {"name": "user", "value": user_name}
+                    ]
+                }
+            }
+        })
+        xml = dicttoxml(
+            self.req_dict, custom_root='methodCall', attr_type=False)
+        return xml

@@ -25,7 +25,8 @@
             "build_id_one": 1,
             "build_name_one": "issue1",
             "build_id_two": 2,
-            "build_name_two": "issue2"
+            "build_name_two": "issue2",
+            "user_name": "qacode"
         }
     }
 }
