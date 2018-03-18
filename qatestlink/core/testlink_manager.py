@@ -381,6 +381,24 @@ class TLManager(object):
         properties = res_param.get('struct')['member']
         return TSuite(properties)
 
+    def api_tsuite_tsuites(self, tsuite_id, dev_key=None):
+        """TODO: doc"""
+        if dev_key is None:
+            dev_key = self._settings.get('dev_key')
+        req_data = self._xml_manager.req_tsuite_tsuites_by_id(
+            dev_key, tsuite_id)
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        data_list = res_param.get('struct')['member']
+        tsuites = list()
+        for data_properties in data_list:
+            properties = data_properties['value']['struct']['member']
+            tsuite = TSuite(properties)
+            tsuites.append(tsuite)
+        return tsuites
+
     def api_tcase(self, tcase_id=None, external_id=None, dev_key=None):
         """TODO: doc"""
         if dev_key is None:

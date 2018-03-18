@@ -132,7 +132,7 @@ class TestMethods(TestCase):
                     DATA['tcase_full_external_id']
                 )
 
-    @skipIf(False, SKIP_MESSAGE)
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_010_method_tplan_tbuild_latest(self):
         """TODO: doc method"""
         build = self.testlink_manager.api_tplan_build_latest(
@@ -141,6 +141,7 @@ class TestMethods(TestCase):
         self.assertEquals(build.id, DATA['build_id_two'])
         self.assertEquals(build.name, DATA['build_name_two'])
 
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_011_method_tplan_totals(self):
         """TODO: doc method"""
         totals = self.testlink_manager.api_tplan_totals(
@@ -158,7 +159,7 @@ class TestMethods(TestCase):
                 ['p', 'n', 'b', 'f']
             )
 
-    @skipIf(False, SKIP_MESSAGE)
+    @skipIf(SKIP, SKIP_MESSAGE)
     def test_012_method_tsuite(self):
         """TODO: doc method"""
         tsuite = self.testlink_manager.api_tsuite(
@@ -166,16 +167,25 @@ class TestMethods(TestCase):
         self.assertIsInstance(tsuite, TSuite)
         self.assertEquals(tsuite.name, DATA['tsuite_name'])
 
-    @skipIf(False, SKIP_MESSAGE)
-    def test_013_method_tcase_byid(self):
+    @skipIf(SKIP, SKIP_MESSAGE)
+    def test_013_method_tsuite_tsuites(self):
+        """TODO: doc method"""
+        tsuites = self.testlink_manager.api_tsuite_tsuites(
+            DATA['tsuite_id'])
+        self.assertIsInstance(tsuites, list)
+        for tsuite in tsuites:
+            self.assertIsInstance(tsuite, TSuite)
+
+    @skipIf(SKIP, SKIP_MESSAGE)
+    def test_014_method_tcase_byid(self):
         """TODO: doc method"""
         tcase = self.testlink_manager.api_tcase(
             tcase_id=DATA['tcase_id'])
         self.assertIsInstance(tcase, TCase)
         self.assertEquals(tcase.id, DATA['tcase_id'])
 
-    @skipIf(False, SKIP_MESSAGE)
-    def test_014_method_tcase_byexternalid(self):
+    @skipIf(SKIP, SKIP_MESSAGE)
+    def test_015_method_tcase_byexternalid(self):
         """TODO: doc method"""
         tcase = self.testlink_manager.api_tcase(
             external_id=DATA['tcase_full_external_id'])
