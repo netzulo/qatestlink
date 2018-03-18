@@ -260,3 +260,9 @@ Usage ( *XMLRPC* )
 
 * **XMLRPC**: *call to method named* '*tl.ping*'
 * **Description** : get **'Hello!'** message
+
+**api_ping**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.repeat*'
+* **Description** : get **You said: 'your message here'** as message
