@@ -219,6 +219,12 @@ Usage ( *XMLRPC* )
 * **XMLRPC**: *call to method named* '*tl.getTestSuiteByID*'
 * **Description** : get test suite filtered by id
 
+**api_tsuite_tsuites**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.getTestSuitesForTestSuite*'
+* **Description** : get test suites down of tree for one test suite filtered by id
+
 **api_tcase**
 +++++++++++++++++++++++
 
