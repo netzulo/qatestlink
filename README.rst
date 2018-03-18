@@ -248,3 +248,9 @@ Usage ( *XMLRPC* )
 
 * **XMLRPC**: *call to method named* '*tl.about*'
 * **Description** : get default message with author and testlink version
+
+**api_say_hello**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.sayHello*'
+* **Description** : get **'Hello!'** message
