@@ -242,3 +242,9 @@ Usage ( *XMLRPC* )
 
 * **XMLRPC**: *call to method named* '*tl.doesUserExist*'
 * **Description** : check if user name it's valid
+
+**api_about**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.about*'
+* **Description** : get default message with author and testlink version

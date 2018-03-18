@@ -26,7 +26,8 @@
             "build_name_one": "issue1",
             "build_id_two": 2,
             "build_name_two": "issue2",
-            "user_name": "qacode"
+            "user_name": "qacode",
+            "about": "Testlink API Version: 1.0 initially written by Asiel Brumfield\n with contributions by TestLink development Team"
         }
     }
 }
