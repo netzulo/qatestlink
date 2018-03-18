@@ -590,3 +590,37 @@ class XMLRPCManager(object):
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
+
+    def req_tcase_by_name(self, dev_key, tcase_name):
+        """Obtains one test case created on remote testlink database, can
+            filter by test case name (str)
+
+        Arguments:
+            dev_key {str} -- string of developer key provided by Testlink
+                (default: {value obtained from JSON settings file})
+            tcase_name {str} -- NAME of Testlink Test Case data
+
+        Raises:
+            Exception -- Bad params
+
+        Returns:
+            str -- string xml object ready to use on API call
+        """
+        if not tcase_name:
+            raise Exception("Can't call XMLRPC without param, tcase_name")
+        self.req_dict.update({
+            "methodName": RouteType.TCASE_ID_BY_NAME.value
+        })
+        self.req_dict.update({
+            "params": {
+                "struct": {
+                    "member": [
+                        {"name": "devKey", "value": dev_key},
+                        {"name": "testcasename", "value": tcase_name}
+                    ]
+                }
+            }
+        })
+        xml = dicttoxml(
+            self.req_dict, custom_root='methodCall', attr_type=False)
+        return xml

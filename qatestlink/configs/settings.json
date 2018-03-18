@@ -19,6 +19,7 @@
             "tplan_id" : 2,
             "tcase_id" : 8,
             "tcase_full_external_id": "qalab-1",
+            "tcase_name": "tox -e py27",
             "tsuite_id": 3,
             "tsuite_name": "qacode",
             "build_id_one": 1,
