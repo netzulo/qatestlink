@@ -448,3 +448,16 @@ class TLManager(object):
         if res_value.get('boolean'):
             return bool(res_value.get('boolean'))
         self._xml_manager.parse_errors(res_dict)
+
+    def api_about(self):
+        """Call to method named 'tl.about' for testlink XMLRPC
+
+        Returns:
+            str -- Message predefined by Testlink code
+        """
+        req_data = self._xml_manager.req_about()
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        res_dict = self._xml_manager.parse_response(res)
+        res_value = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        return res_value.get('string')
