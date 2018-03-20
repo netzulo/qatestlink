@@ -147,7 +147,7 @@ class TLManager(object):
                 (default: {value obtained from JSON settings file})
 
         Returns:
-            TPlan -- object model for Testlink Test Plan data
+            list(TPlan) -- list of object model for Testlink Test Plan data
         """
         if not dev_key:
             dev_key = self._settings.get('dev_key')
