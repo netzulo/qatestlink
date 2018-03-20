@@ -11,6 +11,7 @@ from qatestlink.core.models.tl_models import TPlatform
 from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TSuite
 from qatestlink.core.models.tl_reports import RTPlanTotals
+from qatestlink.core.models.tl_reports import RTCase
 from qatestlink.core.utils import settings as settings_func
 from qatestlink.core.xmls.xmlrpc_manager import XMLRPCManager
 
@@ -426,6 +427,43 @@ class TLManager(object):
         properties = res_param.get(
             'array')['data']['value']['struct']['member']
         return TCase(properties)
+
+    def api_tcase_report(self, **kwargs):
+        """Reports a result for a single test case
+
+        Keyword Arguments:
+            tcase_id {[type]} -- [description] (default: {None})
+            external_id {[type]} -- [description] (default: {None})
+            tplan_id {[type]} -- [description] (default: {None})
+            status {[type]} -- [description] (default: {None})
+            build_id {[type]} -- [description] (default: {None})
+            build_name {[type]} -- [description] (default: {None})
+            notes {[type]} -- [description] (default: {None})
+            duration {[type]} -- [description] (default: {None})
+            guess {[type]} -- [description] (default: {None})
+            bug_id {[type]} -- [description] (default: {None})
+            platform_id {[type]} -- [description] (default: {None})
+            platform_name {[type]} -- [description] (default: {None})
+            custom_fields {[type]} -- [description] (default: {None})
+            overwrite {[type]} -- [description] (default: {None})
+            user_name {[type]} -- [description] (default: {None})
+            timestamp {[type]} -- [description] (default: {None})
+            dev_key {[type]} -- [description] (default: {None})
+
+        Returns:
+            [type] -- [description]
+        """
+
+        if not kwargs.get('dev_key'):
+            kwargs['dev_key'] = self._settings.get('dev_key')
+        req_data = self._xml_manager.req_tcase_report(**kwargs)
+        res = self._conn.post(self._xml_manager.headers, req_data)
+        res_dict = self._xml_manager.parse_response(res)
+        res_param = res_dict.get(
+            'methodResponse')['params']['param']['value']
+        properties = res_param.get(
+            'array')['data']['value']['struct']['member']
+        return RTCase(properties)
 
     def api_user_exist(self, user_name, dev_key=None):
         """Call to method named 'tl.doesUserExist' for testlink XMLRPC

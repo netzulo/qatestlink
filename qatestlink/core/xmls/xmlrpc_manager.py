@@ -625,6 +625,119 @@ class XMLRPCManager(object):
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
 
+    def req_tcase_report(self, **kwargs):
+        """Reports a result for a single test case
+
+        Keyword Arguments:
+            tcase_id {[type]} -- [description] (default: {None})
+            external_id {[type]} -- [description] (default: {None})
+            tplan_id {[type]} -- [description] (default: {None})
+            status {[type]} -- [description] (default: {None})
+            build_id {[type]} -- [description] (default: {None})
+            build_name {[type]} -- [description] (default: {None})
+            notes {[type]} -- [description] (default: {None})
+            duration {[type]} -- [description] (default: {None})
+            guess {[type]} -- [description] (default: {None})
+            bug_id {[type]} -- [description] (default: {None})
+            platform_id {[type]} -- [description] (default: {None})
+            platform_name {[type]} -- [description] (default: {None})
+            custom_fields {[type]} -- [description] (default: {None})
+            overwrite {[type]} -- [description] (default: {None})
+            user_name {[type]} -- [description] (default: {None})
+            timestamp {[type]} -- [description] (default: {None})
+            dev_key {[type]} -- [description] (default: {None})
+
+        Returns:
+            [type] -- [description]
+        """
+        if kwargs.get("tcase_id") and kwargs.get("external_id"):
+            raise Exception(
+                ("Can't call XMLRPC without both params,"
+                 "choose one of : [tcase_id, external_id]"))
+        if not kwargs.get("tcase_id") and not kwargs.get("external_id"):
+            raise Exception(
+                ("Can't call XMLRPC without any params,"
+                 "choose one of : [tcase_id, external_id]"))
+        if not kwargs.get("tplan_id"):
+            raise Exception(
+                "Can't call XMLRPC without any param 'tplan_id' ]")
+        if not kwargs.get("status"):
+            raise Exception(
+                "Can't call XMLRPC without any param 'status' ]")
+        if not kwargs.get("build_id"):
+            raise Exception(
+                "Can't call XMLRPC without any param 'build_id' ]")
+        if not kwargs.get("platform_id"):
+            raise Exception(
+                "Can't call XMLRPC without any param 'platform_id' ]")
+        self.req_dict.update({
+            "methodName": RouteType.TCASE_REPORT_RESULT.value
+        })
+        data = {
+            "params": {
+                "struct": {
+                    "member": [
+                        {"name": "devKey", "value": kwargs.get("dev_key")}
+                    ]
+                }
+            }
+        }
+        if kwargs.get("tcase_id"):
+            data['params']['struct']['member'].append(
+                {"name": "testcaseid", "value": int(kwargs.get("tcase_id"))})
+        if kwargs.get("external_id"):
+            data['params']['struct']['member'].append(
+                {"name": "testcaseexternalid", "value": str(
+                    kwargs.get("external_id"))})
+        if kwargs.get("tplan_id"):
+            data['params']['struct']['member'].append(
+                {"name": "testplanid", "value": str(kwargs.get("tplan_id"))})
+        if kwargs.get("status"):
+            data['params']['struct']['member'].append(
+                {"name": "status", "value": str(kwargs.get("status"))})
+        if kwargs.get("build_id"):
+            data['params']['struct']['member'].append(
+                {"name": "buildid", "value": int(kwargs.get("build_id"))})
+        if kwargs.get("build_name"):
+            data['params']['struct']['member'].append(
+                {"name": "buildname", "value": str(kwargs.get("build_name"))})
+        if kwargs.get("notes"):
+            data['params']['struct']['member'].append(
+                {"name": "notes", "value": str(kwargs.get("notes"))})
+        if kwargs.get("duration"):
+            data['params']['struct']['member'].append(
+                {"name": "execduration", "value": int(kwargs.get("duration"))})
+        if kwargs.get("guess"):
+            data['params']['struct']['member'].append(
+                {"name": "guess", "value": int(kwargs.get("guess"))})
+        if kwargs.get("bug_id"):
+            data['params']['struct']['member'].append(
+                {"name": "bugid", "value": int(kwargs.get("bug_id"))})
+        if kwargs.get("platform_id"):
+            data['params']['struct']['member'].append(
+                {"name": "platformid", "value": int(kwargs.get("platform_id"))})
+        if kwargs.get("platform_name"):
+            data['params']['struct']['member'].append(
+                {"name": "platformname", "value": str(kwargs.get("platform_name"))})
+        if kwargs.get("custom_fields"):
+            # noqa : param real name 'customfields'
+            # noqa : array of member>(name+value>type)
+            raise NotImplementedError("Open an issue at Github")
+        if kwargs.get("overwrite"):
+            data['params']['struct']['member'].append(
+                {"name": "overwrite", "value": bool(
+                    kwargs.get("overwrite"))})
+        if kwargs.get("user_name"):
+            data['params']['struct']['member'].append(
+                {"name": "user", "value": str(kwargs.get("user_name"))})
+        if kwargs.get("timestamp"):
+            data['params']['struct']['member'].append(
+                {"name": "timestamp", "value": str(kwargs.get("timestamp"))})
+        self.req_dict.update(data)
+        xml = dicttoxml(
+            self.req_dict, custom_root='methodCall', attr_type=False)
+        return xml
+
     def req_user_exist(self, dev_key, user_name):
         """String xml object ready to use on API call
 
