@@ -237,6 +237,12 @@ Usage ( *XMLRPC* )
 * **XMLRPC**: *call to method named* '*tl.getTestCaseIDByName*'
 * **Description** : get test case filtered by name
 
+**api_tcase_report**
++++++++++++++++++++++++
+
+* **XMLRPC**: *call to method named* '*tl.reportTCResult*'
+* **Description** : reports a result for a single test case
+
 **api_user_exist**
 +++++++++++++++++++++++
 

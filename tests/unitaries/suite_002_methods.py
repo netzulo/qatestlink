@@ -13,6 +13,7 @@ from qatestlink.core.models.tl_models import TPlatform
 from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TSuite
 from qatestlink.core.models.tl_reports import RTPlanTotals
+from qatestlink.core.models.tl_reports import RTCase
 from qatestlink.core.testlink_manager import TLManager
 from qatestlink.core.utils import settings
 
@@ -203,35 +204,51 @@ class TestMethods(TestCase):
             tcase.name, DATA['tcase_name'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
-    def test_017_method_user_exist(self):
+    def test_017_method_tcase_report(self):
+        """TODO: doc method"""
+        report = self.testlink_manager.api_tcase_report(
+            external_id=DATA['tc_report']['external_id'],
+            tplan_id=DATA['tc_report']['tplan_id'],
+            build_id=DATA['tc_report']['build_id'],
+            platform_id=DATA['tc_report']['platform_id'],
+            status=DATA['tc_report']['status']['blocked']
+        )
+        self.assertIsInstance(report, RTCase)
+        self.assertTrue(report.status)
+        self.assertEquals(
+            report.message, DATA['tc_report']['message'])
+
+
+    @skipIf(SKIP, SKIP_MESSAGE)
+    def test_018_method_user_exist(self):
         """TODO: doc method"""
         is_user = self.testlink_manager.api_user_exist(
             DATA['user_name'])
         self.assertTrue(is_user)
 
     @skipIf(SKIP, SKIP_MESSAGE)
-    def test_018_method_about(self):
+    def test_019_method_about(self):
         """TODO: doc method"""
         about = self.testlink_manager.api_about()
         self.assertIsInstance(about, str)
         self.assertEquals(about, DATA['about'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
-    def test_019_method_say_hello(self):
+    def test_020_method_say_hello(self):
         """TODO: doc method"""
         say_hello = self.testlink_manager.api_say_hello()
         self.assertIsInstance(say_hello, str)
         self.assertEquals(say_hello, DATA['say_hello'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
-    def test_020_method_ping(self):
+    def test_021_method_ping(self):
         """TODO: doc method"""
         ping = self.testlink_manager.api_ping()
         self.assertIsInstance(ping, str)
         self.assertEquals(ping, DATA['ping'])
     
     @skipIf(SKIP, SKIP_MESSAGE)
-    def test_021_method_repeat(self):
+    def test_022_method_repeat(self):
         """TODO: doc method"""
         repeat = self.testlink_manager.api_repeat(DATA['repeat'])
         self.assertIsInstance(repeat, str)

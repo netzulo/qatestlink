@@ -104,3 +104,36 @@ class RTPlanTotals(ReportBase):
                 'ReportBase: totals:dict={}'
         """
         return "RTPlanTotals: by_tester:dict={}".format(self.totals)
+
+
+class RTCase(ReportBase):
+    """TODO: doc class"""
+
+    status = None
+    operation = None
+    overwrite = None
+    message = None
+
+    def __init__(self, properties, properties_int=None, properties_bool=None,
+                 load=True):
+        """TODO: doc method"""
+        super(RTCase, self).__init__(
+            properties,
+            properties_int=['id'],
+            properties_bool=['status', 'overwrite']
+        )
+
+    def __repr__(self):
+        """Show basic properties for this object
+
+        Returns:
+            str -- format text with values for
+                'ReportBase: totals:dict={}'
+        """
+        return ("RTCase: id={}, status:bool={}, operation={},"
+                "overwrite={}, message={}").format(
+                    self.id,
+                    self.status,
+                    self.operation,
+                    self.overwrite,
+                    self.message)

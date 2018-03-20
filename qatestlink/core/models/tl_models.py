@@ -36,9 +36,15 @@ class ModelBase(object):
             name = self.convert_name(res_property['name'])
             value = res_property['value']
             if name in self._properties_int:
-                setattr(self, name, int(value['string']))
+                if value.get('string'):
+                    setattr(self, name, int(value['string']))
+                else:
+                    setattr(self, name, int(value['int']))
             elif name in self._properties_bool:
-                setattr(self, name, bool(value['string']))
+                if value.get('string'):
+                    setattr(self, name, bool(value['string']))
+                else:
+                    setattr(self, name, bool(value['boolean']))
             else:
                 if value.get('string', None):
                     setattr(self, name, value['string'])

@@ -30,7 +30,20 @@
             "about": "Testlink API Version: 1.0 initially written by Asiel Brumfield\n with contributions by TestLink development Team",
             "say_hello": "Hello!",
             "ping": "Hello!",
-            "repeat": "hey"
+            "repeat": "hey",
+            "tc_report": {
+                "external_id": "qalab-1",
+                "tplan_id": 2,
+                "build_id": 1,
+                "platform_id": 1,
+                "status": {
+                    "passed": "p",
+                    "failed": "f",
+                    "no_executed": "n",
+                    "blocked": "b"
+                },
+                "message": "Success!"
+            }
         }
     }
 }
