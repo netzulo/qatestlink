@@ -15,6 +15,7 @@ from qatestlink.core.models.tl_models import TSuite
 from qatestlink.core.models.tl_reports import RTPlanTotals
 from qatestlink.core.models.tl_reports import RTCase
 from qatestlink.core.testlink_manager import TLManager
+from qatestlink.core.exceptions.response_exception import ResponseException
 from qatestlink.core.utils import settings
 
 
@@ -387,6 +388,6 @@ class TestMethodsRaises(TestCase):
     def test_016_raises_tplan_tsuites_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            Exception,
+            ResponseException,
             self.testlink_manager.api_tplan_tsuites,
             -1)

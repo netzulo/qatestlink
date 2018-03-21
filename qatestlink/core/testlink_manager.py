@@ -191,11 +191,14 @@ class TLManager(object):
             'methodResponse')['params']['param']['value']
         data_list = res_param.get('array')['data']['value']
         tsuites = list()
-        for data_properties in data_list:
-            properties = data_properties['struct']['member']
-            tsuite = TSuite(properties)
-            tsuites.append(tsuite)
-        return tsuites
+        try:
+            for data_properties in data_list:
+                properties = data_properties['struct']['member']
+                tsuite = TSuite(properties)
+                tsuites.append(tsuite)
+            return tsuites
+        except TypeError:
+            raise self._xml_manager.parse_errors(res_dict)
 
     def api_tplan(self, tproject_name, tplan_name, dev_key=None):
         """Call to method named 'tl.getTestPlanByName' for testlink XMLRPC
