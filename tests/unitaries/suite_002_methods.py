@@ -87,6 +87,7 @@ class TestMethods(TestCase):
             DATA['tproject_name'], DATA['tplan_name'])
         self.assertIsInstance(tplan, TPlan)
         self.assertEquals(tplan.name, DATA['tplan_name'])
+        self.assertEquals(tplan.tproject_id, DATA['tproject_id'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_006_method_tplan_platforms(self):

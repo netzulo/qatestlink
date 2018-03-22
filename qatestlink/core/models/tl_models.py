@@ -131,6 +131,14 @@ class TPlan(ModelBase):
             properties_bool=['is_public', 'active']
         )
 
+    def _load(self):
+        super(TPlan, self)._load()
+        for res_property in self._properties:
+            name = self.convert_name(res_property['name'])
+            value = res_property['value']
+            if name == 'testproject_id':
+                setattr(self, 'tproject_id', int(value['string']))
+
     def __repr__(self):
         """Show basic properties for this object
 
