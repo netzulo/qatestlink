@@ -10,8 +10,8 @@ from qatestlink.core.models.tl_models import TPlan
 from qatestlink.core.models.tl_models import TPlatform
 from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TSuite
-from qatestlink.core.models.tl_reports import RTPlanTotals
 from qatestlink.core.models.tl_reports import RTCase
+from qatestlink.core.models.tl_reports import RTPlanTotals
 from qatestlink.core.utils import settings as settings_func
 from qatestlink.core.xmls.xmlrpc_manager import XMLRPCManager
 
@@ -462,7 +462,6 @@ class TLManager(object):
         Returns:
             [type] -- [description]
         """
-
         if not kwargs.get('dev_key'):
             kwargs['dev_key'] = self._settings.get('dev_key')
         req_data = self._xml_manager.req_tcase_report(**kwargs)
