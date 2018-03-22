@@ -210,10 +210,9 @@ class TPlatform(ModelBase):
             str -- format text with values for
                 'TPlatform: id={}, name={}, notes={}'
         """
-        return "TPlatform: id={}, name={}, notes={}".format(
+        return "TPlatform: id={}, name={}".format(
             self.id,
-            self.name,
-            self.notes)
+            self.name)
 
 
 class TBuild(ModelBase):
