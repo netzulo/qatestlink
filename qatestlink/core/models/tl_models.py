@@ -240,12 +240,11 @@ class TBuild(ModelBase):
 
         Returns:
             str -- format text with values for
-                'TBuild: id={}, name={}, notes={}, testplan_id={}'
+                'TBuild: id={}, name={}, testplan_id={}'
         """
-        return "TBuild: id={}, name={}, notes={}, testplan_id={}".format(
+        return "TBuild: id={}, name={}, testplan_id={}".format(
             self.id,
             self.name,
-            self.notes,
             self.testplan_id)
 
 
