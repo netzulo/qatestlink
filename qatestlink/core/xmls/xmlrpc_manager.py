@@ -583,7 +583,7 @@ class XMLRPCManager(object):
         if isinstance(tcase_id, int):
             data['params']['struct']['member'].append(
                 {"name": "testcaseid", "value": int(tcase_id)})
-        if isinstance(external_id, str):
+        if external_id:
             data['params']['struct']['member'].append(
                 {"name": "testcaseexternalid", "value": str(external_id)})
         self.req_dict.update(data)

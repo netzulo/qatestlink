@@ -506,7 +506,7 @@ class TLManager(object):
         res_dict = self._xml_manager.parse_response(res)
         res_value = res_dict.get(
             'methodResponse')['params']['param']['value']
-        return res_value.get('string')
+        return str(res_value.get('string'))
 
     def api_say_hello(self):
         """Call to method named 'tl.sayHello' for testlink XMLRPC
@@ -519,7 +519,7 @@ class TLManager(object):
         res_dict = self._xml_manager.parse_response(res)
         res_value = res_dict.get(
             'methodResponse')['params']['param']['value']
-        return res_value.get('string')
+        return str(res_value.get('string'))
 
     def api_ping(self):
         """Call to method named 'tl.ping' for testlink XMLRPC
@@ -532,7 +532,7 @@ class TLManager(object):
         res_dict = self._xml_manager.parse_response(res)
         res_value = res_dict.get(
             'methodResponse')['params']['param']['value']
-        return res_value.get('string')
+        return str(res_value.get('string'))
 
     def api_repeat(self, repeat):
         """Call to method named 'tl.repeat' for testlink XMLRPC
@@ -545,4 +545,4 @@ class TLManager(object):
         res_dict = self._xml_manager.parse_response(res)
         res_value = res_dict.get(
             'methodResponse')['params']['param']['value']
-        return res_value.get('string')
+        return str(res_value.get('string'))
