@@ -383,10 +383,13 @@ class TLManager(object):
         req_data = self._xml_manager.req_tsuite_by_id(dev_key, tsuite_id)
         res = self._conn.post(self._xml_manager.headers, req_data)
         res_dict = self._xml_manager.parse_response(res)
-        res_param = res_dict.get(
-            'methodResponse')['params']['param']['value']
-        properties = res_param.get('struct')['member']
-        return TSuite(properties)
+        try:
+            res_param = res_dict.get(
+                'methodResponse')['params']['param']['value']
+            properties = res_param.get('struct')['member']
+            return TSuite(properties)
+        except TypeError:
+            raise self._xml_manager.parse_errors(res_dict)
 
     def api_tsuite_tsuites(self, tsuite_id, dev_key=None):
         """TODO: doc"""
