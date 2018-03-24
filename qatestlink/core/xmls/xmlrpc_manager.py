@@ -76,6 +76,50 @@ class XMLRPCManager(object):
             message=err_info[1]['value']['string']
         )
 
+    def req_create(self, dev_key, route_type, params=True):
+        """Update property 'req_dict' to add route_type and param or params if
+            enabled
+
+        Arguments:
+            dev_key {str} -- developer key for Testlink
+            route_type {RouteType} -- string to refer XMLRPC testlink call
+
+        Keyword Arguments:
+            params {bool} -- enable multiple params using <struct> tree
+                (default: {True})
+        """
+        self.req_dict.update({
+            "methodName": route_type.value
+        })
+        if params:
+            self.req_dict.update({
+                "params": {
+                    "struct": {
+                        "member": [
+                            {"name": "devKey", "value": dev_key}
+                        ]
+                    }
+                }
+            })
+            return
+        self.req_dict.update({
+            "params": {
+                "struct": {
+                    "name": "devKey",
+                    "value": dev_key
+                }
+            }
+        })
+
+    def req_params(self):
+        params = self.req_dict.get('params')['struct']['member']
+        if not params:
+            raise ResponseException(
+                self.log,
+                code=601,
+                message="Call to req_create first")
+        return params
+
     def req_check_dev_key(self, dev_key):
         """String xml object ready to use on API call
 
@@ -85,17 +129,7 @@ class XMLRPCManager(object):
         Returns:
             str -- XML request with parsed params
         """
-        self.req_dict.update({
-            "methodName": RouteType.TLINK_CHECK_DEV_KEY.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "name": "devKey",
-                    "value": dev_key
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TLINK_CHECK_DEV_KEY, params=False)
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -144,19 +178,10 @@ class XMLRPCManager(object):
         """
         if not tproject_name:
             raise Exception("Can't call XMLRPC without param, tproject_name")
-        self.req_dict.update({
-            "methodName": RouteType.TPROJECT_BY_NAME.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testprojectname", "value": tproject_name}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TPROJECT_BY_NAME, params=True)
+        self.req_params().append(
+            {"name": "testprojectname", "value": tproject_name}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -179,19 +204,10 @@ class XMLRPCManager(object):
         """
         if not tproject_id:
             raise Exception("Can't call XMLRPC without param, tproject_id")
-        self.req_dict.update({
-            "methodName": RouteType.TPROJECT_TEST_PLANS.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testprojectid", "value": tproject_id}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TPROJECT_TEST_PLANS, params=True)
+        self.req_params().append(
+            {"name": "testprojectid", "value": tproject_id}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -215,19 +231,10 @@ class XMLRPCManager(object):
         """
         if not tproject_id:
             raise Exception("Can't call XMLRPC without param, tproject_id")
-        self.req_dict.update({
-            "methodName": RouteType.TPROJECT_TSUITES_FIRST_LEVEL.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testprojectid", "value": tproject_id}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TPROJECT_TSUITES_FIRST_LEVEL, params=True)
+        self.req_params().append(
+            {"name": "testprojectid", "value": tproject_id}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -252,20 +259,13 @@ class XMLRPCManager(object):
             raise Exception("Can't call XMLRPC without param, tproject_name")
         if not tplan_name:
             raise Exception("Can't call XMLRPC without param, tplan_name")
-        self.req_dict.update({
-            "methodName": RouteType.TPLAN_BY_NAME.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testprojectname", "value": tproject_name},
-                        {"name": "testplanname", "value": tplan_name},
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TPLAN_BY_NAME, params=True)
+        self.req_params().append(
+            [
+                {"name": "testprojectname", "value": tproject_name},
+                {"name": "testplanname", "value": tplan_name}
+            ]
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -287,19 +287,10 @@ class XMLRPCManager(object):
         """
         if not tplan_id:
             raise Exception("Can't call XMLRPC without param, tplan_id")
-        self.req_dict.update({
-            "methodName": RouteType.TPLAN_PLATFORMS.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testplanid", "value": tplan_id}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TPLAN_PLATFORMS, params=True)
+        self.req_params().append(
+            {"name": "testplanid", "value": tplan_id}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -321,19 +312,10 @@ class XMLRPCManager(object):
         """
         if not tplan_id:
             raise Exception("Can't call XMLRPC without param, tplan_id")
-        self.req_dict.update({
-            "methodName": RouteType.TPLAN_BUILDS.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testplanid", "value": tplan_id}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TPLAN_BUILDS, params=True)
+        self.req_params().append(
+            {"name": "testplanid", "value": tplan_id}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -355,19 +337,10 @@ class XMLRPCManager(object):
         """
         if not tplan_id:
             raise Exception("Can't call XMLRPC without param, tplan_id")
-        self.req_dict.update({
-            "methodName": RouteType.TPLAN_TSUITES.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testplanid", "value": tplan_id}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TPLAN_BUILDS, params=True)
+        self.req_params().append(
+            {"name": "testplanid", "value": tplan_id}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -389,19 +362,10 @@ class XMLRPCManager(object):
         """
         if not tplan_id:
             raise Exception("Can't call XMLRPC without param, tplan_id")
-        self.req_dict.update({
-            "methodName": RouteType.TPLAN_TCASES.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testplanid", "value": tplan_id}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TPLAN_TCASES, params=True)
+        self.req_params().append(
+            {"name": "testplanid", "value": tplan_id}
+        )        
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -423,19 +387,10 @@ class XMLRPCManager(object):
         """
         if not tplan_id:
             raise Exception("Can't call XMLRPC without param, tplan_id")
-        self.req_dict.update({
-            "methodName": RouteType.TPLAN_BUILD_LATEST.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testplanid", "value": tplan_id}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TPLAN_BUILD_LATEST, params=True)
+        self.req_params().append(
+            {"name": "testplanid", "value": tplan_id}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -457,19 +412,10 @@ class XMLRPCManager(object):
         """
         if not tplan_id:
             raise Exception("Can't call XMLRPC without param, tplan_id")
-        self.req_dict.update({
-            "methodName": RouteType.TPLAN_TOTALS.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testplanid", "value": tplan_id}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TPLAN_TOTALS, params=True)
+        self.req_params().append(
+            {"name": "testplanid", "value": tplan_id}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -491,19 +437,10 @@ class XMLRPCManager(object):
         """
         if not tsuite_id:
             raise Exception("Can't call XMLRPC without param, tsuite_id")
-        self.req_dict.update({
-            "methodName": RouteType.TSUITE_BY_ID.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testsuiteid", "value": tsuite_id}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TSUITE_BY_ID, params=True)
+        self.req_params().append(
+            {"name": "testsuiteid", "value": tsuite_id}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -525,19 +462,10 @@ class XMLRPCManager(object):
         """
         if not tsuite_id:
             raise Exception("Can't call XMLRPC without param, tsuite_id")
-        self.req_dict.update({
-            "methodName": RouteType.TSUITE_TSUITES.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testsuiteid", "value": tsuite_id}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TSUITE_TSUITES, params=True)
+        self.req_params().append(
+            {"name": "testsuiteid", "value": tsuite_id}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -568,25 +496,15 @@ class XMLRPCManager(object):
             raise Exception(
                 ("Can't call XMLRPC without any params,"
                  "choose one of : [tcase_id, external_id]"))
-        self.req_dict.update({
-            "methodName": RouteType.TCASE_BY_IDS.value
-        })
-        data = {
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key}
-                    ]
-                }
-            }
-        }
+        self.req_create(dev_key, RouteType.TCASE_BY_IDS, params=True)
         if isinstance(tcase_id, int):
-            data['params']['struct']['member'].append(
-                {"name": "testcaseid", "value": int(tcase_id)})
+            self.req_params().append(
+                {"name": "testcaseid", "value": int(tcase_id)}
+            )
         if external_id:
-            data['params']['struct']['member'].append(
-                {"name": "testcaseexternalid", "value": str(external_id)})
-        self.req_dict.update(data)
+            self.req_params().append(
+                {"name": "testcaseexternalid", "value": str(external_id)}
+            )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -608,19 +526,10 @@ class XMLRPCManager(object):
         """
         if not tcase_name:
             raise Exception("Can't call XMLRPC without param, tcase_name")
-        self.req_dict.update({
-            "methodName": RouteType.TCASE_ID_BY_NAME.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "testcasename", "value": tcase_name}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TCASE_ID_BY_NAME, params=True)
+        self.req_params().append(
+            {"name": "testcasename", "value": tcase_name}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -670,72 +579,75 @@ class XMLRPCManager(object):
         if not kwargs.get("platform_id"):
             raise Exception(
                 "Can't call XMLRPC without any param 'platform_id' ]")
-        self.req_dict.update({
-            "methodName": RouteType.TCASE_REPORT_RESULT.value
-        })
-        data = {
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": kwargs.get("dev_key")}
-                    ]
-                }
-            }
-        }
+        self.req_create(kwargs.get("dev_key"), RouteType.TCASE_REPORT_RESULT, params=True)
         if kwargs.get("tcase_id"):
-            data['params']['struct']['member'].append(
-                {"name": "testcaseid", "value": int(kwargs.get("tcase_id"))})
+            self.req_params().append(
+                {"name": "testcaseid", "value": int(kwargs.get("tcase_id"))}
+            )
         if kwargs.get("external_id"):
-            data['params']['struct']['member'].append(
+            self.req_params().append(
                 {"name": "testcaseexternalid", "value": str(
-                    kwargs.get("external_id"))})
+                    kwargs.get("external_id"))}
+            )
         if kwargs.get("tplan_id"):
-            data['params']['struct']['member'].append(
-                {"name": "testplanid", "value": str(kwargs.get("tplan_id"))})
+            self.req_params().append(
+                {"name": "testplanid", "value": str(kwargs.get("tplan_id"))}
+            )
         if kwargs.get("status"):
-            data['params']['struct']['member'].append(
-                {"name": "status", "value": str(kwargs.get("status"))})
+            self.req_params().append(
+                {"name": "status", "value": str(kwargs.get("status"))}
+            )
         if kwargs.get("build_id"):
-            data['params']['struct']['member'].append(
-                {"name": "buildid", "value": int(kwargs.get("build_id"))})
+            self.req_params().append(
+                {"name": "buildid", "value": int(kwargs.get("build_id"))}
+            )
         if kwargs.get("build_name"):
-            data['params']['struct']['member'].append(
-                {"name": "buildname", "value": str(kwargs.get("build_name"))})
+            self.req_params().append(
+                {"name": "buildname", "value": str(kwargs.get("build_name"))}
+            )
         if kwargs.get("notes"):
-            data['params']['struct']['member'].append(
-                {"name": "notes", "value": str(kwargs.get("notes"))})
+            self.req_params().append(
+                {"name": "notes", "value": str(kwargs.get("notes"))}
+            )
         if kwargs.get("duration"):
-            data['params']['struct']['member'].append(
-                {"name": "execduration", "value": int(kwargs.get("duration"))})
+            self.req_params().append(
+                {"name": "execduration", "value": int(kwargs.get("duration"))}
+            )
         if kwargs.get("guess"):
-            data['params']['struct']['member'].append(
-                {"name": "guess", "value": int(kwargs.get("guess"))})
+            self.req_params().append(
+                {"name": "guess", "value": int(kwargs.get("guess"))}
+            )
         if kwargs.get("bug_id"):
-            data['params']['struct']['member'].append(
-                {"name": "bugid", "value": int(kwargs.get("bug_id"))})
+            self.req_params().append(
+                {"name": "bugid", "value": int(kwargs.get("bug_id"))}
+            )
         if kwargs.get("platform_id"):
-            data['params']['struct']['member'].append(
+            self.req_params().append(
                 {"name": "platformid", "value": int(
-                    kwargs.get("platform_id"))})
+                    kwargs.get("platform_id"))}
+            )
         if kwargs.get("platform_name"):
-            data['params']['struct']['member'].append(
+            self.req_params().append(
                 {"name": "platformname", "value": str(
-                    kwargs.get("platform_name"))})
+                    kwargs.get("platform_name"))}
+            )
         if kwargs.get("custom_fields"):
             # noqa : param real name 'customfields'
             # noqa : array of member>(name+value>type)
             raise NotImplementedError("Open an issue at Github")
         if kwargs.get("overwrite"):
-            data['params']['struct']['member'].append(
+            self.req_params().append(
                 {"name": "overwrite", "value": bool(
-                    kwargs.get("overwrite"))})
+                    kwargs.get("overwrite"))}
+            )
         if kwargs.get("user_name"):
-            data['params']['struct']['member'].append(
-                {"name": "user", "value": str(kwargs.get("user_name"))})
+            self.req_params().append(
+                {"name": "user", "value": str(kwargs.get("user_name"))}
+            )
         if kwargs.get("timestamp"):
-            data['params']['struct']['member'].append(
-                {"name": "timestamp", "value": str(kwargs.get("timestamp"))})
-        self.req_dict.update(data)
+            self.req_params().append(
+                {"name": "timestamp", "value": str(kwargs.get("timestamp"))}
+            )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -750,19 +662,10 @@ class XMLRPCManager(object):
         Returns:
             str -- XML request with parsed params
         """
-        self.req_dict.update({
-            "methodName": RouteType.TLINK_USER_EXIST.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "devKey", "value": dev_key},
-                        {"name": "user", "value": user_name}
-                    ]
-                }
-            }
-        })
+        self.req_create(dev_key, RouteType.TLINK_USER_EXIST, params=True)
+        self.req_params().append(
+            {"name": "user", "value": user_name}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -773,9 +676,7 @@ class XMLRPCManager(object):
         Returns:
             str -- XML request with parsed params
         """
-        self.req_dict.update({
-            "methodName": RouteType.TLINK_ABOUT.value
-        })
+        self.req_create(None, RouteType.TLINK_ABOUT, params=False)
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -786,9 +687,7 @@ class XMLRPCManager(object):
         Returns:
             str -- XML request with parsed params
         """
-        self.req_dict.update({
-            "methodName": RouteType.TLINK_SAY_HELLO.value
-        })
+        self.req_create(None, RouteType.TLINK_SAY_HELLO, params=False)
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -799,9 +698,7 @@ class XMLRPCManager(object):
         Returns:
             str -- XML request with parsed params
         """
-        self.req_dict.update({
-            "methodName": RouteType.TLINK_PING.value
-        })
+        self.req_create(None, RouteType.TLINK_PING, params=False)
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -814,18 +711,10 @@ class XMLRPCManager(object):
         """
         if not repeat:
             raise Exception("Can't call XMLRPC without param, repeat")
-        self.req_dict.update({
-            "methodName": RouteType.TLINK_REPEAT.value
-        })
-        self.req_dict.update({
-            "params": {
-                "struct": {
-                    "member": [
-                        {"name": "str", "value": repeat},
-                    ]
-                }
-            }
-        })
+        self.req_create(None, RouteType.TLINK_REPEAT, params=True)
+        self.req_params().append(
+            {"name": "str", "value": repeat}
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
