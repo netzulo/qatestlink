@@ -10,8 +10,8 @@ from qatestlink.core.models.tl_models import TPlan
 from qatestlink.core.models.tl_models import TPlatform
 from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TSuite
-from qatestlink.core.models.tl_reports import RTPlanTotals
 from qatestlink.core.models.tl_reports import RTCase
+from qatestlink.core.models.tl_reports import RTPlanTotals
 from qatestlink.core.utils import settings as settings_func
 from qatestlink.core.xmls.xmlrpc_manager import XMLRPCManager
 
@@ -147,7 +147,7 @@ class TLManager(object):
                 (default: {value obtained from JSON settings file})
 
         Returns:
-            TPlan -- object model for Testlink Test Plan data
+            list(TPlan) -- list of object model for Testlink Test Plan data
         """
         if not dev_key:
             dev_key = self._settings.get('dev_key')
@@ -191,11 +191,14 @@ class TLManager(object):
             'methodResponse')['params']['param']['value']
         data_list = res_param.get('array')['data']['value']
         tsuites = list()
-        for data_properties in data_list:
-            properties = data_properties['struct']['member']
-            tsuite = TSuite(properties)
-            tsuites.append(tsuite)
-        return tsuites
+        try:
+            for data_properties in data_list:
+                properties = data_properties['struct']['member']
+                tsuite = TSuite(properties)
+                tsuites.append(tsuite)
+            return tsuites
+        except TypeError:
+            raise self._xml_manager.parse_errors(res_dict)
 
     def api_tplan(self, tproject_name, tplan_name, dev_key=None):
         """Call to method named 'tl.getTestPlanByName' for testlink XMLRPC
@@ -307,11 +310,14 @@ class TLManager(object):
             'methodResponse')['params']['param']['value']
         data_list = res_param.get('array')['data']['value']
         tsuites = list()
-        for data_properties in data_list:
-            properties = data_properties['struct']['member']
-            tsuite = TSuite(properties)
-            tsuites.append(tsuite)
-        return tsuites
+        try:
+            for data_properties in data_list:
+                properties = data_properties['struct']['member']
+                tsuite = TSuite(properties)
+                tsuites.append(tsuite)
+            return tsuites
+        except TypeError:
+            raise self._xml_manager.parse_errors(res_dict)
 
     def api_tplan_tcases(self, tplan_id, dev_key=None):
         """Call to method named 'tl.getTestCasesForTestPlan' for testlink
@@ -377,10 +383,13 @@ class TLManager(object):
         req_data = self._xml_manager.req_tsuite_by_id(dev_key, tsuite_id)
         res = self._conn.post(self._xml_manager.headers, req_data)
         res_dict = self._xml_manager.parse_response(res)
-        res_param = res_dict.get(
-            'methodResponse')['params']['param']['value']
-        properties = res_param.get('struct')['member']
-        return TSuite(properties)
+        try:
+            res_param = res_dict.get(
+                'methodResponse')['params']['param']['value']
+            properties = res_param.get('struct')['member']
+            return TSuite(properties)
+        except TypeError:
+            raise self._xml_manager.parse_errors(res_dict)
 
     def api_tsuite_tsuites(self, tsuite_id, dev_key=None):
         """TODO: doc"""
@@ -453,7 +462,6 @@ class TLManager(object):
         Returns:
             [type] -- [description]
         """
-
         if not kwargs.get('dev_key'):
             kwargs['dev_key'] = self._settings.get('dev_key')
         req_data = self._xml_manager.req_tcase_report(**kwargs)
@@ -498,7 +506,7 @@ class TLManager(object):
         res_dict = self._xml_manager.parse_response(res)
         res_value = res_dict.get(
             'methodResponse')['params']['param']['value']
-        return res_value.get('string')
+        return str(res_value.get('string'))
 
     def api_say_hello(self):
         """Call to method named 'tl.sayHello' for testlink XMLRPC
@@ -511,7 +519,7 @@ class TLManager(object):
         res_dict = self._xml_manager.parse_response(res)
         res_value = res_dict.get(
             'methodResponse')['params']['param']['value']
-        return res_value.get('string')
+        return str(res_value.get('string'))
 
     def api_ping(self):
         """Call to method named 'tl.ping' for testlink XMLRPC
@@ -524,7 +532,7 @@ class TLManager(object):
         res_dict = self._xml_manager.parse_response(res)
         res_value = res_dict.get(
             'methodResponse')['params']['param']['value']
-        return res_value.get('string')
+        return str(res_value.get('string'))
 
     def api_repeat(self, repeat):
         """Call to method named 'tl.repeat' for testlink XMLRPC
@@ -537,4 +545,4 @@ class TLManager(object):
         res_dict = self._xml_manager.parse_response(res)
         res_value = res_dict.get(
             'methodResponse')['params']['param']['value']
-        return res_value.get('string')
+        return str(res_value.get('string'))

@@ -87,7 +87,7 @@ class RTPlanTotals(ReportBase):
                                     qty = prop_value['int']
                         by_tester['report_types'].append(
                             {
-                                "report_type": report_type,
+                                "report_type": str(report_type),
                                 "platform_id": int(platform_id),
                                 "qty": int(qty)
                             }

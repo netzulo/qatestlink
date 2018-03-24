@@ -6,14 +6,15 @@
 import logging
 from unittest import TestCase
 from unittest import skipIf
+from qatestlink.core.exceptions.response_exception import ResponseException
 from qatestlink.core.models.tl_models import TBuild
 from qatestlink.core.models.tl_models import TCase
 from qatestlink.core.models.tl_models import TPlan
 from qatestlink.core.models.tl_models import TPlatform
 from qatestlink.core.models.tl_models import TProject
 from qatestlink.core.models.tl_models import TSuite
-from qatestlink.core.models.tl_reports import RTPlanTotals
 from qatestlink.core.models.tl_reports import RTCase
+from qatestlink.core.models.tl_reports import RTPlanTotals
 from qatestlink.core.testlink_manager import TLManager
 from qatestlink.core.utils import settings
 
@@ -86,6 +87,7 @@ class TestMethods(TestCase):
             DATA['tproject_name'], DATA['tplan_name'])
         self.assertIsInstance(tplan, TPlan)
         self.assertEquals(tplan.name, DATA['tplan_name'])
+        self.assertEquals(tplan.tproject_id, DATA['tproject_id'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_006_method_tplan_platforms(self):
@@ -218,7 +220,6 @@ class TestMethods(TestCase):
         self.assertEquals(
             report.message, DATA['tc_report']['message'])
 
-
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_018_method_user_exist(self):
         """TODO: doc method"""
@@ -246,7 +247,7 @@ class TestMethods(TestCase):
         ping = self.testlink_manager.api_ping()
         self.assertIsInstance(ping, str)
         self.assertEquals(ping, DATA['ping'])
-    
+
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_022_method_repeat(self):
         """TODO: doc method"""
@@ -387,6 +388,6 @@ class TestMethodsRaises(TestCase):
     def test_016_raises_tplan_tsuites_notfoundid(self):
         """TODO: doc method"""
         self.assertRaises(
-            Exception,
+            ResponseException,
             self.testlink_manager.api_tplan_tsuites,
             -1)

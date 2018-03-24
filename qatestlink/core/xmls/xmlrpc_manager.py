@@ -583,7 +583,7 @@ class XMLRPCManager(object):
         if isinstance(tcase_id, int):
             data['params']['struct']['member'].append(
                 {"name": "testcaseid", "value": int(tcase_id)})
-        if isinstance(external_id, str):
+        if external_id:
             data['params']['struct']['member'].append(
                 {"name": "testcaseexternalid", "value": str(external_id)})
         self.req_dict.update(data)
@@ -715,10 +715,12 @@ class XMLRPCManager(object):
                 {"name": "bugid", "value": int(kwargs.get("bug_id"))})
         if kwargs.get("platform_id"):
             data['params']['struct']['member'].append(
-                {"name": "platformid", "value": int(kwargs.get("platform_id"))})
+                {"name": "platformid", "value": int(
+                    kwargs.get("platform_id"))})
         if kwargs.get("platform_name"):
             data['params']['struct']['member'].append(
-                {"name": "platformname", "value": str(kwargs.get("platform_name"))})
+                {"name": "platformname", "value": str(
+                    kwargs.get("platform_name"))})
         if kwargs.get("custom_fields"):
             # noqa : param real name 'customfields'
             # noqa : array of member>(name+value>type)

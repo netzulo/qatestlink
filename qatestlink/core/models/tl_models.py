@@ -131,6 +131,14 @@ class TPlan(ModelBase):
             properties_bool=['is_public', 'active']
         )
 
+    def _load(self):
+        super(TPlan, self)._load()
+        for res_property in self._properties:
+            name = self.convert_name(res_property['name'])
+            value = res_property['value']
+            if name == 'testproject_id':
+                setattr(self, 'tproject_id', int(value['string']))
+
     def __repr__(self):
         """Show basic properties for this object
 
@@ -202,10 +210,9 @@ class TPlatform(ModelBase):
             str -- format text with values for
                 'TPlatform: id={}, name={}, notes={}'
         """
-        return "TPlatform: id={}, name={}, notes={}".format(
+        return "TPlatform: id={}, name={}".format(
             self.id,
-            self.name,
-            self.notes)
+            self.name)
 
 
 class TBuild(ModelBase):
@@ -233,12 +240,11 @@ class TBuild(ModelBase):
 
         Returns:
             str -- format text with values for
-                'TBuild: id={}, name={}, notes={}, testplan_id={}'
+                'TBuild: id={}, name={}, testplan_id={}'
         """
-        return "TBuild: id={}, name={}, notes={}, testplan_id={}".format(
+        return "TBuild: id={}, name={}, testplan_id={}".format(
             self.id,
             self.name,
-            self.notes,
             self.testplan_id)
 
 
