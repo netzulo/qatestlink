@@ -7,14 +7,12 @@ import logging
 from unittest import TestCase
 from unittest import skipIf
 from qatestlink.core.exceptions.response_exception import ResponseException
-from qatestlink.core.models.tl_models import TBuild
-from qatestlink.core.models.tl_models import TCase
-from qatestlink.core.models.tl_models import TPlan
-from qatestlink.core.models.tl_models import TPlatform
-from qatestlink.core.models.tl_models import TProject
-from qatestlink.core.models.tl_models import TSuite
-from qatestlink.core.models.tl_reports import RTCase
-from qatestlink.core.models.tl_reports import RTPlanTotals
+from qatestlink.core.models.tl_models import (
+    TBuild, TCase, TPlan, TPlatform, TProject, TSuite
+)
+from qatestlink.core.models.tl_reports import (
+    RTCase, RTPlanTotals
+)
 from qatestlink.core.testlink_manager import TLManager
 from qatestlink.core.utils import settings
 

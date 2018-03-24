@@ -4,14 +4,12 @@
 
 from qatestlink.core.connections.connection_base import ConnectionBase
 from qatestlink.core.logger_manager import LoggerManager
-from qatestlink.core.models.tl_models import TBuild
-from qatestlink.core.models.tl_models import TCase
-from qatestlink.core.models.tl_models import TPlan
-from qatestlink.core.models.tl_models import TPlatform
-from qatestlink.core.models.tl_models import TProject
-from qatestlink.core.models.tl_models import TSuite
-from qatestlink.core.models.tl_reports import RTCase
-from qatestlink.core.models.tl_reports import RTPlanTotals
+from qatestlink.core.models.tl_models import (
+    TBuild, TCase, TPlan, TPlatform, TProject, TSuite
+)
+from qatestlink.core.models.tl_reports import (
+    RTCase, RTPlanTotals
+)
 from qatestlink.core.utils import settings as settings_func
 from qatestlink.core.xmls.xmlrpc_manager import XMLRPCManager
 
