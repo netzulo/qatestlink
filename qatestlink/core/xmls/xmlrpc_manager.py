@@ -112,6 +112,7 @@ class XMLRPCManager(object):
         })
 
     def req_params(self):
+        """Obtains params from XML request"""
         params = self.req_dict.get('params')['struct']['member']
         if not params:
             raise ResponseException(
@@ -231,7 +232,10 @@ class XMLRPCManager(object):
         """
         if not tproject_id:
             raise Exception("Can't call XMLRPC without param, tproject_id")
-        self.req_create(dev_key, RouteType.TPROJECT_TSUITES_FIRST_LEVEL, params=True)
+        self.req_create(
+            dev_key,
+            RouteType.TPROJECT_TSUITES_FIRST_LEVEL,
+            params=True)
         self.req_params().append(
             {"name": "testprojectid", "value": tproject_id}
         )
@@ -365,7 +369,7 @@ class XMLRPCManager(object):
         self.req_create(dev_key, RouteType.TPLAN_TCASES, params=True)
         self.req_params().append(
             {"name": "testplanid", "value": tplan_id}
-        )        
+        )
         xml = dicttoxml(
             self.req_dict, custom_root='methodCall', attr_type=False)
         return xml
@@ -579,7 +583,10 @@ class XMLRPCManager(object):
         if not kwargs.get("platform_id"):
             raise Exception(
                 "Can't call XMLRPC without any param 'platform_id' ]")
-        self.req_create(kwargs.get("dev_key"), RouteType.TCASE_REPORT_RESULT, params=True)
+        self.req_create(
+            kwargs.get("dev_key"),
+            RouteType.TCASE_REPORT_RESULT,
+            params=True)
         if kwargs.get("tcase_id"):
             self.req_params().append(
                 {"name": "testcaseid", "value": int(kwargs.get("tcase_id"))}
