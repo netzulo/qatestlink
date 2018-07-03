@@ -10,7 +10,12 @@ from qatestlink.core.utils import path_format
 
 VERSION = '0.0.8'
 CURR_PATH = "{}{}".format(path.abspath(path.dirname(__file__)), '/')
-
+INSTALL_REQUIRES = [
+    'requests',
+    'pytest',
+    'xmltodict',
+    'dicttoxml',
+]
 
 def read(file_name=None, is_encoding=True, ignore_raises=False):
     """Read file"""
@@ -32,6 +37,15 @@ def read(file_name=None, is_encoding=True, ignore_raises=False):
                          file_path=CURR_PATH,
                          file_name=file_name,
                          ignore_raises=ignore_raises))
+
+def get_install_requires():
+    """Get a list of pypi python package dependencies
+    Returns:
+        list -- list of dependecy package names
+    """
+    if version_info <= (3, 4):
+        INSTALL_REQUIRES.append('enum34')
+    return INSTALL_REQUIRES
 
 
 setup(
@@ -56,13 +70,7 @@ setup(
         'XMLRPC',
         'requests'
     ],
-    install_requires=[
-        'requests',
-        'enum34',
-        'pytest',
-        'xmltodict',
-        'dicttoxml',
-    ],
+    install_requires=get_install_requires(),
     setup_requires=[
         'tox',
         'pytest-runner'
