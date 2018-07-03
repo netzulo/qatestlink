@@ -4,11 +4,12 @@
 
 from os import path
 from setuptools import setup, find_packages
+from sys import version_info
 from qatestlink.core.utils import read_file
 from qatestlink.core.utils import path_format
 
 
-VERSION = '0.0.8'
+VERSION = '0.0.9'
 CURR_PATH = "{}{}".format(path.abspath(path.dirname(__file__)), '/')
 INSTALL_REQUIRES = [
     'requests',
