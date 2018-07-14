@@ -267,21 +267,21 @@ class TCase(ModelBase):
         for res_property in self._properties:
             name = self.convert_name(res_property['name'])
             value = res_property['value']
-            if name == 'testcase_id':
+            if name in ('testcase_id', 'tcase_id'):
                 setattr(self, 'id', int(value['string']))
+            if name in ('full_tc_external_id', 'full_external_id'):
+                setattr(self, 'external_id', value['string'])
             if name == 'testcase_name':
                 setattr(self, 'name', value['string'])
-            if name == 'full_tc_external_id':
-                setattr(self, 'external_id', value['string'])
 
     def __repr__(self):
         """Show basic properties for this object
 
         Returns:
             str -- format text with values for
-                'TCase: id={}, name={}, notes={}'
+                'TCase: id={}, external_id={}, name={}'
         """
-        return "TCase: id={}, name={}, notes={}".format(
+        return "TCase: id={}, external_id={}, name={}".format(
             self.id,
-            self.name,
-            self.notes)
+            self.external_id,
+            self.name)

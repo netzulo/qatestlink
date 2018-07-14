@@ -91,7 +91,7 @@ class TestMethods(TestCase):
     def test_006_method_tplan_platforms(self):
         """TODO: doc method"""
         platforms = self.testlink_manager.api_tplan_platforms(
-            DATA['tplan_id'])
+            DATA['tplan_id_platforms'])
         self.assertIsInstance(platforms, list)
         self.assertGreater(len(platforms), 0)
         for platform in platforms:
@@ -142,7 +142,7 @@ class TestMethods(TestCase):
         self.assertEquals(build.id, DATA['build_id_two'])
         self.assertEquals(build.name, DATA['build_name_two'])
 
-    @skipIf(SKIP, SKIP_MESSAGE)
+    @skipIf(True, "https://github.com/netzulo/qatestlink/issues/55")
     def test_011_method_tplan_totals(self):
         """TODO: doc method"""
         totals = self.testlink_manager.api_tplan_totals(
