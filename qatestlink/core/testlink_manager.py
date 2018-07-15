@@ -345,7 +345,7 @@ class TLManager(object):
             # TODO: make all assigned builds reporting to models,
             # not just first
             properties = data_properties.get(
-                'value')['struct']['member'][0]['value']['struct']['member']
+                'value')['array']['data']['value']['struct']['member']
             tcase = TCase(properties)
             tcases.append(tcase)
         return tcases
