@@ -9,7 +9,7 @@ from qatestlink.core.utils import read_file
 from qatestlink.core.utils import path_format
 
 
-VERSION = '0.0.9'
+VERSION = '0.1.0'
 CURR_PATH = "{}{}".format(path.abspath(path.dirname(__file__)), '/')
 INSTALL_REQUIRES = [
     'requests',
@@ -17,6 +17,7 @@ INSTALL_REQUIRES = [
     'xmltodict',
     'dicttoxml',
 ]
+
 
 def read(file_name=None, is_encoding=True, ignore_raises=False):
     """Read file"""
@@ -38,6 +39,7 @@ def read(file_name=None, is_encoding=True, ignore_raises=False):
                          file_path=CURR_PATH,
                          file_name=file_name,
                          ignore_raises=ignore_raises))
+
 
 def get_install_requires():
     """Get a list of pypi python package dependencies

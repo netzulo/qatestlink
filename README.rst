@@ -43,27 +43,27 @@ Python tested versions
 Code Metrics by sonarqube
 ----------------------------
 
-.. image:: http://qalab.tk:82/api/badges/gate?key=qatestlink
+.. image:: http://ntz-qa.tk:82/api/badges/gate?key=qatestlink
   :alt: Quality Gate
-  :target: http://qalab.tk:82/api/badges/gate?key=qatestlink
-.. image:: http://qalab.tk:82/api/badges/measure?key=qatestlink&metric=lines
+  :target: http://ntz-qa.tk:82/api/badges/gate?key=qatestlink
+.. image:: http://ntz-qa.tk:82/api/badges/measure?key=qatestlink&metric=lines
   :alt: Lines
-  :target: http://qalab.tk:82/api/badges/gate?key=qatestlink
-.. image:: http://qalab.tk:82/api/badges/measure?key=qatestlink&metric=bugs
+  :target: http://ntz-qa.tk:82/api/badges/gate?key=qatestlink
+.. image:: http://ntz-qa.tk:82/api/badges/measure?key=qatestlink&metric=bugs
   :alt: Bugs
-  :target: http://qalab.tk:82/api/badges/gate?key=qatestlink
-.. image:: http://qalab.tk:82/api/badges/measure?key=qatestlink&metric=vulnerabilities
+  :target: http://ntz-qa.tk:82/api/badges/gate?key=qatestlink
+.. image:: http://ntz-qa.tk:82/api/badges/measure?key=qatestlink&metric=vulnerabilities
   :alt: Vulnerabilities
-  :target: http://qalab.tk:82/api/badges/gate?key=qatestlink
-.. image:: http://qalab.tk:82/api/badges/measure?key=qatestlink&metric=code_smells
+  :target: http://ntz-qa.tk:82/api/badges/gate?key=qatestlink
+.. image:: http://ntz-qa.tk:82/api/badges/measure?key=qatestlink&metric=code_smells
   :alt: Code Smells
-  :target: http://qalab.tk:82/api/badges/gate?key=qatestlink
-.. image:: http://qalab.tk:82/api/badges/measure?key=qatestlink&metric=sqale_debt_ratio
+  :target: http://ntz-qa.tk:82/api/badges/gate?key=qatestlink
+.. image:: http://ntz-qa.tk:82/api/badges/measure?key=qatestlink&metric=sqale_debt_ratio
   :alt: Debt ratio
-  :target: http://qalab.tk:82/api/badges/gate?key=qatestlink
-.. image:: http://qalab.tk:82/api/badges/measure?key=qatestlink&metric=comment_lines_density
+  :target: http://ntz-qa.tk:82/api/badges/gate?key=qatestlink
+.. image:: http://ntz-qa.tk:82/api/badges/measure?key=qatestlink&metric=comment_lines_density
   :alt: Comments
-  :target: http://qalab.tk:82/api/badges/gate?key=qatestlink
+  :target: http://ntz-qa.tk:82/api/badges/gate?key=qatestlink
 
 
 PIP install
@@ -82,31 +82,15 @@ Configuration File
 
 ::
 
-    {
-      "connection":{
-        "is_https": false,
-        "host": "qalab.tk",
-        "port": 86
-      },
-      "dev_key": "1bfd2ef4ceda22b482b12f2b25457495",
-      "log_level":"DEBUG",
-      "tests":{
-        "skip":{
-            "connection": false,
-            "methods": false
-        },
-        "skip_message": "Test SKIPPED by config settings",
-        "data": {
-            "tproject_name": "qalab",
-            "tproject_id" : 1,
-            "tplan_name" : "v0.4.1",
-            "tplan_id" : 2,
-            "tcase_id" : 8,
-            "tcase_full_external_id": "qalab-1",
-            "tsuite_id": 12,
-            "tsuite_name": "tox environments"
-        }
-    }
+      {
+          "connection":{
+              "is_https": false,
+              "host": "ntz-qa.tk",
+              "port": 86
+          },
+          "dev_key": "1bfd2ef4ceda22b482b12f2b25457495",
+          "log_level":"INFO"
+      }
 
 
 Tests
