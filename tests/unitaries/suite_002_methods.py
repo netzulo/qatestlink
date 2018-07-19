@@ -49,6 +49,25 @@ class TestMethods(TestCase):
         for tproject in tprojects:
             self.testlink_manager.log.debug(repr(tproject))
             self.assertIsInstance(tproject, TProject)
+    
+    @skipIf(True, "Not ready to use")
+    def test_method_tprojects_one(self):
+        """TODO: doc method"""
+        sett = SETTINGS.copy()
+        sett.update({
+            "dev_key": "e2a7f14e2c86ea79e1bd0605a2991fbe",
+            "connection": {
+                "host": "", "port": "",
+            }
+        })
+        self.testlink_manager = TLManager(settings=SETTINGS)
+        tprojects = self.testlink_manager.api_tprojects(
+            dev_key=tmp_devkey)
+        self.assertIsInstance(tprojects, list)
+        self.assertLessEqual(len(tprojects), 1)
+        self.testlink_manager.log.debug(repr(tprojects[0]))
+        self.assertIsInstance(tprojects[0], TProject)
+            
 
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_002_method_tproject(self):
