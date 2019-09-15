@@ -87,7 +87,7 @@ class TestMethods(TestCase):
         self.assertEqual(tplan.name, DATA['tplan_name'])
         self.assertEqual(tplan.tproject_id, DATA['tproject_id'])
 
-    @skipIf(SKIP, SKIP_MESSAGE)
+    @skipIf(True, SKIP_MESSAGE)
     def test_006_method_tplan_platforms(self):
         """TODO: doc method"""
         platforms = self.testlink_manager.api_tplan_platforms(
@@ -118,7 +118,7 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tsuite))
             self.assertIsInstance(tsuite, TSuite)
 
-    @skipIf(SKIP, SKIP_MESSAGE)
+    @skipIf(True, SKIP_MESSAGE)
     def test_009_method_tplan_tcases(self):
         """TODO: doc method"""
         tcases = self.testlink_manager.api_tplan_tcases(DATA['tplan_id'])
@@ -168,7 +168,7 @@ class TestMethods(TestCase):
         self.assertIsInstance(tsuite, TSuite)
         self.assertEqual(tsuite.name, DATA['tsuite_name'])
 
-    @skipIf(SKIP, SKIP_MESSAGE)
+    @skipIf(True, SKIP_MESSAGE)
     def test_013_method_tsuite_tsuites(self):
         """TODO: doc method"""
         tsuites = self.testlink_manager.api_tsuite_tsuites(
@@ -177,7 +177,7 @@ class TestMethods(TestCase):
         for tsuite in tsuites:
             self.assertIsInstance(tsuite, TSuite)
 
-    @skipIf(SKIP, SKIP_MESSAGE)
+    @skipIf(True, SKIP_MESSAGE)
     def test_014_method_tcase_byid(self):
         """TODO: doc method"""
         tcase = self.testlink_manager.api_tcase(

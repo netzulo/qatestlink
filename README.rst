@@ -54,7 +54,7 @@ How to install ?
     chardet==3.0.4
     dicttoxml==1.7.4
     idna==2.8
-    qatestlink==0.1.0
+    qatestlink==0.1.1
     requests==2.22.0
     urllib3==1.25.3
     xmltodict==0.12.0

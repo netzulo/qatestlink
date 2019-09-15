@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased] - xxxx-xx-xx
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+
+## [v0.1.1] - 2019-09-15
+
+### Added
 - This CHANGELOG #untracked
 
 ### Changed
@@ -19,7 +30,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Old references to qacode
 
 
-[Unreleased]: https://github.com/netzulo/qatestlink/compare/v0.5.8...HEAD
+[Unreleased]: https://github.com/netzulo/qatestlink/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/netzulo/qatestlink/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/netzulo/qatestlink/compare/v0.0.9...v0.1.0
 [0.0.9]: https://github.com/netzulo/qatestlink/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/netzulo/qatestlink/compare/v0.0.7...v0.0.8
