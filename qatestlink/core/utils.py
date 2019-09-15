@@ -57,7 +57,7 @@ def read_file(is_json=False, file_path=None, encoding='utf-8',
 
 def settings(file_path='qatestlink/configs/', file_name='settings.json',
              is_abspath=True):
-    """Returns file settings as a dict to be use on qacode lib"""
+    """Returns file settings as a dict to be use on qatestlink lib"""
     return read_file(is_json=True,
                      file_path=path_format(file_path=file_path,
                                            file_name=file_name,

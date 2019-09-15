@@ -42,9 +42,22 @@ Python tested versions
 How to install ?
 ----------------
 
-+ Install from PIP : ``pip install qacode``
++ Install from PIP : ``pip install qatestlink``
 
 + Install from setup.py file : ``python setup.py install``
+
++ Dependencies ? *2019-09-15*
+
+::
+
+    certifi==2019.9.11
+    chardet==3.0.4
+    dicttoxml==1.7.4
+    idna==2.8
+    qatestlink==0.1.0
+    requests==2.22.0
+    urllib3==1.25.3
+    xmltodict==0.12.0
 
 
 Documentation

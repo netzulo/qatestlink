@@ -8,7 +8,7 @@ class ResponseException(Exception):
     def __init__(self, log, code=-1,
                  message='Response exception message not defined',
                  err=None):
-        """Raise an exception from any part of qacode package"""
+        """Raise an exception from any part of qatestlink package"""
         super(ResponseException, self).__init__(err, message)
         self._code = code
         self._message = message

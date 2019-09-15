@@ -55,7 +55,7 @@ class TestMethods(TestCase):
         """TODO: doc method"""
         tproject = self.testlink_manager.api_tproject(DATA['tproject_name'])
         self.assertIsInstance(tproject, TProject)
-        self.assertEquals(tproject.name, DATA['tproject_name'])
+        self.assertEqual(tproject.name, DATA['tproject_name'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_003_method_tproject_tplans(self):
@@ -84,8 +84,8 @@ class TestMethods(TestCase):
         tplan = self.testlink_manager.api_tplan(
             DATA['tproject_name'], DATA['tplan_name'])
         self.assertIsInstance(tplan, TPlan)
-        self.assertEquals(tplan.name, DATA['tplan_name'])
-        self.assertEquals(tplan.tproject_id, DATA['tproject_id'])
+        self.assertEqual(tplan.name, DATA['tplan_name'])
+        self.assertEqual(tplan.tproject_id, DATA['tproject_id'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_006_method_tplan_platforms(self):
@@ -128,7 +128,7 @@ class TestMethods(TestCase):
             self.testlink_manager.log.debug(repr(tcase))
             self.assertIsInstance(tcase, TCase)
             if tcase.id == DATA['tcase_id']:
-                self.assertEquals(
+                self.assertEqual(
                     tcase.full_external_id,
                     DATA['tcase_full_external_id']
                 )
@@ -139,8 +139,8 @@ class TestMethods(TestCase):
         build = self.testlink_manager.api_tplan_build_latest(
             DATA['tplan_id'])
         self.assertIsInstance(build, TBuild)
-        self.assertEquals(build.id, DATA['build_id_two'])
-        self.assertEquals(build.name, DATA['build_name_two'])
+        self.assertEqual(build.id, DATA['build_id_two'])
+        self.assertEqual(build.name, DATA['build_name_two'])
 
     @skipIf(True, "https://github.com/netzulo/qatestlink/issues/55")
     def test_011_method_tplan_totals(self):
@@ -166,7 +166,7 @@ class TestMethods(TestCase):
         tsuite = self.testlink_manager.api_tsuite(
             DATA['tsuite_id'])
         self.assertIsInstance(tsuite, TSuite)
-        self.assertEquals(tsuite.name, DATA['tsuite_name'])
+        self.assertEqual(tsuite.name, DATA['tsuite_name'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_013_method_tsuite_tsuites(self):
@@ -183,7 +183,7 @@ class TestMethods(TestCase):
         tcase = self.testlink_manager.api_tcase(
             tcase_id=DATA['tcase_id'])
         self.assertIsInstance(tcase, TCase)
-        self.assertEquals(tcase.id, DATA['tcase_id'])
+        self.assertEqual(tcase.id, DATA['tcase_id'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_015_method_tcase_byexternalid(self):
@@ -191,7 +191,7 @@ class TestMethods(TestCase):
         tcase = self.testlink_manager.api_tcase(
             external_id=DATA['tcase_full_external_id'])
         self.assertIsInstance(tcase, TCase)
-        self.assertEquals(
+        self.assertEqual(
             tcase.external_id, DATA['tcase_full_external_id'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
@@ -200,7 +200,7 @@ class TestMethods(TestCase):
         tcase = self.testlink_manager.api_tcase_by_name(
             DATA['tcase_name'])
         self.assertIsInstance(tcase, TCase)
-        self.assertEquals(
+        self.assertEqual(
             tcase.name, DATA['tcase_name'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
@@ -215,7 +215,7 @@ class TestMethods(TestCase):
         )
         self.assertIsInstance(report, RTCase)
         self.assertTrue(report.status)
-        self.assertEquals(
+        self.assertEqual(
             report.message, DATA['tc_report']['message'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
@@ -230,28 +230,28 @@ class TestMethods(TestCase):
         """TODO: doc method"""
         about = self.testlink_manager.api_about()
         self.assertIsInstance(about, str)
-        self.assertEquals(about, DATA['about'])
+        self.assertEqual(about, DATA['about'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_020_method_say_hello(self):
         """TODO: doc method"""
         say_hello = self.testlink_manager.api_say_hello()
         self.assertIsInstance(say_hello, str)
-        self.assertEquals(say_hello, DATA['say_hello'])
+        self.assertEqual(say_hello, DATA['say_hello'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_021_method_ping(self):
         """TODO: doc method"""
         ping = self.testlink_manager.api_ping()
         self.assertIsInstance(ping, str)
-        self.assertEquals(ping, DATA['ping'])
+        self.assertEqual(ping, DATA['ping'])
 
     @skipIf(SKIP, SKIP_MESSAGE)
     def test_022_method_repeat(self):
         """TODO: doc method"""
         repeat = self.testlink_manager.api_repeat(DATA['repeat'])
         self.assertIsInstance(repeat, str)
-        self.assertEquals(
+        self.assertEqual(
             repeat, "You said: {}".format(DATA['repeat']))
 
 
