@@ -11,3 +11,4 @@ recursive-include docs *.rst
 recursive-include logs *.gitkeep
 recursive-include qatestlink *.json
 recursive-include tests *.py
+recursive-include .circleci *.yml
