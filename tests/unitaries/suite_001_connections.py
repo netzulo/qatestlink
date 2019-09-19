@@ -18,6 +18,7 @@ SKIP_MESSAGE = SETTINGS['tests']['skip_message']
 class TestConnection(object):
     """TODO: doc class"""
 
+    @classmethod
     def setup_class(cls):
         """TODO: doc method"""
         cls.testlink_manager = TLManager()

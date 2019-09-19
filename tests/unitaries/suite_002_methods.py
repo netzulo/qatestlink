@@ -27,6 +27,7 @@ DATA = SETTINGS['tests']['data']
 class TestMethods(object):
     """TODO: doc class"""
 
+    @classmethod
     def setup_class(cls):
         """TODO: doc method"""
         cls.testlink_manager = TLManager()
