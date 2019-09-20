@@ -10,16 +10,6 @@ environment:
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
     CLCACHE_NODIRECT: "true"
   matrix:
-    - JOB: "2.7 32-bit"
-      TOXENV: "py27"
-      PYTHON: "C:\\Python27.10"
-      PYTHON_VERSION: "2.7.10"
-      PYTHON_ARCH: "32"
-    - JOB: "2.7 64-bit"
-      TOXENV: "py27"
-      PYTHON: "C:\\Python27.10-x64"
-      PYTHON_VERSION: "2.7.10"
-      PYTHON_ARCH: "64"
     - JOB: "3.4 64-bit"
       TOXENV: "py34"
       PYTHON: "C:\\Python34-x64"
@@ -42,8 +32,6 @@ environment:
       PYTHON_ARCH: "64"
 matrix:
   fast_finish: true
-  allow_failures:
-    - PYTHON: "C:\\Python27"
 
 install:
   # Prepend newly installed Python to the PATH of this build (this cannot be
