@@ -12,7 +12,7 @@ environment:
 
   matrix:
     - allow_failures:
-      - PYTHON: "C:\\Python27"
+      PYTHON: "C:\\Python27"
     - JOB: "2.7 32-bit"
       TOXENV: "py27"
       PYTHON: "C:\\Python27.10"
