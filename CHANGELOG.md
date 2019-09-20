@@ -8,13 +8,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased] - xxxx-xx-xx
 
 ### Added
+- Support for python 3.7 at CI's #untracked
+- CircleCI CI builds #untracked
+- CodeClimate CI builds #untracked
 
 ### Changed
 - removed unittest in favor of pytest #60
 
 ### Fixed
+- Travis CI builds #untracked
+- Appveyor CI builds #untracked
 
 ### Removed
+- Support for python 2.7 will ends at 2020 #untracked
 
 
 ## [v0.1.1] - 2019-09-15

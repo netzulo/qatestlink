@@ -40,6 +40,15 @@ environment:
       PYTHON_VERSION: "3.6.3"
       PYTHON_ARCH: "64"
 
+    - JOB: "3.7 64-bit"
+      TOXENV: "py37"
+      PYTHON: "C:\\Python37"
+      PYTHON_VERSION: "3.7.0"
+      PYTHON_ARCH: "64"
+
+    allow_failures:
+      - PYTHON: "C:\\Python27"
+
 install:
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
