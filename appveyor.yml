@@ -45,7 +45,8 @@ install:
   # about it being out of date.
   - "python -m pip install wheel"
   - "python -m pip install --upgrade pip"
-  - "python -m pip install --pre -U tox"
+  - "pip install tox"
+  - "python setup.py clean build install sdist"
 
 test_script:
  - "tox -e flake8,%TOXENV%"
