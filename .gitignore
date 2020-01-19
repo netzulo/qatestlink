@@ -62,6 +62,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/html/
 
 # PyBuilder
 target/
@@ -116,3 +117,4 @@ old*/
 
 # Visual Code
 .vscode/
+

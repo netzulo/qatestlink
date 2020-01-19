@@ -82,17 +82,8 @@ INSTALL_REQUIRES = [
 ]
 SETUP_REQUIRES = [
     'pytest-runner',
-    'tox',
 ]
-TESTS_REQUIRE = [
-    'pytest',
-    'pytest-html',
-    'pytest-dependency',
-    'coverage==4.3.4',
-    'pytest-cov==2.5.0',
-    'pytest-benchmark',
-    'pytest-benchmark[histogram]',
-]
+TESTS_REQUIRE = []
 KEYWORDS = [
     'testing',
     'logging',
@@ -145,7 +136,6 @@ setup(
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - removed unittest in favor of pytest #60
+- Tests dependencies now have requirements files #untracked
 
 ### Fixed
 - Travis CI builds #untracked

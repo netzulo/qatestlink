@@ -32,11 +32,11 @@ QA Testlink
 Python tested versions
 ----------------------
 
-+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+
-|  **3.7**          |  **3.6**          |  **3.5**          |  **3.4**          |  **3.3**          |  **3.2**          |  **2.7**          |
-+===================+===================+===================+===================+===================+===================+===================+
-|    *Supported*    |    *Supported*    |    *Supported*    |    *Supported*    |  *Not Supported*  |  *Not Supported*  |  *ends at 2020*   |
-+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+
++-------------------+-------------------+-------------------+-------------------+-------------------+
+|  **3.7**          |  **3.6**          |  **3.5**          |  **3.4**          |  **>=3.3**        |
++===================+===================+===================+===================+===================+
+|    *Supported*    |    *Supported*    |    *Supported*    |    *Supported*    |  *Not Supported*  |
++-------------------+-------------------+-------------------+-------------------+-------------------+
 
 
 How to install ?
@@ -45,19 +45,6 @@ How to install ?
 + Install from PIP : ``pip install qatestlink``
 
 + Install from setup.py file : ``python setup.py install``
-
-+ Dependencies ? *2019-09-15*
-
-::
-
-    certifi==2019.9.11
-    chardet==3.0.4
-    dicttoxml==1.7.4
-    idna==2.8
-    qatestlink==0.1.1
-    requests==2.22.0
-    urllib3==1.25.3
-    xmltodict==0.12.0
 
 
 Documentation
@@ -69,15 +56,16 @@ Documentation
 How to exec tests ?
 -------------------
 
-+ Tests from setup.py file : ``python setup.py test``
++ 1. Install dependencies for tests : ``pip install -r requirements-tests.txt``
++ 2. Tests from setup.py file : ``python setup.py test``
 
-+ Install TOX : ``pip install tox``
-+ Tests from tox : ``tox -l && tox -e TOX_ENV_NAME`` ( *see tox.ini file to get environment names* )
++ 1. Install TOX : ``pip install tox``
++ 2. Tests from tox : ``tox -l && tox -e TOX_ENV_NAME`` ( *see tox.ini file to get environment names* )
 
 +---------------------+--------------------------------+
 | TOX Env name        | Env description                |
 +=====================+================================+
-| py27,py34,py35,py36 | Python supported versions      |
+| py34,py35,py36      | Python supported versions      |
 +---------------------+--------------------------------+
 | docs                | Generate doc HTML in /docs     |
 +---------------------+--------------------------------+
